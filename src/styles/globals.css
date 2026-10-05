@@ -1,0 +1,184 @@
+@import 'tailwindcss';
+
+/*
+ * Sistema visual — "pelaje y mirada"
+ *
+ * Una paleta tomada del propio tema: el gris verdoso de la niebla y el liquen (fondos),
+ * el verde abeto profundo (tinta y secciones oscuras), la arena del pelaje (superficies
+ * cálidas) y un único acento ámbar, el color de la mirada, que se usa con cuentagotas.
+ * Todos los pares de texto cumplen WCAG AA (≥ 4,5:1); los bordes de campos, ≥ 3:1.
+ */
+@theme {
+  --color-niebla: #edf0ea;
+  --color-papel: #f8f9f4;
+  --color-abeto: #1c3a34;
+  --color-ink: #1a2b27;
+  --color-musgo: #486153;
+  --color-salvia: #b7c4b2;
+  --color-arena: #ddd3c0;
+  --color-ambar: #e3a52b;
+  --color-ambar-oscuro: #80520a;
+  --color-abeto-claro: #c9d6cb;
+  --color-error: #a32a1b;
+  --color-ok: #2e6b3f;
+
+  --text-display: clamp(3.5rem, 2rem + 10.5vw, 9.75rem);
+  --text-display--line-height: 0.86;
+  --text-display--letter-spacing: -0.02em;
+  --text-h2: clamp(2.25rem, 1.55rem + 3vw, 4.25rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.035em;
+  /* Títulos de sección: caben en la columna lateral incluso con "colaboraciones". */
+  --text-section: clamp(2rem, 1.2rem + 2.2vw, 3.25rem);
+  --text-section--line-height: 1.02;
+  --text-section--letter-spacing: -0.03em;
+  --text-h3: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.02em;
+  --text-lead: clamp(1.1875rem, 1.1rem + 0.4vw, 1.5rem);
+  --text-lead--line-height: 1.5;
+  --text-ui: 0.9375rem;
+  --text-ui--line-height: 1.4;
+
+  --radius-control: 0.75rem;
+  --radius-panel: 1.75rem;
+
+  /* Una sola sombra, teñida con el verde de la marca, solo para lo que flota. */
+  --shadow-float: 0 28px 56px -28px rgb(28 58 52 / 0.38);
+
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-literata), ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-niebla);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+    --focus-color: var(--color-abeto);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      font-size: 1.125rem;
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-ambar);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  /* El foco programático de <main> (salto de contenido) no necesita anillo. */
+  main:focus {
+    outline: none;
+  }
+
+  /* Sobre fondos oscuros el anillo pasa a ámbar para mantener el contraste. */
+  .on-dark {
+    --focus-color: var(--color-ambar);
+  }
+}
+
+@layer components {
+  /* Marcas de encuadre de un visor de observación, dibujadas con degradados. */
+  .viewfinder {
+    --mark: 1.5rem;
+    --mark-thickness: 2px;
+    --mark-color: var(--color-abeto);
+    padding: 0.875rem;
+    background:
+      linear-gradient(var(--mark-color), var(--mark-color)) top left / var(--mark)
+        var(--mark-thickness) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) top left / var(--mark-thickness)
+        var(--mark) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) top right / var(--mark)
+        var(--mark-thickness) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) top right / var(--mark-thickness)
+        var(--mark) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) bottom left / var(--mark)
+        var(--mark-thickness) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) bottom left / var(--mark-thickness)
+        var(--mark) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) bottom right / var(--mark)
+        var(--mark-thickness) no-repeat,
+      linear-gradient(var(--mark-color), var(--mark-color)) bottom right / var(--mark-thickness)
+        var(--mark) no-repeat;
+  }
+}
+
+/* Único momento de movimiento: la entrada del hero. Solo transform y opacity. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise {
+    animation: hero-rise 800ms var(--ease-soft) both;
+    animation-delay: calc(var(--step, 0) * 110ms);
+  }
+
+  .hero-frame {
+    animation: hero-frame 1100ms var(--ease-soft) 120ms both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+  }
+
+  @keyframes hero-frame {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
