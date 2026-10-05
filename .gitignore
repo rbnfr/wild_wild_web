@@ -1,0 +1,33 @@
+# Material local de trabajo (prompts, guías y skills de asistentes). No forma parte de la web.
+.docs/
+.github/*
+# ...salvo la configuración de GitHub que sí debe versionarse:
+!.github/workflows/
+!.github/dependabot.yml
+
+# Dependencias y salida de compilación
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Variables de entorno: nunca se suben secretos
+.env
+.env.*
+!.env.example
+
+# Resultados de pruebas
+playwright-report/
+test-results/
+blob-report/
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+npm-debug.log*
