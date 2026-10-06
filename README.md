@@ -4,7 +4,7 @@ Resultados y límites de las comprobaciones: [informe de verificación](docs/ver
 
 Web profesional en español para Mary Granero, etóloga especializada en animales de compañía. Incluye landing responsive, páginas legales, contenido editable, formulario con backend, SEO, pruebas y comprobaciones automáticas de GitHub.
 
-**El proyecto funciona localmente, pero los datos biográficos, las fotos, las publicaciones y los textos legales aún requieren información real.** Están marcados como TODO. La indexación está desactivada hasta su revisión. No hay redes, testimonios ni credenciales inventadas.
+**El perfil, la formación, la trayectoria, los perfiles sociales y el libro ya incluyen datos reales contrastados con los CV y fuentes oficiales.** Las fuentes están en `docs/content-sources.md`. El usuario ha confirmado el correo público, las consultas online y presenciales, los desplazamientos y las fechas de El Cobijo y Scenio. Los datos jurídicos todavía tienen TODO. La indexación sigue desactivada hasta preparar la publicación.
 
 ## Empezar en tu ordenador
 
@@ -41,16 +41,19 @@ Nunca subas `.env.local`, claves o mensajes de usuarios a Git. `.env.example` co
 
 `src/content/site.ts` concentra nombre, profesión, copy, navegación, áreas de contacto, trayectoria, libros, perfiles, contacto y SEO. Los campos jurídicos también están allí; los párrafos legales están en `src/content/legal.ts`. Conserva información provisional claramente marcada mientras no se verifique.
 
-Para añadir un libro, introduce un objeto en `books` con `title`, `subtitle`, `year`, `publisher`, `description`, `cover`, `links` y, opcionalmente, `isbn`. Ejemplo de estructura, **con datos de ejemplo que debes sustituir y no publicar**:
+Para añadir un libro, introduce un objeto en `books` con `title`, `author`, `subtitle`, `year`, `publisher`, `description`, `cover`, `coverWidth`, `coverHeight`, `links` y, opcionalmente, `isbn`, `datePublished` y `pages`. Ejemplo de estructura, **con datos de ejemplo que debes sustituir y no publicar**:
 
 ```ts
 {
   title: "TODO: título real",
+  author: "TODO: autoría real",
   subtitle: "TODO: subtítulo real",
   year: 2026, // sustituir por el año verificado
   publisher: "TODO: editorial real",
   description: "TODO: descripción aprobada",
   cover: "/images/libro.webp",
+  coverWidth: 600, // sustituir por el ancho real del archivo
+  coverHeight: 900, // sustituir por el alto real del archivo
   links: [], // añadir solo enlaces oficiales comprobados
 }
 ```
@@ -59,13 +62,12 @@ Se generará una tarjeta y JSON-LD `Book`. No añadas objetos de prueba al sitio
 
 ## Sustituir las fotografías
 
-Guarda las fotografías autorizadas en `public/images/` como WebP o AVIF. Cambia `hero.image`, `hero.imageAlt`, `hero.caption`, `about.image` y `about.caption` en el contenido. Edita el alt del bloque secundario en `src/components/sections.tsx` para describir la foto real. Elimina el TODO de los pies únicamente cuando haya una imagen real.
+Guarda las fotografías autorizadas en `public/images/` como WebP o AVIF. Cambia `hero.image`, `hero.imageAlt` y `hero.caption` en el contenido. El retrato actual es `portrait_01.jpg`; la portada real está en `portada_libro_01.jpg`. Cada libro incluye `cover`, `coverWidth` y `coverHeight`, con las dimensiones reales para mantener su proporción. «Sobre Mary» presenta la biografía y formación en lugar de duplicar el retrato.
 
 - Principal: proporción **5:6**, recomendable 1200 × 1440 px, sujeto centrado y espacio para el recorte superior en arco.
-- Secundaria: **4:5**, recomendable 960 × 1200 px.
-- Portadas: **3:4**, sin deformar; el componente usa `object-fit: contain`.
+- Portadas: conserva la proporción original, sin deformar; el componente usa `object-fit: contain`.
 
-Los SVG actuales son marcadores gráficos originales con texto «fotografía pendiente». No son fotografías de Mary. La aplicación utiliza `next/image` y tamaños responsivos. Comprueba siempre el encuadre en móvil.
+Los SVG provisionales se conservan como recursos de plantilla, pero ya no se muestran en la página principal. La aplicación utiliza `next/image` y tamaños responsivos. Comprueba siempre el encuadre en móvil.
 
 ## Probar el formulario
 

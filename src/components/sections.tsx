@@ -20,9 +20,6 @@ export function Hero() {
             {site.hero.secondary} <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <p className="editorial-note">
-          Propuesta de texto pendiente de aprobación por Mary.
-        </p>
       </div>
       <figure className="hero-figure">
         <div className="hero-image">
@@ -33,11 +30,6 @@ export function Hero() {
             sizes="(max-width: 760px) 100vw, 48vw"
             preload
           />
-          <div className="image-signature" aria-hidden="true">
-            Una mirada
-            <br />
-            más cercana.
-          </div>
         </div>
         <figcaption>{site.hero.caption}</figcaption>
       </figure>
@@ -60,30 +52,31 @@ export function About() {
       aria-labelledby="about-title"
     >
       <div className="container about-grid">
-        <figure className="about-figure">
-          <div className="about-image">
-            <Image
-              src={site.about.image}
-              alt="Espacio reservado para una fotografía real de convivencia con un animal"
-              fill
-              sizes="(max-width: 760px) 100vw, 36vw"
-            />
-          </div>
-          <figcaption>{site.about.caption}</figcaption>
-        </figure>
         <div className="about-copy">
           <p className="section-label">Sobre Mary</p>
           <h2 id="about-title">{site.about.title}</h2>
           <p className="lead">{site.about.intro}</p>
           {site.about.paragraphs.map((text) => (
-            <p className="pending-text" key={text}>
-              {text}
-            </p>
+            <p key={text}>{text}</p>
           ))}
           <a className="text-link" href="#trayectoria">
             Explorar su trayectoria <span aria-hidden="true">↗</span>
           </a>
         </div>
+        <aside className="training" aria-labelledby="training-title">
+          <h3 id="training-title">{site.about.trainingTitle}</h3>
+          <ul className="training-list">
+            {site.about.training.map((item) => (
+              <li key={item.title}>
+                <span className="training-year">{item.year}</span>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.institution}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </aside>
       </div>
     </section>
   );
@@ -114,7 +107,9 @@ export function Areas() {
             </article>
           ))}
         </div>
-        <p className="editorial-note">{site.areas.note}</p>
+        {site.areas.note && (
+          <p className="consultation-details">{site.areas.note}</p>
+        )}
       </div>
     </section>
   );
@@ -134,9 +129,6 @@ export function Trajectory() {
           <p className="section-intro">
             Formación, proyectos y momentos que dan forma a una mirada
             profesional.
-          </p>
-          <p className="editorial-note">
-            TODO: completar únicamente con información contrastada.
           </p>
         </div>
         <ol className="timeline">
@@ -167,22 +159,27 @@ export function Books() {
           <p>{site.booksSection.description}</p>
         </div>
         {site.books.length ? (
-          <div className="book-grid">
+          <div
+            className={`book-grid ${site.books.length === 1 ? "single-book" : ""}`}
+          >
             {site.books.map((book) => (
               <article className="book" key={book.title}>
                 <Image
                   src={book.cover}
-                  width={360}
-                  height={480}
-                  alt={`Portada de ${book.title}`}
+                  width={book.coverWidth}
+                  height={book.coverHeight}
+                  sizes="(max-width: 600px) 220px, 240px"
+                  alt={`Portada de ${book.title}, de ${book.author}`}
                 />
                 <div>
                   <h3>{book.title}</h3>
-                  <p>{book.subtitle}</p>
+                  <p className="book-subtitle">{book.subtitle}</p>
+                  <p className="book-author">{book.author}</p>
                   <p>
                     {book.publisher}, {book.year}
                   </p>
                   <p>{book.description}</p>
+                  {book.pages && <p>{book.pages} páginas · Edición impresa</p>}
                   {book.isbn && <p>ISBN: {book.isbn}</p>}
                   {book.links.map((link) => (
                     <a
@@ -220,6 +217,28 @@ export function Books() {
                 reales.
               </p>
             </div>
+          </div>
+        )}
+        {site.publications.length > 0 && (
+          <div className="research-publications">
+            <h3>{site.booksSection.researchTitle}</h3>
+            <ul>
+              {site.publications.map((publication) => (
+                <li key={publication.url}>
+                  <p>
+                    {publication.journal} · {publication.year} · Coautoría
+                  </p>
+                  <a
+                    className="text-link"
+                    href={publication.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {publication.title} (nueva pestaña)
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

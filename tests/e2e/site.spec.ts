@@ -60,6 +60,36 @@ for (const path of paths) {
             .filter((href) => !document.getElementById(href.split("#")[1])),
         );
       expect(brokenAnchors).toEqual([]);
+      // Exercise the real image optimizer, including the lazy-loaded cover.
+      for (const image of [
+        page.getByRole("img", { name: /^Retrato de Mary/ }),
+        page.getByRole("img", { name: /^Portada de/ }),
+      ]) {
+        await image.scrollIntoViewIfNeeded();
+        await expect(image).toBeVisible();
+        await expect
+          .poll(() =>
+            image.evaluate(
+              (element: HTMLImageElement) =>
+                element.complete && element.naturalWidth > 0,
+            ),
+          )
+          .toBe(true);
+      }
+      const graph = JSON.parse(
+        (await page
+          .locator('script[type="application/ld+json"]')
+          .textContent())!,
+      )["@graph"] as { "@type": string; name: string; isbn?: string }[];
+      const book = graph.find((entry) => entry["@type"] === "Book")!;
+      await expect(page.locator("#libros h3").first()).toHaveText(book.name);
+      await expect(page.locator("#libros")).toContainText(`ISBN: ${book.isbn}`);
+      const email = page.locator('#contacto a[href^="mailto:"]');
+      await expect(email).toHaveAttribute(
+        "href",
+        `mailto:${await email.textContent()}`,
+      );
+      await page.evaluate(() => window.scrollTo(0, 0));
     }
     for (const legalPath of paths.slice(1))
       await expect(page.locator(`footer a[href="${legalPath}"]`)).toBeVisible();
@@ -102,6 +132,17 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     if (width === 375 || width === 1440) {
+      const cover = page.getByRole("img", { name: /^Portada de/ });
+      await cover.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          cover.evaluate(
+            (element: HTMLImageElement) =>
+              element.complete && element.naturalWidth > 0,
+          ),
+        )
+        .toBe(true);
+      await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({
         path: testInfo.outputPath(`home-${width}.png`),
         fullPage: true,

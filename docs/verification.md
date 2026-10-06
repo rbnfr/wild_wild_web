@@ -1,4 +1,22 @@
-# Verificación final — 5 de octubre de 2026
+# Verificación — 6 de octubre de 2026
+
+## Actualización con contenido real
+
+Perfil, biografía, formación, trayectoria, libro, artículo científico y redes contrastados con las fuentes recogidas en `docs/content-sources.md`. El usuario confirmó el correo público, la finalización de El Cobijo en 2025, la colaboración actual con Scenio y las consultas online/presenciales y desplazamientos.
+
+Se integraron el retrato y la portada aportados, conservando los originales en `public/images`. Revisados el encuadre del retrato, la portada completa y la distribución en escritorio y móvil. Los CV privados permanecen fuera de los archivos públicos y de Git.
+
+- ESLint, tipos y formato: sin errores.
+- Unitarios: 40 pruebas aprobadas.
+- Navegador: 17 pruebas aprobadas, incluidos accesibilidad, formulario y seis anchuras entre 320 y 1920 px, sin desbordamiento.
+- La prueba de portada desplaza la página hasta el libro y comprueba su carga real mediante el optimizador de imágenes; se comprueba también el retrato, la concordancia del libro con el JSON-LD y el enlace de correo.
+- Compilación de producción: correcta. Se regeneró la caché Turbopack tras un fallo de restauración de un archivo de caché; el nuevo build terminó sin errores.
+
+Las capturas actuales están en `test-results/site-layout-fits-a-375px-viewport-chromium/home-375.png` y `test-results/site-layout-fits-a-1440px-viewport-chromium/home-1440.png`. Los resultados son locales e ignorados por Git.
+
+**Los resultados Lighthouse y del smoke test de producción que siguen corresponden al 5 de octubre, antes de incorporar las imágenes y textos reales. No se han vuelto a medir en esta actualización.** Continúan pendientes los datos jurídicos, la configuración y prueba del envío real y las comprobaciones en el alojamiento antes de activar la indexación.
+
+## Verificación inicial — 5 de octubre de 2026
 
 ## Evidencia
 

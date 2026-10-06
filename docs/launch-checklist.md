@@ -1,8 +1,9 @@
 # Antes de abrir la web al público
 
 - [ ] Aprobar con Mary el copy y las actividades ofrecidas.
-- [ ] Completar biografía, formación, trayectoria, libros y redes con fuentes verificadas.
-- [ ] Sustituir fotografías y portadas; conservar autorizaciones y ajustar alt/pies.
+- [x] Completar biografía, formación, trayectoria, libros y redes con fuentes verificadas (6 de octubre de 2026).
+- [x] Incorporar retrato y portada reales y ajustar alt/pies (6 de octubre de 2026).
+- [ ] Conservar las autorizaciones de uso de las imágenes para la publicación.
 - [ ] Completar responsable, NIF, domicilio, correo de derechos, base jurídica y conservación.
 - [ ] Revisar textos legales y proveedores con un profesional, incluidos posibles tratamientos internacionales.
 - [ ] Revisar qué cookies/servicios añade realmente el hosting; no incorporar un banner vacío.

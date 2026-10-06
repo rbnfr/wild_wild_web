@@ -33,7 +33,9 @@ export function structuredData() {
       {
         "@type": "Person",
         name: site.name,
+        alternateName: site.fullName,
         jobTitle: site.profession,
+        ...(url ? { image: new URL(site.hero.image, url).href } : {}),
         ...(url ? { url: url.href } : {}),
         ...(site.socials.length
           ? { sameAs: site.socials.map((social) => social.url) }
@@ -52,8 +54,12 @@ export function structuredData() {
       ...site.books.map((book) => ({
         "@type": "Book",
         name: book.title,
-        author: { "@type": "Person", name: site.name },
-        datePublished: String(book.year),
+        author: { "@type": "Person", name: book.author },
+        datePublished: book.datePublished ?? String(book.year),
+        description: book.description,
+        inLanguage: "es",
+        ...(book.pages ? { numberOfPages: book.pages } : {}),
+        ...(url ? { image: new URL(book.cover, url).href } : {}),
         publisher: { "@type": "Organization", name: book.publisher },
         ...(book.isbn ? { isbn: book.isbn } : {}),
       })),
