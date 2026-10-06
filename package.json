@@ -1,0 +1,50 @@
+{
+  "name": "mary-granero-static",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24 <27"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "node scripts/build-static.mjs",
+    "start": "node scripts/preview-static.mjs",
+    "lint": "eslint src tests scripts *.ts *.mjs",
+    "typecheck": "next typegen && tsc --noEmit",
+    "format": "prettier --write src tests scripts *.json *.ts *.mjs README.md",
+    "format:check": "prettier --check src tests scripts *.json *.ts *.mjs README.md",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "preview": "node scripts/preview-static.mjs",
+    "package:static": "npm run build && node scripts/package-static.mjs",
+    "predev": "node scripts/prepare-images.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "9.39.5",
+    "@fontsource/dm-sans": "5.3.0",
+    "@fontsource/newsreader": "5.3.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "fflate": "0.8.3",
+    "prettier": "3.9.9",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
+    "vitest": "5.0.3"
+  },
+  "type": "module"
+}

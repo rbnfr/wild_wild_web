@@ -1,0 +1,16 @@
+{
+  "/images/portada_libro_01.jpg": {
+    "160": "/images/generated/portada_libro_01-196beade053f-160.webp",
+    "240": "/images/generated/portada_libro_01-196beade053f-240.webp",
+    "297": "/images/generated/portada_libro_01-196beade053f-297.webp"
+  },
+  "/images/portrait_01.jpg": {
+    "160": "/images/generated/portrait_01-66a95ea07ae6-160.webp",
+    "240": "/images/generated/portrait_01-66a95ea07ae6-240.webp",
+    "320": "/images/generated/portrait_01-66a95ea07ae6-320.webp",
+    "480": "/images/generated/portrait_01-66a95ea07ae6-480.webp",
+    "640": "/images/generated/portrait_01-66a95ea07ae6-640.webp",
+    "704": "/images/generated/portrait_01-66a95ea07ae6-704.webp",
+    "854": "/images/generated/portrait_01-66a95ea07ae6-854.webp"
+  }
+}

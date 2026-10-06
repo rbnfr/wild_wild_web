@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+releases
+build
+package-lock.json
+.github/skills
+.docs
+test-results
+playwright-report
+next-env.d.ts

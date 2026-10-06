@@ -1,0 +1,97 @@
+# Mary Granero — versión estática para Hostinger
+
+Esta rama, `test-static-version`, parte de `main` y reutiliza el diseño y la información de `test-sol6-1`. Conserva retrato, portada, biografía, formación, trayectoria, libro, artículo científico, redes, consultas y contacto. Mantiene la estética, fuentes locales, navegación adaptable, accesibilidad, metadata y datos estructurados.
+
+**Hostinger solo recibe HTML, CSS, JavaScript, imágenes y fuentes. No necesita ejecutar Node.js.** Node.js se utiliza únicamente para generar y comprobar los archivos en tu ordenador o en GitHub Actions.
+
+## Generar el ZIP
+
+Necesitas Node.js 24 LTS. Desde la raíz del proyecto:
+
+```powershell
+npm ci
+npm run package:static
+```
+
+El resultado es **`releases/mary-granero-static.zip`**. Su raíz contiene `index.html`, `.htaccess`, `_next`, `images`, páginas legales, robots, sitemap y licencias. Está listo para extraerse en la raíz del sitio; no contiene el código fuente, `node_modules`, CV, `.docs`, `.git` ni archivos `.env`.
+
+El proceso regenera `out` desde cero para evitar archivos obsoletos, compila y genera las cabeceras de seguridad y verifica la estructura del ZIP. No hagas un ZIP de todo el repositorio para subirlo. Cada cambio de contenido exige volver a generar el paquete.
+
+## Subir a Hostinger Premium
+
+1. Haz una copia de los archivos actuales del sitio si ya existen.
+2. En hPanel, abre el administrador de archivos del sitio `marywildbehavior.com` y entra en su carpeta `public_html`.
+3. Sube `mary-granero-static.zip` y extráelo directamente en `public_html`. `index.html` debe quedar en esa carpeta, sin un nivel `out` o `mary-granero-static` intermedio. Si el asistente de sitios estáticos acepta el ZIP, selecciona ese mismo paquete.
+4. Comprueba que también se haya extraído `.htaccess`; activa la visualización de archivos ocultos si hace falta. Sube el paquete completo de una misma compilación, porque la política CSP contiene los hashes de sus scripts.
+5. Retira o aparta la página de bienvenida anterior para que no tenga prioridad sobre el nuevo `index.html`. No borres archivos de otro sitio o aplicaciones que compartan la carpeta.
+6. Activa el certificado SSL y fuerza HTTPS desde hPanel. Abre `https://marywildbehavior.com` y prueba también `/privacidad/`, `/aviso-legal/`, `/cookies/`, el menú móvil, imágenes y formulario.
+
+Las instrucciones de carga se basan en el [administrador de archivos oficial de Hostinger](https://www.hostinger.com/support/4548688-basic-actions-in-the-file-manager-in-hostinger/). No se ha realizado ningún despliegue ni modificado tu cuenta de Hostinger.
+
+## Contacto sin servidor
+
+El formulario valida nombre, email, motivo, mensaje y lectura de privacidad. **Preparar correo** crea un borrador en el dispositivo. Después, el visitante puede abrir su aplicación de correo o copiar el texto y pegarlo en su correo habitual. Si el portapapeles falla, el texto se selecciona para copiarlo manualmente.
+
+No envía peticiones a una API, no guarda datos en el navegador ni necesita Resend, Turnstile o un servicio de formularios. Los campos se conservan y nunca se anuncia un envío realizado. El usuario debe pulsar enviar en su propia aplicación. Si no hay JavaScript, sigue disponible el contacto directo por email.
+
+Un `mailto` largo puede superar los límites de algunas aplicaciones; el borrador completo para copiar siempre se mantiene disponible. La recepción real depende de que el visitante envíe el correo desde su cuenta.
+
+## Probar la exportación exacta
+
+```powershell
+npm run build
+npm run preview
+```
+
+Abre `http://localhost:3000`. Este servidor local sirve únicamente la carpeta `out`, con la CSP del paquete y compresión gzip cuando el navegador la acepta. No ejecuta una aplicación Next.js ni una API. Detén la prueba con Ctrl+C.
+
+Para editar con recarga automática puedes utilizar `npm run dev`; la comprobación final debe hacerse sobre la exportación.
+
+## Contenido y dirección pública
+
+Edita `src/content/site.ts` para los textos, libros, experiencia, redes y contacto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales (unos 105 KB y 27 KB) se conservan. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
+
+La compilación utiliza `https://marywildbehavior.com` aunque una `.env.local` anterior contenga localhost. Para cambiar el dominio en PowerShell:
+
+```powershell
+$env:NEXT_PUBLIC_SITE_URL = 'https://otro-dominio.example'
+npm run package:static
+```
+
+Solo se acepta un origen HTTPS público, sin rutas ni credenciales. Está preparada para el dominio raíz, no para instalarse dentro de una subcarpeta.
+
+La indexación sigue desactivada (`site.seo.readyToIndex: false`) para esta prueba y mientras faltan datos jurídicos. Canonical, Open Graph, JSON-LD y sitemap usan el dominio indicado. No se copia ningún secreto al ZIP.
+
+## Seguridad, caché y límites
+
+Cada compilación calcula hashes SHA-256 de los scripts inline y genera `.htaccess` con CSP. Los scripts no requieren `unsafe-inline` ni `unsafe-eval`; los estilos inline se permiten para el framework. Las cabeceras también restringen framing, tipos, referencias y permisos; HSTS se emite solo cuando el alojamiento sirve la petición mediante HTTPS. Se incluyen caché de recursos, compresión y una página 404. Los enlaces usan navegación HTML nativa, sin peticiones de precarga a rutas especiales de Next.js. Las rutas legales son directorios con su propio `index.html`, para funcionar sin reescrituras de una aplicación Node.
+
+Las cabeceras, compresión y caché de producción dependen de que Hostinger aplique los módulos y `.htaccess`. Compruébalas tras subir el ZIP. El servidor local prueba la misma CSP, pero no reproduce el motor Apache/LiteSpeed del alojamiento. HTTPS se configura en Hostinger.
+
+Los textos legales continúan como borradores visibles; se han ajustado al flujo de correo local. Completa titular, datos fiscales, domicilio profesional, derechos y conservación, y revisa las condiciones reales antes de abrir el sitio al público. No se publican domicilio, fecha de nacimiento ni teléfono privados de los CV.
+
+## Comprobaciones
+
+```powershell
+npm run lint
+npm run typecheck
+npm run format:check
+npm test
+npm run package:static
+npm run test:e2e
+npm audit
+```
+
+Playwright arranca el servidor estático, comprueba navegación, teclado, seis anchuras, accesibilidad con axe, imágenes, CSP, borrador y portapapeles. No envía correos reales. Los informes están en `test-results` y `playwright-report`, excluidos de Git. La compilación debe existir antes de ejecutar las pruebas del navegador y el puerto 3000 debe estar libre.
+
+El workflow de GitHub comprueba la rama y ofrece el ZIP como artefacto descargable. No publica automáticamente en Hostinger. La guía paso a paso y el resultado de la revisión local están en `.docs/desplegar_version_estatica.md`.
+
+## Resultado local de esta versión
+
+Revisión del 6 de octubre de 2026: compilación, empaquetado, lint, tipos y formato correctos; **21 pruebas unitarias y 19 de navegador aprobadas**. El ZIP contiene 81 archivos, pesa 957.095 bytes (0,91 MiB) y supera la verificación de integridad y exclusión de archivos privados.
+
+Lighthouse móvil sobre el servidor estático local: rendimiento **93**, accesibilidad **100**, buenas prácticas **100** y SEO **69** con indexación desactivada. LCP: **3,2 s**; CLS: **0**; bloqueo total: **100 ms**. El LCP queda por encima del objetivo orientativo de 2,5 s y debe medirse de nuevo tras desplegar. La revisión local utilizó Node.js 26.5.0; el workflow preparado para Node.js 24 LTS todavía no se ha ejecutado en GitHub.
+
+## Licencia
+
+Código original bajo MIT (`LICENSE`). El nombre, imágenes, portada, publicaciones y marcas conservan sus derechos respectivos. DM Sans y Newsreader mantienen sus licencias SIL OFL; también se incluyen en el ZIP.
