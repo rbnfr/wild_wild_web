@@ -90,6 +90,7 @@ afterEach(async () => {
 describe("Automatic static releases", () => {
   it("increments versions, makes a real main merge and atomically publishes all refs", async () => {
     const { root, remote } = await fixture();
+    git(root, "branch", "-D", "hostinger-static");
     const trigger = git(root, "rev-parse", "HEAD");
     expect(release(root, "prepare").status).toBe(0);
     expect(
@@ -126,6 +127,7 @@ describe("Automatic static releases", () => {
   }, 20000);
   it("skips a source event already published, without another bump", async () => {
     const { root } = await fixture();
+    git(root, "branch", "-D", "hostinger-static");
     const trigger = git(root, "rev-parse", "HEAD");
     expect(release(root, "prepare").status).toBe(0);
     expect(release(root, "assemble").status).toBe(0);
