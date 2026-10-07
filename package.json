@@ -17,7 +17,8 @@
     "test:e2e": "playwright test",
     "preview": "node scripts/preview-static.mjs",
     "package:static": "npm run build && node scripts/package-static.mjs",
-    "predev": "node scripts/prepare-images.mjs"
+    "predev": "node scripts/prepare-images.mjs",
+    "prepare:git": "npm run build && node scripts/prepare-git-deploy.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",

@@ -28,6 +28,32 @@ El proceso regenera `out` desde cero para evitar archivos obsoletos, compila y g
 
 Las instrucciones de carga se basan en el [administrador de archivos oficial de Hostinger](https://www.hostinger.com/support/4548688-basic-actions-in-the-file-manager-in-hostinger/). No se ha realizado ningún despliegue ni modificado tu cuenta de Hostinger.
 
+## Desplegar por Git sin servidor Node
+
+La integración Git para PHP/HTML de Hostinger copia la rama, pero no compila Next.js. Un registro con «Installing Composer dependencies» y «Publishing», sin `npm ci` ni compilación, corresponde a este flujo. **Ni `test-sol6-1` ni el código fuente de `test-static-version` son ramas listas para publicar directamente.** No contienen `index.html` en la raíz: publicar sus fuentes puede causar 403 cuando el servidor no permite listar directorios.
+
+Desde `test-static-version`, con los cambios de código ya guardados en un commit:
+
+```powershell
+npm ci
+npm run prepare:git
+git push origin test-static-version
+git push origin codex/hostinger-static
+```
+
+`prepare:git` compila y crea o actualiza la rama local **`codex/hostinger-static`** con los archivos de `out` directamente en su raíz. Incluye `index.html`, `.htaccess`, imágenes, fuentes y páginas legales; excluye fuentes, CV y variables de entorno. Conserva la rama de trabajo y su índice; no hace push ni usa force push. Las actualizaciones de esta rama conservan su historial de despliegues. No edites sus archivos a mano: modifica la rama fuente y repite los comandos.
+
+En Hostinger selecciona **`codex/hostinger-static`** y la carpeta de destino **`public_html`**, y vuelve a desplegar. En esta integración «Root directory» es el destino de la copia, no la carpeta de salida de una compilación; no pongas `out` esperando que Hostinger la genere. Sigue siendo válida la alternativa de subir el ZIP.
+
+Si existe contenido previo, guarda una copia antes de cambiar el despliegue. Comprueba `public_html/index.html` y `public_html/.htaccess`. No apuntes el servidor a `src` ni habilites el listado de directorios para ocultar el error. Si todavía hay 403 con `/index.html`, consulta los registros y verifica permisos habituales: archivos 644 y carpetas 755, nunca 777.
+
+La revisión del 7 de octubre de 2026 de `marywildbehavior.com` devuelve la página de dominio aparcado de Hostinger, no esta web. Vincula el dominio al sitio correcto en hPanel y comprueba que DNS apunte a la IP que indique ese alojamiento. No cambies DNS basándote en una IP deducida del repositorio. Un dominio aparcado y un 403 en la dirección temporal pueden ser problemas distintos.
+
+Diagnóstico confirmado en `https://lawngreen-mantis-706523.hostingersite.com/` el 7 de octubre de 2026: `/` responde 403, `/index.html` responde 404, mientras `/package.json` y `/public/images/portrait_01.jpg` responden 200. Se ha publicado el código fuente y falta el índice compilado. Tras cambiar la rama, verifica que no hayan quedado carpetas o archivos del despliegue anterior (`src`, `public`, `package.json` o variables de entorno); usa un destino limpio después de guardar una copia si el publicador no retira los archivos antiguos.
+
+Las cuatro nuevas pruebas del generador verifican la raíz del despliegue, conservación de la rama y del índice de trabajo, actualizaciones sin force push y rechazo de archivos privados, cambios sin guardar o una rama ajena. Total actual: 25 pruebas unitarias aprobadas.
+Referencias: [Git para sitios PHP/HTML en Hostinger](https://www.hostinger.com/support/1583302-how-to-deploy-a-git-repository-in-hostinger/), [diagnóstico de 403](https://www.hostinger.com/support/1583304-how-to-fix-a-403-forbidden-error/).
+
 ## Contacto sin servidor
 
 El formulario valida nombre, email, motivo, mensaje y lectura de privacidad. **Preparar correo** crea un borrador en el dispositivo. Después, el visitante puede abrir su aplicación de correo o copiar el texto y pegarlo en su correo habitual. Si el portapapeles falla, el texto se selecciona para copiarlo manualmente.
