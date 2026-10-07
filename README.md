@@ -1,6 +1,6 @@
 # Mary Granero — versión estática para Hostinger
 
-Esta rama, `test-static-version`, parte de `main` y reutiliza el diseño y la información de `test-sol6-1`. Conserva retrato, portada, biografía, formación, trayectoria, libro, artículo científico, redes, consultas y contacto. Mantiene la estética, fuentes locales, navegación adaptable, accesibilidad, metadata y datos estructurados.
+Esta rama, `static-version`, parte de `main` y reutiliza el diseño y la información de `test-sol6-1`. Conserva retrato, portada, biografía, formación, trayectoria, libro, artículo científico, redes, consultas y contacto. Mantiene la estética, fuentes locales, navegación adaptable, accesibilidad, metadata y datos estructurados.
 
 **Hostinger solo recibe HTML, CSS, JavaScript, imágenes y fuentes. No necesita ejecutar Node.js.** Node.js se utiliza únicamente para generar y comprobar los archivos en tu ordenador o en GitHub Actions.
 
@@ -30,20 +30,19 @@ Las instrucciones de carga se basan en el [administrador de archivos oficial de 
 
 ## Desplegar por Git sin servidor Node
 
-La integración Git para PHP/HTML de Hostinger copia la rama, pero no compila Next.js. Un registro con «Installing Composer dependencies» y «Publishing», sin `npm ci` ni compilación, corresponde a este flujo. **Ni `test-sol6-1` ni el código fuente de `test-static-version` son ramas listas para publicar directamente.** No contienen `index.html` en la raíz: publicar sus fuentes puede causar 403 cuando el servidor no permite listar directorios.
+La integración Git para PHP/HTML de Hostinger copia la rama, pero no compila Next.js. Un registro con «Installing Composer dependencies» y «Publishing», sin `npm ci` ni compilación, corresponde a este flujo. **Ni `test-sol6-1` ni el código fuente de `static-version` son ramas listas para publicar directamente.** No contienen `index.html` en la raíz: publicar sus fuentes puede causar 403 cuando el servidor no permite listar directorios.
 
-Desde `test-static-version`, con los cambios de código ya guardados en un commit:
+El trabajo habitual se hace creando una rama desde `static-version` y abriendo un pull request hacia ella. Al hacer merge y subirlo a GitHub, Actions incrementa automáticamente la versión de parche, compila, comprueba la web, actualiza `hostinger-static` y crea un merge real en `main`. Los pushes directos a `static-version` también lanzan el proceso.
 
-```powershell
-npm ci
-npm run prepare:git
-git push origin test-static-version
-git push origin codex/hostinger-static
-```
+El incremento se guarda en `package.json` y `package-lock.json` de la rama fuente mediante un commit del bot, en `version.json` de ambas ramas publicadas y en una etiqueta `vX.Y.Z` que apunta al merge en `main`. El commit del bot lleva `[skip ci]`; el token de GitHub Actions evita nuevas ejecuciones por ese push. Actualiza tu rama local con `git pull --ff-only` antes de empezar el siguiente cambio.
 
-`prepare:git` compila y crea o actualiza la rama local **`codex/hostinger-static`** con los archivos de `out` directamente en su raíz. Incluye `index.html`, `.htaccess`, imágenes, fuentes y páginas legales; excluye fuentes, CV y variables de entorno. Conserva la rama de trabajo y su índice; no hace push ni usa force push. Las actualizaciones de esta rama conservan su historial de despliegues. No edites sus archivos a mano: modifica la rama fuente y repite los comandos.
+Las comprobaciones de pull requests no publican ni tienen permiso de escritura. La publicación se serializa y usa un push atómico de las tres ramas y la etiqueta, sin force push. Si hay fallos, conflictos, cambios simultáneos o restricciones del repositorio, no se actualiza ninguna rama remota de la publicación. Las ejecuciones ya publicadas o superadas por cambios más recientes no crean otra versión. No modifiques los archivos compilados en `main` o `hostinger-static`.
 
-En Hostinger selecciona **`codex/hostinger-static`** y la carpeta de destino **`public_html`**, y vuelve a desplegar. En esta integración «Root directory» es el destino de la copia, no la carpeta de salida de una compilación; no pongas `out` esperando que Hostinger la genere. Sigue siendo válida la alternativa de subir el ZIP.
+El workflow declara `contents: write` solo en el job de publicación. Si una protección de ramas impide publicar, el proceso falla y mantiene la versión anterior: debe autorizarse al bot en la configuración del repositorio. No se añaden tokens personales ni contraseñas. GitHub Actions y el despliegue automático de Hostinger son procesos separados: deja Hostinger conectado a `main` y activa sus despliegues automáticos.
+
+Para regenerar un ZIP en local puedes seguir usando `npm run package:static`. El comando `npm run prepare:git` sigue preparando una rama local de archivos compilados, pero el flujo habitual de publicación es el automático. Los scripts de release separan preparación, ensamblado y publicación; esta última está limitada al runner de GitHub Actions.
+
+En Hostinger selecciona **`main`** y la carpeta de destino **`public_html`**, y vuelve a desplegar. En esta integración «Root directory» es el destino de la copia, no la carpeta de salida de una compilación; no pongas `out` esperando que Hostinger la genere. Sigue siendo válida la alternativa de subir el ZIP.
 
 Si existe contenido previo, guarda una copia antes de cambiar el despliegue. Comprueba `public_html/index.html` y `public_html/.htaccess`. No apuntes el servidor a `src` ni habilites el listado de directorios para ocultar el error. Si todavía hay 403 con `/index.html`, consulta los registros y verifica permisos habituales: archivos 644 y carpetas 755, nunca 777.
 
@@ -110,7 +109,7 @@ npm audit
 
 Playwright arranca el servidor estático, comprueba navegación, teclado, seis anchuras, accesibilidad con axe, imágenes, CSP, borrador y portapapeles. No envía correos reales. Los informes están en `test-results` y `playwright-report`, excluidos de Git. La compilación debe existir antes de ejecutar las pruebas del navegador y el puerto 3000 debe estar libre.
 
-El workflow de GitHub comprueba la rama y ofrece el ZIP como artefacto descargable. No publica automáticamente en Hostinger. La guía paso a paso y el resultado de la revisión local están en `.docs/desplegar_version_estatica.md`.
+El workflow de GitHub comprueba la rama, ofrece el ZIP como artefacto y actualiza automáticamente las ramas publicadas. Hostinger sirve `main` cuando aplica su integración Git. La guía paso a paso y el resultado de la revisión local están en `.docs/desplegar_version_estatica.md`.
 
 ## Resultado local de esta versión
 

@@ -1,16 +1,19 @@
 name: Static website
 on:
   push:
-    branches: [test-static-version]
+    branches: [static-version]
   pull_request:
-  workflow_dispatch:
+    branches: [static-version]
 permissions:
   contents: read
 jobs:
   verify:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -24,8 +27,54 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - run: npm audit --omit=dev
-      - uses: actions/upload-artifact@v7
+  release:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/static-version'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    concurrency:
+      group: static-release
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
         with:
-          name: mary-granero-static
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Prepare source checkout
+        run: |
+          git switch -c static-version
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - run: npm ci
+      - name: Prepare patch release
+        id: release
+        run: node scripts/release-static.mjs prepare
+      - if: steps.release.outputs.skipped != 'true'
+        run: npm run lint && npm run typecheck && npm run format:check && npm test
+      - if: steps.release.outputs.skipped != 'true'
+        run: npm run build
+      - if: steps.release.outputs.skipped != 'true'
+        run: npx playwright install --with-deps chromium
+      - if: steps.release.outputs.skipped != 'true'
+        run: npm run test:e2e
+      - if: steps.release.outputs.skipped != 'true'
+        run: npm audit --omit=dev
+      - name: Assemble hosting branch and main merge
+        if: steps.release.outputs.skipped != 'true'
+        run: node scripts/release-static.mjs assemble
+      - if: steps.release.outputs.skipped != 'true'
+        run: node scripts/package-static.mjs
+      - uses: actions/upload-artifact@v7
+        if: steps.release.outputs.skipped != 'true'
+        with:
+          name: mary-granero-static-${{ steps.release.outputs.version }}
           path: releases/mary-granero-static.zip
           if-no-files-found: error
+      - name: Publish all branches and version tag
+        if: steps.release.outputs.skipped != 'true'
+        run: node scripts/release-static.mjs publish

@@ -19,7 +19,7 @@ async function fixture() {
     await readFile("scripts/prepare-git-deploy.mjs"),
   );
   await writeFile(join(root, ".gitignore"), "out/\n");
-  git(root, "init", "-b", "test-static-version");
+  git(root, "init", "-b", "static-version");
   git(root, "config", "user.name", "Deployment Test");
   git(root, "config", "user.email", "deployment-test@example.invalid");
   git(root, "add", ".");
@@ -68,27 +68,27 @@ describe("Hostinger Git deployment branch", () => {
     const source = git(root, "rev-parse", "HEAD");
     const index = git(root, "write-tree");
     expect(generate(root).status).toBe(0);
-    expect(git(root, "show", "codex/hostinger-static:index.html")).toBe(
+    expect(git(root, "show", "hostinger-static:index.html")).toBe(
       "<html>Mary Granero</html>",
     );
     expect(
-      git(root, "ls-tree", "-r", "--name-only", "codex/hostinger-static"),
+      git(root, "ls-tree", "-r", "--name-only", "hostinger-static"),
     ).not.toMatch(/scripts|out\/|package.json|\.gitignore/);
-    expect(
-      git(root, "ls-tree", "codex/hostinger-static", "index.html"),
-    ).toMatch(/^100644 blob/);
+    expect(git(root, "ls-tree", "hostinger-static", "index.html")).toMatch(
+      /^100644 blob/,
+    );
     expect(git(root, "rev-parse", "HEAD")).toBe(source);
     expect(git(root, "write-tree")).toBe(index);
     expect(git(root, "status", "--porcelain")).toBe("");
-    const first = git(root, "rev-parse", "codex/hostinger-static");
+    const first = git(root, "rev-parse", "hostinger-static");
     expect(generate(root).status).toBe(0);
-    expect(git(root, "rev-parse", "codex/hostinger-static")).toBe(first);
+    expect(git(root, "rev-parse", "hostinger-static")).toBe(first);
     await writeFile(
       join(root, "out/index.html"),
       "<html>Mary actualizado</html>",
     );
     expect(generate(root).status).toBe(0);
-    expect(git(root, "rev-parse", "codex/hostinger-static^")).toBe(first);
+    expect(git(root, "rev-parse", "hostinger-static^")).toBe(first);
   });
   it("refuses a missing index or a private file without creating a branch", async () => {
     const root = await fixture();
@@ -97,19 +97,19 @@ describe("Hostinger Git deployment branch", () => {
     await writeFile(join(root, "out/index.html"), "Mary");
     await writeFile(join(root, "out/.env.local"), "private fixture");
     expect(generate(root).status).not.toBe(0);
-    expect(git(root, "branch", "--list", "codex/hostinger-static")).toBe("");
+    expect(git(root, "branch", "--list", "hostinger-static")).toBe("");
   });
   it("refuses to overwrite an unrelated branch", async () => {
     const root = await fixture();
-    git(root, "branch", "codex/hostinger-static");
-    const previous = git(root, "rev-parse", "codex/hostinger-static");
+    git(root, "branch", "hostinger-static");
+    const previous = git(root, "rev-parse", "hostinger-static");
     expect(generate(root).status).not.toBe(0);
-    expect(git(root, "rev-parse", "codex/hostinger-static")).toBe(previous);
+    expect(git(root, "rev-parse", "hostinger-static")).toBe(previous);
   });
   it("requires committed source changes", async () => {
     const root = await fixture();
     await writeFile(join(root, "uncommitted.txt"), "change");
     expect(generate(root).status).not.toBe(0);
-    expect(git(root, "branch", "--list", "codex/hostinger-static")).toBe("");
+    expect(git(root, "branch", "--list", "hostinger-static")).toBe("");
   });
 });
