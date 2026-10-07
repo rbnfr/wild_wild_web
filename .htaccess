@@ -1,0 +1,36 @@
+# Generated with this export. Upload it together with the HTML.
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+<Files "opengraph-image">
+ForceType image/png
+</Files>
+<IfModule mod_mime.c>
+AddType image/avif .avif
+AddType image/webp .webp
+</IfModule>
+<IfModule mod_headers.c>
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-+VhM++zCtHRhkJMuV8LYe2M4mJ84pT3mM7h3Sq5cXb8=' 'sha256-0eA5CFTtXvW0ZcNvwH4UppE4PzolvzxrUcqIGxWphmc=' 'sha256-3nIaguUXr83TiLZ+HRVZmHLKAkkmZWxOkDPDT72xJHU=' 'sha256-5V4yqkbQkHbBeY+fkeyn+73xpG+9g9bdZ2T2A4X7Hz0=' 'sha256-6+KyFZs6egLH76C07BBnTH+qDEgD/GOuorCgXq8vLVI=' 'sha256-7QaZPnTotIMUMJBo+YWG/eLd9qh9JWClnt0xrR7vfzM=' 'sha256-9WNKey/ADzt0YiAJOPHRuXteeyVhI7wfckflKCnxDfM=' 'sha256-9t3V/hRAxizdhlm6QrlRLKL+7MmlgUt3ezGY0HbeAAk=' 'sha256-AAKwLAuaGBSvaLl8xW7oQq6rwBI0ghC6OnDpcEPxHmI=' 'sha256-BbsHkMdKnr0zirpsTHW9ON8EFjvCjsNb5qR7wAIYgkg=' 'sha256-DQJy0ueZ77kS4ILjOlxFhZ1GRbvpmupRhhDZeLl6hXw=' 'sha256-EcgBUsiujzwdX+MSoKAbZCM1OzSEI1VBjU5cEwj9WXQ=' 'sha256-I90SXx2v08ZAdDRSTywjRHAZNSWXfvsh5AQk8WuEPRY=' 'sha256-KOZLjUrVZ7syo95w6sEYjHnp0D1uhLDyZg4f2pPSoRw=' 'sha256-L/xG1Ghl1CwX/7sz37HQqg1dm8ZO2/n0jMRBlAcySds=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Pvk1KNm9PpY3NfO4WaMWF8rP81JfqJr8Xr1AtkvS4nA=' 'sha256-SScVE43K8NB3uxAotNQUmrWyHt1hXno00Edid9p58BM=' 'sha256-VZjkxuVsOWjgqCiB3pFZ6RfhRm3aWCko0sU7a5BxKWA=' 'sha256-XlYvy2Udz36RigzQDlLWwrYhZhzRjD4uZ1Nn/ilWCJI=' 'sha256-Y3l5CF4X1vzh2rRWuFADjqD7gjyHqiHUXNZ0ELDKHVE=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-Ycmw2QtUxnkjXTajfKON0/RJxlQrV6j7INSMgnQG+GU=' 'sha256-YuIHSDbzujNLBS/GIfL/wXTm4cuTbufYhKxgG7NhzQs=' 'sha256-cAMjl9+pgL+bU2ScgZPctqgqDy/gDqg/5MMQ5N7pBEQ=' 'sha256-cHo9M7thnPsu4af+UpFgP1ZKa8BnWvQSQAbqBfPEQ9E=' 'sha256-cSdGkhgxaMpYUFxkLvPNoIhGKqKc7EIbYxLKUAyNjJw=' 'sha256-cyHeza+M07kUaO8yZjfw7FEbTG7LntZvBfy9wH1HPZQ=' 'sha256-dNAM3axuI3pUkX30RQ2+eUmkOayrZg729YBSth6afeU=' 'sha256-eMZpbVe3TEdUVPU0R0L17R4z3gJbj2cQ8GARyIlILNg=' 'sha256-ebGhEJo/iKWtr5vUbRP93s9jSdicEhoROwaHKBTsZ3Q=' 'sha256-etrGyz6WHMpQuchCPTJqQwtf4bidF4Luu2Tw17gHTJM=' 'sha256-jfGJhG0BAEbzesUJ3/mMRtjQNBoNWqlGcDvQBHa5BDg=' 'sha256-jgsHdxgKAh65/RIs4NJJQ2EG4RVEB97A2rC3LFf/OVc=' 'sha256-keOD3MPAzw5KDSy8VlREf2Uytr5FIUZDG/NOrZRDRFs=' 'sha256-ql7V2gRWtz2MklSoWOIhx3VW0in+weiT7ZL3X/ASn18=' 'sha256-tZKIIH1q5rae+zk7WoaAwJ/Xtx0bcOIbarz56FgvRTc=' 'sha256-uY2Sq+XW2ECvl1Zo8YVQrqKJSQPqGVRsekGzr+aVIkg=' 'sha256-zjnSdux8YiNh98w/8Qf0Br79oeuTwPM1Q1MjWCuytKI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+<FilesMatch "\.html$">
+Header set Cache-Control "no-cache"
+</FilesMatch>
+</IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+ExpiresByType font/woff2 "access plus 1 year"
+ExpiresByType image/avif "access plus 1 year"
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 hour"
+ExpiresByType image/png "access plus 1 hour"
+ExpiresByType image/svg+xml "access plus 1 hour"
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
