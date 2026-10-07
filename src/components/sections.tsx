@@ -220,28 +220,6 @@ export function Books() {
             </div>
           </div>
         )}
-        {site.publications.length > 0 && (
-          <div className="research-publications">
-            <h3>{site.booksSection.researchTitle}</h3>
-            <ul>
-              {site.publications.map((publication) => (
-                <li key={publication.url}>
-                  <p>
-                    {publication.journal} · {publication.year} · Coautoría
-                  </p>
-                  <a
-                    className="text-link"
-                    href={publication.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {publication.title} (nueva pestaña)
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </section>
   );

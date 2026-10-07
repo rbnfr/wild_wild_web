@@ -19,12 +19,6 @@ export type Book = {
   links: { label: string; url: string }[];
 };
 export type Social = { name: string; description: string; url: string };
-export type Publication = {
-  title: string;
-  year: number;
-  journal: string;
-  url: string;
-};
 
 // Sources and unresolved details are documented in docs/content-sources.md.
 export const site = {
@@ -172,17 +166,7 @@ export const site = {
       "Ciencia y divulgación para comprender mejor a los animales con los que convivimos.",
     pending:
       "Las nuevas publicaciones se incorporarán aquí cuando estén disponibles.",
-    researchTitle: "También en la investigación",
   },
-  publications: [
-    {
-      title:
-        "Successful rearing of common octopus (Octopus vulgaris) fed a formulated feed in an offshore cage",
-      year: 2019,
-      journal: "Aquaculture Research",
-      url: "https://doi.org/10.1111/are.13955",
-    },
-  ] satisfies Publication[],
   socials: [
     {
       name: "Instagram",

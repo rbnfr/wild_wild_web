@@ -1,6 +1,6 @@
 # Mary Granero — versión estática para Hostinger
 
-Esta rama, `static-version`, parte de `main` y reutiliza el diseño y la información de `test-sol6-1`. Conserva retrato, portada, biografía, formación, trayectoria, libro, artículo científico, redes, consultas y contacto. Mantiene la estética, fuentes locales, navegación adaptable, accesibilidad, metadata y datos estructurados.
+Esta rama, `static-version`, parte de `main` y reutiliza el diseño y la información de `test-sol6-1`. Conserva retrato, portada, biografía, formación, trayectoria, libro, redes, consultas y contacto. Mantiene la estética, fuentes locales, navegación adaptable, accesibilidad, metadata y datos estructurados.
 
 **Hostinger solo recibe HTML, CSS, JavaScript, imágenes y fuentes. No necesita ejecutar Node.js.** Node.js se utiliza únicamente para generar y comprobar los archivos en tu ordenador o en GitHub Actions.
 

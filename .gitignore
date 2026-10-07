@@ -1,8 +1,12 @@
-.docs
-.github
-docs
+# Material local de trabajo (prompts, guías y skills de asistentes). No forma parte de la web.
+.docs/
+.github/*
+docs/
+# ...salvo la configuración de GitHub que sí debe versionarse:
+!.github/workflows/
+!.github/dependabot.yml
 
-# Dependencies and generated output
+# Dependencias y salida de compilación
 node_modules/
 .next/
 out/

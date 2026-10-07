@@ -1019,28 +1019,6 @@ p {
 .book > div {
   min-width: 0;
 }
-.research-publications {
-  border-top: 1px solid #d7cebd;
-  margin-top: 60px;
-  padding-top: 35px;
-  max-width: 960px;
-}
-.research-publications ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.research-publications p {
-  font-size: 12px;
-  margin-bottom: 5px;
-  color: var(--muted);
-}
-.research-publications a {
-  display: block;
-  max-width: 760px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
 @media (max-width: 760px) {
   .training {
     border-left: 0;
