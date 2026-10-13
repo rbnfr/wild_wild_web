@@ -378,6 +378,13 @@ test("security headers and crawl endpoints describe the draft website", async ({
   expect(response.headers()["content-security-policy"]).toContain(
     "object-src 'none'",
   );
+  expect(response.headers()["cross-origin-opener-policy"]).toBe("same-origin");
+  expect(response.headers()["cache-control"]).toBe("no-cache");
+  const html = await response.text();
+  const chunk = html.match(/\/_next\/static\/[^"]+\.js/)![0];
+  expect((await request.get(chunk)).headers()["cache-control"]).toContain(
+    "immutable",
+  );
   const policy = response.headers()["content-security-policy"];
   const scriptDirective = policy
     .split(";")
@@ -396,4 +403,64 @@ test("security headers and crawl endpoints describe the draft website", async ({
   const xml = await sitemap.text();
   for (const path of paths)
     expect(xml).toContain(`<loc>https://marywildbehavior.com${path}</loc>`);
+});
+
+test("book cover lifts on pointer hover and keyboard focus", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openPage(page);
+  const cover = page.locator(".book-cover-inner");
+  await cover.scrollIntoViewIfNeeded();
+  const transform = () =>
+    cover.evaluate((element) => getComputedStyle(element).transform);
+  const rest = await transform();
+  await page.locator(".book-cover").hover();
+  await expect.poll(transform).not.toBe(rest);
+  await page.mouse.move(0, 0);
+  await expect.poll(transform).toBe(rest);
+  await page.locator("#libros a.text-link").focus();
+  await expect.poll(transform).not.toBe(rest);
+});
+
+test("touch screens get no hover-only effects and no horizontal overflow", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 375, height: 812 },
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: "no-preference",
+  });
+  const page = await context.newPage();
+  await openPage(page);
+  expect(
+    await page.evaluate(
+      () => matchMedia("(hover: hover) and (pointer: fine)").matches,
+    ),
+  ).toBe(false);
+  // The arrow next to links must not stay displaced after a tap.
+  const arrow = page.locator(".hero-actions .text-link span[aria-hidden]");
+  const before = await arrow.evaluate((e) => getComputedStyle(e).transform);
+  await arrow.tap();
+  expect(await arrow.evaluate((e) => getComputedStyle(e).transform)).toBe(
+    before,
+  );
+  await page.locator("#libros").scrollIntoViewIfNeeded();
+  const dimensions = await page.evaluate(() => ({
+    content: document.documentElement.scrollWidth,
+    viewport: window.innerWidth,
+  }));
+  expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
+  await context.close();
+});
+
+test("reduced motion disables decorative animation", async ({ page }) => {
+  await openPage(page);
+  const names = await page
+    .locator(".hero-copy h1, .hero-actions, .site-header")
+    .evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).animationName),
+    );
+  expect(names.every((name) => name === "none")).toBe(true);
 });

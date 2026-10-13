@@ -1,8 +1,8 @@
-# Material local de trabajo (prompts, guías y skills de asistentes). No forma parte de la web.
+# Material local de trabajo (prompts, guías, CV y skills de asistentes). No forma parte de la web.
 .docs/
-.github/*
 docs/
-# ...salvo la configuración de GitHub que sí debe versionarse:
+# De .github solo se versiona la configuración de GitHub (workflows y Dependabot).
+.github/*
 !.github/workflows/
 !.github/dependabot.yml
 
@@ -40,7 +40,3 @@ Thumbs.db
 .idea/
 .vscode/
 .vercel/
-
-# Track project CI, while keeping supplied local skills ignored
-!.github/
-.github/skills/

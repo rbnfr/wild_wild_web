@@ -91,9 +91,20 @@ La indexación sigue desactivada (`site.seo.readyToIndex: false`) para esta prue
 
 Cada compilación calcula hashes SHA-256 de los scripts inline y genera `.htaccess` con CSP. Los scripts no requieren `unsafe-inline` ni `unsafe-eval`; los estilos inline se permiten para el framework. Las cabeceras también restringen framing, tipos, referencias y permisos; HSTS se emite solo cuando el alojamiento sirve la petición mediante HTTPS. Se incluyen caché de recursos, compresión y una página 404. Los enlaces usan navegación HTML nativa, sin peticiones de precarga a rutas especiales de Next.js. Las rutas legales son directorios con su propio `index.html`, para funcionar sin reescrituras de una aplicación Node.
 
+Las cabeceras de seguridad y las reglas de caché se definen en un único módulo, `scripts/static-headers.mjs`, que genera `.htaccess` y que también usa el servidor de vista previa, de modo que ambos no pueden desincronizarse. Los archivos con hash en el nombre (scripts y estilos de `_next/static`, fuentes y variantes de imagen de `images/generated`) se almacenan en caché un año como `immutable`; el HTML siempre se revalida.
+
 Las cabeceras, compresión y caché de producción dependen de que Hostinger aplique los módulos y `.htaccess`. Compruébalas tras subir el ZIP. El servidor local prueba la misma CSP, pero no reproduce el motor Apache/LiteSpeed del alojamiento. HTTPS se configura en Hostinger.
 
 Los textos legales continúan como borradores visibles; se han ajustado al flujo de correo local. Completa titular, datos fiscales, domicilio profesional, derechos y conservación, y revisa las condiciones reales antes de abrir el sitio al público. No se publican domicilio, fecha de nacimiento ni teléfono privados de los CV.
+
+## Animaciones y efectos
+
+Los efectos visuales están en `src/app/effects.css`, separados de los estilos base. Sin JavaScript adicional, por lo que no afectan a la CSP:
+
+- Portada del libro con volumen (lomo, cantos de página y sombra). Con ratón se gira y eleva al pasar el cursor o al enfocar su enlace con teclado; en pantallas táctiles se coloca suavemente al entrar en pantalla.
+- Cabecera que gana profundidad y un fondo translúcido al desplazarse, entrada breve del texto de portada, menú móvil animado, subrayados y flechas con micro-movimiento.
+- Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema se desactivan todas las animaciones.
+- El retrato de portada (elemento LCP) no se anima al cargar, porque retrasaría la métrica LCP.
 
 ## Comprobaciones
 
@@ -107,7 +118,7 @@ npm run test:e2e
 npm audit
 ```
 
-Playwright arranca el servidor estático, comprueba navegación, teclado, seis anchuras, accesibilidad con axe, imágenes, CSP, borrador y portapapeles. No envía correos reales. Los informes están en `test-results` y `playwright-report`, excluidos de Git. La compilación debe existir antes de ejecutar las pruebas del navegador y el puerto 3000 debe estar libre.
+Playwright arranca el servidor estático, comprueba navegación, teclado, seis anchuras, efectos de cursor frente a pantallas táctiles, movimiento reducido, cabeceras de caché, accesibilidad con axe, imágenes, CSP, borrador y portapapeles. No envía correos reales. Los informes están en `test-results` y `playwright-report`, excluidos de Git. La compilación debe existir antes de ejecutar las pruebas del navegador y el puerto 3000 debe estar libre.
 
 El workflow de GitHub comprueba la rama, ofrece el ZIP como artefacto y actualiza automáticamente las ramas publicadas. Hostinger sirve `main` cuando aplica su integración Git. La guía paso a paso y el resultado de la revisión local están en `.docs/desplegar_version_estatica.md`.
 

@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/seo";
 import "./globals.css";
+import "./effects.css";
 
 // HTML is generated at build time; the export step hashes its inline scripts for CSP.
 
@@ -19,6 +20,10 @@ const editorial = localFont({
   display: "swap",
 });
 const url = siteUrl();
+export const viewport: Viewport = {
+  themeColor: "#faf7ef",
+  colorScheme: "light",
+};
 export const metadata: Metadata = {
   ...(url ? { metadataBase: url, alternates: { canonical: "/" } } : {}),
   title: { default: site.seo.title, template: "%s | Mary Granero" },

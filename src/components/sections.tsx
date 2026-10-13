@@ -165,13 +165,17 @@ export function Books() {
           >
             {site.books.map((book) => (
               <article className="book" key={book.title}>
-                <Image
-                  src={book.cover}
-                  width={book.coverWidth}
-                  height={book.coverHeight}
-                  sizes="(max-width: 600px) 220px, 240px"
-                  alt={`Portada de ${book.title}, de ${book.author}`}
-                />
+                <div className="book-cover">
+                  <div className="book-cover-inner">
+                    <Image
+                      src={book.cover}
+                      width={book.coverWidth}
+                      height={book.coverHeight}
+                      sizes="(max-width: 600px) 220px, 240px"
+                      alt={`Portada de ${book.title}, de ${book.author}`}
+                    />
+                  </div>
+                </div>
                 <div>
                   <h3>{book.title}</h3>
                   <p className="book-subtitle">{book.subtitle}</p>
@@ -250,6 +254,9 @@ export function SocialContent() {
               >
                 <strong>{social.name}</strong>
                 <span>{social.description} (nueva pestaña)</span>
+                <span aria-hidden="true" className="social-arrow">
+                  ↗
+                </span>
               </a>
             ))
           ) : (

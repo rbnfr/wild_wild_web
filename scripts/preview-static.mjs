@@ -2,6 +2,7 @@ import { gzipSync } from "node:zlib";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
+import { cacheControl, securityHeaders } from "./static-headers.mjs";
 
 const root = resolve("out");
 const htaccess = await readFile(resolve(root, ".htaccess"), "utf8");
@@ -25,14 +26,8 @@ const mime = {
   ".woff2": "font/woff2",
 };
 const server = createServer(async (request, response) => {
-  response.setHeader("Content-Security-Policy", csp);
-  response.setHeader("X-Content-Type-Options", "nosniff");
-  response.setHeader("X-Frame-Options", "DENY");
-  response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.setHeader(
-    "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=()",
-  );
+  for (const [name, value] of Object.entries(securityHeaders(csp)))
+    response.setHeader(name, value);
   if (!["GET", "HEAD"].includes(request.method)) {
     response.writeHead(405, { Allow: "GET, HEAD" });
     response.end();
@@ -78,12 +73,7 @@ const server = createServer(async (request, response) => {
       }
     }
     response.setHeader("Content-Type", contentType);
-    response.setHeader(
-      "Cache-Control",
-      pathname.startsWith("/_next/static/")
-        ? "public, max-age=31536000, immutable"
-        : "no-cache",
-    );
+    response.setHeader("Cache-Control", cacheControl(pathname));
     response.setHeader("Content-Length", bytes.length);
     response.writeHead(200);
     response.end(request.method === "HEAD" ? undefined : bytes);
