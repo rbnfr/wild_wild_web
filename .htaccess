@@ -2,28 +2,36 @@
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
+AddDefaultCharset utf-8
 <Files "opengraph-image">
 ForceType image/png
 </Files>
 <IfModule mod_mime.c>
 AddType image/avif .avif
 AddType image/webp .webp
+AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-BJU/yCniZjDUb+DGa4ML8HH8SDOq0dCSYkNGRHFveps=' 'sha256-J8Svbt6X8YY8vdA8ixCpy4bGB+qwO4vc0T7LvJuF76g=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-VyayXci7Jxpjt+pAHVNCkK899XVEJPhSnWLqVV/Qsxg=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-lejMALMHXLWe37Py6vuNdV+FokDTF0DpN7a1sEHv0vA=' 'sha256-yD3EfKcEyFJzg/rXKHfPVG5Q32MxlOY4Y5CdjH+4dy4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-LZ/mrZqUeG91LrI7aBM5S+LBH8fhk8wYhG3Y+NXMbMk=' 'sha256-LZNTB5wJfQvjh3UfrDVEPKl+cevzRzPcmi/nTvCxlt8=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Y1cFB7cZ8RZPFqqWOrlnhP0vOOr+Q2Zxf7/ceXjDb4A=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-rfMlrHZTnYmTdzXdiJ9ymvQM7kWcHTiFD1tFRiIeinc=' 'sha256-sXGoTEqf3C248hI//O4ZztZ8jrMKZ2lDiaiWbOmAMeY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+Header always set Cross-Origin-Opener-Policy "same-origin"
 Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
-<FilesMatch "\.html$">
+<FilesMatch "\.(?:html|txt|xml)$">
 Header set Cache-Control "no-cache"
+</FilesMatch>
+# Hash-named assets (Next.js chunks, fonts, generated image variants).
+<FilesMatch "\.(?:js|css|woff2|avif|webp)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
 </FilesMatch>
 </IfModule>
 <IfModule mod_expires.c>
 ExpiresActive On
-ExpiresByType text/css "access plus 1 month"
-ExpiresByType application/javascript "access plus 1 month"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType text/javascript "access plus 1 year"
 ExpiresByType font/woff2 "access plus 1 year"
 ExpiresByType image/avif "access plus 1 year"
 ExpiresByType image/webp "access plus 1 year"
@@ -32,5 +40,5 @@ ExpiresByType image/png "access plus 1 hour"
 ExpiresByType image/svg+xml "access plus 1 hour"
 </IfModule>
 <IfModule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json image/svg+xml
 </IfModule>
