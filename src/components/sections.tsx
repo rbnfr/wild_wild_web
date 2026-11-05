@@ -25,11 +25,7 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
       <strong>{link.heading}</strong>
       <span>
         {link.text}
-        {link.icon ? (
-          <span className="visually-hidden"> (nueva pestaña)</span>
-        ) : (
-          " (nueva pestaña)"
-        )}
+        <span className="visually-hidden"> (nueva pestaña)</span>
       </span>
       <span aria-hidden="true" className="social-arrow">
         ↗
@@ -192,7 +188,11 @@ export function Outreach() {
                         rel="noopener noreferrer"
                         target="_blank"
                       >
-                        {link.label} (nueva pestaña)
+                        {link.label}
+                        <span className="visually-hidden">
+                          {" "}
+                          (nueva pestaña)
+                        </span>
                       </a>
                     ))}
                   </div>

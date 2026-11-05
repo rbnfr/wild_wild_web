@@ -47,7 +47,7 @@ export const site = {
     { label: "Divulgación", href: "/#divulgacion" },
   ],
   hero: {
-    label: "Biología y etología · Perros y gatos",
+    label: "Etología · Divulgación · Mascotas",
     title: "Comprenderles cambia la forma de convivir.",
     description:
       "Ayudo a familias multiespecie a convivir en armonía. Conocer a nuestros peludos con evidencia científica nos ayuda a ofrecerles lo que necesitan para mejorar su bienestar y nuestra convivencia.",
@@ -214,7 +214,7 @@ export const site = {
     title: "Cuéntame qué tienes en mente.",
     description:
       "Para una consulta online o presencial (en la Región de Murcia), un proyecto, una charla o cualquier idea que se te ocurra, contacta conmigo y hablamos.",
-    email: "mdolores.granfer@gmail.com",
+    email: "wildbehaviorofficial@gmail.com",
     reasons: [
       { value: "consulta", label: "Consulta" },
       { value: "contratacion", label: "Contratación" },

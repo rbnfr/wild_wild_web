@@ -269,7 +269,7 @@ test("contact prepares a complete draft without sending data or claiming deliver
   });
   const mail = new URL((await link.getAttribute("href"))!);
   expect(mail.protocol).toBe("mailto:");
-  expect(mail.pathname).toBe("mdolores.granfer@gmail.com");
+  expect(mail.pathname).toBe("wildbehaviorofficial@gmail.com");
   expect(mail.searchParams.get("body")).toContain("Asociación & gatos");
   expect(mail.searchParams.get("body")).toContain("qa@example.com");
   await expect(page.getByLabel("Borrador para copiar")).toHaveValue(
@@ -336,7 +336,7 @@ test("static pages preserve content and direct email without JavaScript", async 
     "Lo que la ciencia sabe de tu gato",
   );
   await expect(
-    page.locator('noscript a[href="mailto:mdolores.granfer@gmail.com"]'),
+    page.locator('noscript a[href="mailto:wildbehaviorofficial@gmail.com"]'),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Preparar correo" }),
