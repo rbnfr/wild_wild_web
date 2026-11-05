@@ -225,7 +225,7 @@ export const site = {
       { value: "otro", label: "Otro" },
     ],
   },
-  // Owner data required by the LSSI (art. 10). Empty values show a pending notice.
+  // Owner data required by the LSSI (art. 10). Fill in before publishing.
   legal: {
     owner: "María Dolores Granero Fernández",
     taxId: "",

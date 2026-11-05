@@ -3,11 +3,6 @@ import { site } from "@/content/site";
 const { owner, taxId, address, email } = site.legal;
 const pending = "pendiente de completar";
 
-export const missingLegalData = [
-  !taxId && "NIF",
-  !address && "domicilio",
-].filter(Boolean) as string[];
-
 const ownerLines = [
   `Titular: ${owner}`,
   `NIF: ${taxId || pending}`,

@@ -740,11 +740,6 @@ p {
   font-size: 32px;
   margin-top: 38px;
 }
-.legal-notice {
-  padding: 20px 24px;
-  background: var(--tint);
-  border-radius: var(--radius-field);
-}
 @media (min-width: 1700px) {
   .hero {
     padding-top: 85px;
