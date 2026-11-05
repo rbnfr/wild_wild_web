@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, type FormEvent } from "react";
 import { site } from "@/content/site";
+import { ArrowUpRightIcon } from "@/components/icon";
 import { contactSchema } from "@/lib/contact/schema";
 import { createMailDraft } from "@/lib/contact/mail-draft";
 const fields = [
@@ -194,7 +195,9 @@ export function ContactForm() {
       </div>
       <button className="button submit-button" type="submit">
         Preparar correo
-        <span aria-hidden="true">↗</span>
+        <span aria-hidden="true">
+          <ArrowUpRightIcon />
+        </span>
       </button>
       {draft && (
         <div className="mail-draft">

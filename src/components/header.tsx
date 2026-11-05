@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
+import { CloseIcon, MenuIcon } from "@/components/icon";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ export function Header() {
           onClick={() => setOpen(!open)}
         >
           {open ? "Cerrar" : "Menú"}
-          <span aria-hidden="true">{open ? "×" : "☰"}</span>
+          <span aria-hidden="true">{open ? <CloseIcon /> : <MenuIcon />}</span>
         </button>
         <nav
           id="main-navigation"

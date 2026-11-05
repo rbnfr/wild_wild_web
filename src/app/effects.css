@@ -190,7 +190,7 @@
 .service-link span[aria-hidden],
 .submit-button span[aria-hidden],
 .social-arrow,
-.hero-foot a,
+.hero-foot a svg,
 .social-icons svg {
   display: inline-block;
   transition: transform 0.35s var(--ease-out);
@@ -207,7 +207,7 @@
   position: absolute;
   right: 6px;
   top: 50%;
-  margin-top: -0.75em;
+  margin-top: -8px;
   color: var(--brand);
 }
 
@@ -259,7 +259,7 @@
   .hero-figure:hover .hero-image img {
     transform: scale(1.03);
   }
-  .hero-foot a:hover {
+  .hero-foot a:hover svg {
     transform: translateY(4px);
   }
 

@@ -25,7 +25,6 @@ export default function Home() {
       >
         <div className="container contact-grid">
           <div className="contact-copy">
-            <p className="section-label">Contacto</p>
             <h2 id="contact-title">{site.contact.title}</h2>
             <p className="lead">{site.contact.description}</p>
             <p className="contact-privacy">

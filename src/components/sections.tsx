@@ -1,6 +1,6 @@
 import { StaticImage as Image } from "@/components/static-image";
 import { site, type SocialId } from "@/content/site";
-import { BookIcon } from "@/components/icon";
+import { ArrowDownIcon, ArrowUpRightIcon, BookIcon } from "@/components/icon";
 import { RichText } from "@/components/rich-text";
 import { SocialGlyph, SocialIcons } from "@/components/social-icons";
 
@@ -28,7 +28,7 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
         <span className="visually-hidden"> (nueva pestaña)</span>
       </span>
       <span aria-hidden="true" className="social-arrow">
-        ↗
+        <ArrowUpRightIcon />
       </span>
     </a>
   ));
@@ -67,7 +67,7 @@ export function Hero() {
         <div className="hero-foot">
           <span>Un espacio para entendernos mejor</span>
           <a href="#sobre-mi" aria-label="Descubrir sobre mí">
-            ↓
+            <ArrowDownIcon />
           </a>
           <span>Personas, perros y gatos</span>
         </div>
@@ -85,7 +85,6 @@ export function About() {
     >
       <div className="container about-grid">
         <div>
-          <p className="section-label">Sobre mí</p>
           <h2 id="about-title">{site.about.title}</h2>
         </div>
         <div className="about-copy">
@@ -109,7 +108,6 @@ export function Services() {
     >
       <div className="container">
         <div className="section-heading">
-          <p className="section-label">Servicios</p>
           <h2 id="services-title">{site.services.title}</h2>
         </div>
         <div className="services-grid">
@@ -126,7 +124,9 @@ export function Services() {
               )}
               <a className="service-link" href="#contacto">
                 {item.tag}
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true">
+                  <ArrowUpRightIcon />
+                </span>
               </a>
             </article>
           ))}
@@ -263,7 +263,6 @@ export function Collaborations() {
     >
       <div className="container collaboration-grid">
         <div>
-          <p className="section-label">Colaboraciones</p>
           <h2 id="collaboration-title">{site.collaborations.title}</h2>
         </div>
         <div>

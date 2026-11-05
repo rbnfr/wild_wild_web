@@ -37,3 +37,36 @@ export function MailIcon() {
     </svg>
   );
 }
+
+// Line icons share one stroke so arrows, menu and mail read as one family.
+function LineIcon({ size, d }: { size: number; d: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d={d} />
+    </svg>
+  );
+}
+
+export const ArrowUpRightIcon = ({ size = 16 }: { size?: number }) => (
+  <LineIcon size={size} d="M7 17 17 7M8 7h9v9" />
+);
+export const ArrowDownIcon = ({ size = 22 }: { size?: number }) => (
+  <LineIcon size={size} d="M12 5v14M6 13l6 6 6-6" />
+);
+export const MenuIcon = ({ size = 22 }: { size?: number }) => (
+  <LineIcon size={size} d="M4 7h16M4 12h16M4 17h16" />
+);
+export const CloseIcon = ({ size = 22 }: { size?: number }) => (
+  <LineIcon size={size} d="M6 6l12 12M18 6 6 18" />
+);
