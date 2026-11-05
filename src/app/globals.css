@@ -588,6 +588,13 @@ p {
 .contact-copy {
   max-width: 430px;
 }
+.contact-email {
+  gap: 10px;
+}
+.contact-email svg {
+  flex-shrink: 0;
+  color: var(--brand);
+}
 .contact-privacy {
   color: var(--muted);
   font-size: 13px;

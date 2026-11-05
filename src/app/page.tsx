@@ -6,6 +6,7 @@ import {
   Collaborations,
 } from "@/components/sections";
 import { ContactForm } from "@/components/contact-form";
+import { MailIcon } from "@/components/icon";
 import { site } from "@/content/site";
 import { safeJsonLd, structuredData } from "@/lib/seo";
 export default function Home() {
@@ -33,7 +34,11 @@ export default function Home() {
               detalles en la <a href="/privacidad/">política de privacidad</a>.
             </p>
             {site.contact.email && (
-              <a className="text-link" href={`mailto:${site.contact.email}`}>
+              <a
+                className="text-link contact-email"
+                href={`mailto:${site.contact.email}`}
+              >
+                <MailIcon />
                 {site.contact.email}
               </a>
             )}

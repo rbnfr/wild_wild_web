@@ -1,4 +1,4 @@
-import { legalPages } from "@/content/legal";
+import { legalPages, missingLegalData } from "@/content/legal";
 export function LegalPage({ page }: { page: keyof typeof legalPages }) {
   const content = legalPages[page];
   return (
@@ -7,11 +7,12 @@ export function LegalPage({ page }: { page: keyof typeof legalPages }) {
         Volver al inicio
       </a>
       <h1>{content.title}</h1>
-      <p className="legal-notice">
-        <strong>Borrador pendiente de completar.</strong> Este texto contiene
-        TODO y debe revisarse con los datos jurídicos reales antes de publicar
-        la web o recibir solicitudes de personas reales.
-      </p>
+      {missingLegalData.length > 0 && (
+        <p className="legal-notice">
+          <strong>Datos pendientes:</strong> {missingLegalData.join(" y ")} del
+          titular. Deben completarse antes de publicar la web.
+        </p>
+      )}
       {content.sections.map((section) => (
         <section key={section.title}>
           <h2>{section.title}</h2>

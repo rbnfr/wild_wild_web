@@ -225,12 +225,11 @@ export const site = {
       { value: "otro", label: "Otro" },
     ],
   },
+  // Owner data required by the LSSI (art. 10). Empty values show a pending notice.
   legal: {
-    owner: "TODO: nombre o razón social del responsable",
-    taxId: "TODO: NIF/CIF",
-    address: "TODO: domicilio profesional",
-    rightsEmail: "TODO: correo para ejercer derechos",
-    retention: "TODO: plazo o criterio de conservación aprobado",
-    legalBasis: "TODO: confirmar la base jurídica de cada finalidad",
+    owner: "María Dolores Granero Fernández",
+    taxId: "",
+    address: "",
+    email: "wildbehaviorofficial@gmail.com",
   },
 } as const;
