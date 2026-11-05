@@ -12,7 +12,7 @@ AddType image/webp .webp
 AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-LZ/mrZqUeG91LrI7aBM5S+LBH8fhk8wYhG3Y+NXMbMk=' 'sha256-LZNTB5wJfQvjh3UfrDVEPKl+cevzRzPcmi/nTvCxlt8=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Y1cFB7cZ8RZPFqqWOrlnhP0vOOr+Q2Zxf7/ceXjDb4A=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-rfMlrHZTnYmTdzXdiJ9ymvQM7kWcHTiFD1tFRiIeinc=' 'sha256-sXGoTEqf3C248hI//O4ZztZ8jrMKZ2lDiaiWbOmAMeY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-FF6SrHO/0dN/9ohMTpqVo893LyZepzd3rPfgGpt9Wd8=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-RKlW0Rsg4wsc40f61BxpaHdHrCGooLv5kvg4g1IKoXU=' 'sha256-UXodOiedpvHMP3/5zt2kz1WJDosjWpBx5xBd7JxabFc=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-r7nqoXwzySiLLv81E8dMJp6hYwXUrU7MYvd2bKJ84Ik=' 'sha256-wvxCcrXalRQbvuYvk6mPIEUypW+g9NZnDDn9iK6mSrg=' 'sha256-yHpox8Kd7pG1u7M2m55f7i6fUniluh3oxKAmJHW/O0Y='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
