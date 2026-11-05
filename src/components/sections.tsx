@@ -40,39 +40,41 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
 
 export function Hero() {
   return (
-    <section className="hero container" aria-labelledby="hero-title">
-      <div className="hero-copy">
-        <p className="hero-label">
-          <span aria-hidden="true" className="leaf-dot" />
-          {site.hero.label}
-        </p>
-        <h1 id="hero-title">{site.hero.title}</h1>
-        <p className="hero-description">{site.hero.description}</p>
-        <SocialIcons label="Mis redes sociales" className="hero-socials" />
-        <div className="hero-actions">
-          <a className="button" href="#contacto">
-            {site.hero.primary}
+    <section className="hero-band" aria-labelledby="hero-title">
+      <div className="hero container">
+        <div className="hero-copy">
+          <p className="hero-label">
+            <span aria-hidden="true" className="leaf-dot" />
+            {site.hero.label}
+          </p>
+          <h1 id="hero-title">{site.hero.title}</h1>
+          <p className="hero-description">{site.hero.description}</p>
+          <SocialIcons label="Mis redes sociales" className="hero-socials" />
+          <div className="hero-actions">
+            <a className="button button-outline" href="#contacto">
+              {site.hero.primary}
+            </a>
+          </div>
+        </div>
+        <figure className="hero-figure">
+          <div className="hero-image">
+            <Image
+              src={site.hero.image}
+              alt={site.hero.imageAlt}
+              fill
+              sizes="(max-width: 400px) calc(100vw - 32px), (max-width: 760px) calc(100vw - 40px), 48vw"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </div>
+        </figure>
+        <div className="hero-foot">
+          <span>Un espacio para entendernos mejor</span>
+          <a href="#sobre-mi" aria-label="Descubrir sobre mí">
+            ↓
           </a>
+          <span>Personas, perros y gatos</span>
         </div>
-      </div>
-      <figure className="hero-figure">
-        <div className="hero-image">
-          <Image
-            src={site.hero.image}
-            alt={site.hero.imageAlt}
-            fill
-            sizes="(max-width: 400px) calc(100vw - 32px), (max-width: 760px) calc(100vw - 40px), 48vw"
-            loading="eager"
-            fetchPriority="high"
-          />
-        </div>
-      </figure>
-      <div className="hero-foot">
-        <span>Un espacio para entendernos mejor</span>
-        <a href="#sobre-mi" aria-label="Descubrir sobre mí">
-          ↓
-        </a>
-        <span>Personas, perros y gatos</span>
       </div>
     </section>
   );

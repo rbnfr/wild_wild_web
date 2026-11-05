@@ -130,4 +130,4 @@ Lighthouse móvil sobre el servidor estático local: rendimiento **93**, accesib
 
 ## Licencia
 
-Código original bajo MIT (`LICENSE`). El nombre, imágenes, portada, publicaciones y marcas conservan sus derechos respectivos. DM Sans y Newsreader mantienen sus licencias SIL OFL; también se incluyen en el ZIP.
+Código original bajo MIT (`LICENSE`). El nombre, imágenes, portada, publicaciones y marcas conservan sus derechos respectivos. Figtree mantiene su licencia SIL OFL; también se incluye en el ZIP. Los iconos de redes proceden de Simple Icons (CC0).

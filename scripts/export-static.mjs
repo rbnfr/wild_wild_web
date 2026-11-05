@@ -40,7 +40,7 @@ for (const path of files.filter((path) => path.endsWith(".html"))) {
 }
 await writeFile("out/.htaccess", buildHtaccess(buildCsp(hashes)));
 await mkdir("out/licenses", { recursive: true });
-for (const name of ["OFL-DM-Sans.txt", "OFL-Newsreader.txt"])
+for (const name of ["OFL-Figtree.txt"])
   await copyFile(`src/assets/fonts/${name}`, `out/licenses/${name}`);
 await copyFile("LICENSE", "out/licenses/MIT.txt");
 for (const [source, name] of [

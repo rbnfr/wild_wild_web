@@ -10,7 +10,7 @@
 
 :root {
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --shadow-soft: 0 18px 40px -24px rgb(36 59 48 / 0.45);
+  --shadow-soft: 0 18px 40px -24px rgb(12 39 80 / 0.45);
 }
 
 /* ---------- Header: gains depth once the page scrolls ---------- */
@@ -22,9 +22,9 @@
   }
   @keyframes header-lift {
     to {
-      background-color: rgb(250 247 239 / 0.94);
-      box-shadow: 0 12px 32px -26px rgb(36 59 48 / 0.6);
-      border-bottom-color: rgb(212 217 202 / 0.6);
+      background-color: rgb(255 255 255 / 0.94);
+      box-shadow: 0 12px 32px -26px rgb(12 39 80 / 0.5);
+      border-bottom-color: rgb(207 222 239 / 0.6);
     }
   }
   @supports (backdrop-filter: blur(1px)) {
@@ -97,8 +97,8 @@
   border-radius: 50%;
   background: radial-gradient(
     closest-side,
-    rgb(36 59 48 / 0.35),
-    rgb(36 59 48 / 0)
+    rgb(12 39 80 / 0.35),
+    rgb(12 39 80 / 0)
   );
   transition:
     transform 0.6s var(--ease-out),
@@ -208,7 +208,7 @@
   right: 6px;
   top: 50%;
   margin-top: -0.75em;
-  color: var(--forest);
+  color: var(--brand);
 }
 
 .form-field input,
@@ -221,15 +221,15 @@
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: var(--forest);
-  box-shadow: 0 0 0 4px rgb(36 76 62 / 0.12);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgb(21 89 181 / 0.16);
 }
 
 /* ---------- Hover: only for precise pointers ---------- */
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px -16px rgb(22 57 45 / 0.8);
+    box-shadow: 0 12px 24px -16px rgb(12 58 122 / 0.6);
   }
   .button:active {
     transform: translateY(0) scale(0.98);
@@ -267,7 +267,7 @@
     transition: border-color 0.3s;
   }
   .service-link:hover {
-    border-color: var(--forest);
+    border-color: var(--brand);
   }
 
   .social-icons a {
@@ -276,7 +276,13 @@
       color 0.3s;
   }
   .social-icons a:hover {
-    background-color: var(--sage);
+    background-color: var(--tint);
+  }
+  .hero-socials a:hover {
+    background-color: rgb(255 255 255 / 0.14);
+  }
+  .footer-socials a:hover {
+    background-color: var(--bg);
   }
   .social-icons a:hover svg {
     transform: translateY(-3px);
@@ -284,7 +290,7 @@
 
   .social-link:hover {
     padding-left: 10px;
-    border-color: var(--forest);
+    border-color: var(--brand);
   }
 
   .book:hover .book-cover-inner,
@@ -294,7 +300,7 @@
       3px 1px 0 -1px #f7f2e6,
       6px 2px 0 -2px #e8dfcc,
       9px 3px 0 -3px #f4eedf,
-      18px 40px 50px -24px rgb(36 59 48 / 0.55);
+      18px 40px 50px -24px rgb(12 39 80 / 0.55);
   }
   .book:hover .book-cover-inner::after,
   .book:focus-within .book-cover-inner::after {

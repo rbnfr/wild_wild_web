@@ -10,18 +10,14 @@ import "./effects.css";
 // HTML is generated at build time; the export step hashes its inline scripts for CSP.
 
 const sans = localFont({
-  src: "../assets/fonts/dm-sans.woff2",
+  src: "../assets/fonts/figtree.woff2",
   variable: "--font-sans",
-  display: "swap",
-});
-const editorial = localFont({
-  src: "../assets/fonts/newsreader.woff2",
-  variable: "--font-editorial",
+  weight: "300 900",
   display: "swap",
 });
 const url = siteUrl();
 export const viewport: Viewport = {
-  themeColor: "#faf7ef",
+  themeColor: "#ffffff",
   colorScheme: "light",
 };
 export const metadata: Metadata = {
@@ -50,7 +46,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${sans.variable} ${editorial.variable}`}>
+    <html lang="es" className={sans.variable}>
       <body>
         <a className="skip-link" href="#main">
           Saltar al contenido
