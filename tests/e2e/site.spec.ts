@@ -444,7 +444,7 @@ test("touch screens get no hover-only effects and no horizontal overflow", async
     ),
   ).toBe(false);
   // The arrow next to links must not stay displaced after a tap.
-  const arrow = page.locator(".hero-actions .text-link span[aria-hidden]");
+  const arrow = page.locator(".service-link span[aria-hidden]").first();
   const before = await arrow.evaluate((e) => getComputedStyle(e).transform);
   await arrow.tap();
   expect(await arrow.evaluate((e) => getComputedStyle(e).transform)).toBe(
