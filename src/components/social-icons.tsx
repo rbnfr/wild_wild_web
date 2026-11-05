@@ -9,6 +9,20 @@ const iconPaths: Record<SocialId, string> = {
   x: siX.path,
 };
 
+export function SocialGlyph({ id }: { id: SocialId }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d={iconPaths[id]} fill="currentColor" />
+    </svg>
+  );
+}
+
 export function SocialIcons({
   label,
   className = "",
@@ -27,15 +41,7 @@ export function SocialIcons({
             aria-label={`${social.name} (nueva pestaña)`}
             title={social.name}
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="22"
-              height="22"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path d={iconPaths[social.id]} fill="currentColor" />
-            </svg>
+            <SocialGlyph id={social.id} />
           </a>
         </li>
       ))}

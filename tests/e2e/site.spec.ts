@@ -96,8 +96,12 @@ for (const path of paths) {
           .textContent())!,
       )["@graph"] as { "@type": string; name: string; isbn?: string }[];
       const book = graph.find((entry) => entry["@type"] === "Book")!;
-      await expect(page.locator("#libros h3").first()).toHaveText(book.name);
-      await expect(page.locator("#libros")).toContainText(`ISBN: ${book.isbn}`);
+      await expect(page.locator("#divulgacion .book h4").first()).toHaveText(
+        book.name,
+      );
+      await expect(page.locator("#divulgacion")).toContainText(
+        `ISBN: ${book.isbn}`,
+      );
       const email = page.locator('#contacto a[href^="mailto:"]');
       await expect(email).toHaveAttribute(
         "href",
@@ -328,7 +332,7 @@ test("static pages preserve content and direct email without JavaScript", async 
   const page = await context.newPage();
   await page.goto("http://localhost:3000/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator("#libros h3").first()).toHaveText(
+  await expect(page.locator("#divulgacion .book h4").first()).toHaveText(
     "Lo que la ciencia sabe de tu gato",
   );
   await expect(
@@ -419,7 +423,7 @@ test("book cover lifts on pointer hover and keyboard focus", async ({
   await expect.poll(transform).not.toBe(rest);
   await page.mouse.move(0, 0);
   await expect.poll(transform).toBe(rest);
-  await page.locator("#libros a.text-link").focus();
+  await page.locator("#divulgacion .book a.text-link").focus();
   await expect.poll(transform).not.toBe(rest);
 });
 
@@ -446,7 +450,7 @@ test("touch screens get no hover-only effects and no horizontal overflow", async
   expect(await arrow.evaluate((e) => getComputedStyle(e).transform)).toBe(
     before,
   );
-  await page.locator("#libros").scrollIntoViewIfNeeded();
+  await page.locator("#divulgacion").scrollIntoViewIfNeeded();
   const dimensions = await page.evaluate(() => ({
     content: document.documentElement.scrollWidth,
     viewport: window.innerWidth,

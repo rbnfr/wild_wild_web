@@ -12,7 +12,6 @@ export type Book = {
   coverHeight: number;
   isbn?: string;
   links: { label: string; url: string }[];
-  coverage: MediaLink[];
 };
 export type SocialId = "instagram" | "tiktok" | "youtube" | "x";
 export type Social = {
@@ -46,7 +45,6 @@ export const site = {
     { label: "Sobre mí", href: "/#sobre-mi" },
     { label: "Servicios", href: "/#servicios" },
     { label: "Divulgación", href: "/#divulgacion" },
-    { label: "Prensa", href: "/#prensa" },
   ],
   hero: {
     label: "Biología y etología · Perros y gatos",
@@ -129,27 +127,8 @@ export const site = {
           url: "https://link.amazon/B0c9jJuJR",
         },
       ],
-      coverage: [
-        {
-          outlet: "Muy Interesante",
-          title: "Lectura exclusiva de un capítulo del libro",
-          url: "https://muyinteresante.okdiario.com/curiosidades/lectura-exclusiva-por-que-tenemos-gatos-libro-mary-granero-domesticacion-humana.html",
-        },
-        {
-          outlet: "20 minutos",
-          title: "Noticia sobre la publicación del libro",
-          url: "https://www.20minutos.es/noticia/5725035/0/mary-granero-publica-que-ciencia-sabe-tu-gato-una-guia-para-entender-nuestros-companeros-felinos/",
-        },
-      ],
     },
   ] satisfies Book[],
-  booksSection: {
-    title: "Ideas para seguir leyendo.",
-    description:
-      "Ciencia y divulgación para comprender mejor a los animales con los que convivimos.",
-    pending:
-      "Las nuevas publicaciones se incorporarán aquí cuando estén disponibles.",
-  },
   socials: [
     {
       id: "instagram",
@@ -176,40 +155,49 @@ export const site = {
       url: "https://x.com/wildbehav",
     },
   ] satisfies Social[],
-  socialSection: {
-    title: "La conversación continúa.",
-    description:
-      "Wild Behavior es mi proyecto de divulgación sobre comportamiento animal. Comparto contenidos de etología, especialmente canina y felina, basados en evidencia científica.",
-    pending: "Los nuevos perfiles se incorporarán cuando estén confirmados.",
-    scenio:
-      "Como Events Manager de Scenio, coordino actividades de divulgación, equipos, logística y presupuesto.",
+  outreach: {
+    title: "Divulgación.",
+    socialsTitle: "Redes",
+    socialsPending:
+      "Los nuevos perfiles se incorporarán cuando estén confirmados.",
+    booksTitle: "Libro",
+    booksPending:
+      "Las nuevas publicaciones se incorporarán aquí cuando estén disponibles.",
+    pressTitle: "Prensa",
   },
-  press: {
-    title: "En los medios.",
-    items: [
-      {
-        outlet: "La Vanguardia",
-        title: "«Los gatos casi nunca maúllan entre ellos»",
-        url: "https://www.lavanguardia.com/clic/20261007/11652376/mary-granero-etologa-gatos-nunca-maullan-aprendido-nosotros-piensan-tontos-consiguen-comida-gvm.html",
-      },
-      {
-        outlet: "National Geographic",
-        title: "«Ozempic para gatos»",
-        url: "https://www.nationalgeographic.com.es/ciencia/meow-1-esta-probando-si-funciona-ozempic-para-gatos-pero-es-esto-bueno_27022",
-      },
-      {
-        outlet: "La Vanguardia",
-        title: "«Los gatos no tienen herramientas de reconciliación»",
-        url: "https://www.lavanguardia.com/cribeo/fauna/20250819/10985971/mary-granero-experta-comportamiento-animal-gatos-rencor-reconciliacion-presentacion-situaciones-problemas-mmn.html",
-      },
-      {
-        outlet: "Tvnoticias",
-        title:
-          "«La relación entre humanos y gatos no comenzó con adiestramiento ni cría selectiva»",
-        url: "https://www.instagram.com/p/DL17wkog2WN/",
-      },
-    ] satisfies MediaLink[],
-  },
+  press: [
+    {
+      outlet: "Muy Interesante",
+      title: "Lectura exclusiva de un capítulo del libro",
+      url: "https://muyinteresante.okdiario.com/curiosidades/lectura-exclusiva-por-que-tenemos-gatos-libro-mary-granero-domesticacion-humana.html",
+    },
+    {
+      outlet: "20 minutos",
+      title: "Noticia sobre la publicación del libro",
+      url: "https://www.20minutos.es/noticia/5725035/0/mary-granero-publica-que-ciencia-sabe-tu-gato-una-guia-para-entender-nuestros-companeros-felinos/",
+    },
+    {
+      outlet: "La Vanguardia",
+      title: "«Los gatos casi nunca maúllan entre ellos»",
+      url: "https://www.lavanguardia.com/clic/20261007/11652376/mary-granero-etologa-gatos-nunca-maullan-aprendido-nosotros-piensan-tontos-consiguen-comida-gvm.html",
+    },
+    {
+      outlet: "National Geographic",
+      title: "«Ozempic para gatos»",
+      url: "https://www.nationalgeographic.com.es/ciencia/meow-1-esta-probando-si-funciona-ozempic-para-gatos-pero-es-esto-bueno_27022",
+    },
+    {
+      outlet: "La Vanguardia",
+      title: "«Los gatos no tienen herramientas de reconciliación»",
+      url: "https://www.lavanguardia.com/cribeo/fauna/20250819/10985971/mary-granero-experta-comportamiento-animal-gatos-rencor-reconciliacion-presentacion-situaciones-problemas-mmn.html",
+    },
+    {
+      outlet: "Tvnoticias",
+      title:
+        "«La relación entre humanos y gatos no comenzó con adiestramiento ni cría selectiva»",
+      url: "https://www.instagram.com/p/DL17wkog2WN/",
+    },
+  ] satisfies MediaLink[],
   collaborations: {
     title: "Las buenas ideas empiezan con una conversación.",
     description:

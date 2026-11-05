@@ -3,9 +3,7 @@ import {
   About,
   Services,
   Outreach,
-  Books,
   Collaborations,
-  Press,
 } from "@/components/sections";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
@@ -18,9 +16,7 @@ export default function Home() {
       <About />
       <Services />
       <Outreach />
-      <Books />
       <Collaborations />
-      <Press />
       <section
         className="section contact-section"
         id="contacto"

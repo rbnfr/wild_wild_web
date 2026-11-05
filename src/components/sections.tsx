@@ -1,21 +1,27 @@
 import { StaticImage as Image } from "@/components/static-image";
-import { site } from "@/content/site";
+import { site, type SocialId } from "@/content/site";
 import { BookIcon } from "@/components/icon";
 import { RichText } from "@/components/rich-text";
-import { SocialIcons } from "@/components/social-icons";
+import { SocialGlyph, SocialIcons } from "@/components/social-icons";
 
-type ExternalLink = { heading: string; text: string; url: string };
+type ExternalLink = {
+  heading: string;
+  text: string;
+  url: string;
+  icon?: SocialId;
+};
 
-// Shared list of external links (social profiles, press, book coverage).
+// Shared list of external links (social profiles and press).
 function ExternalLinks({ links }: { links: ExternalLink[] }) {
   return links.map((link) => (
     <a
-      className="social-link"
+      className={`social-link ${link.icon ? "has-icon" : ""}`}
       href={link.url}
       key={link.url}
       rel="noopener noreferrer"
       target="_blank"
     >
+      {link.icon && <SocialGlyph id={link.icon} />}
       <strong>{link.heading}</strong>
       <span>{link.text} (nueva pestaña)</span>
       <span aria-hidden="true" className="social-arrow">
@@ -127,128 +133,114 @@ export function Services() {
 }
 
 export function Outreach() {
-  const { socialSection, socials } = site;
+  const { outreach, socials, press } = site;
   return (
     <section
-      className="section social-section"
+      className="section outreach-section"
       id="divulgacion"
-      aria-labelledby="social-title"
-    >
-      <div className="container social-grid">
-        <div>
-          <p className="section-label">Divulgación</p>
-          <h2 id="social-title">{socialSection.title}</h2>
-          <p className="section-intro">{socialSection.scenio}</p>
-        </div>
-        <div>
-          <p className="lead">{socialSection.description}</p>
-          {socials.length ? (
-            <ExternalLinks
-              links={socials.map((social) => ({
-                heading: social.name,
-                text: social.description,
-                url: social.url,
-              }))}
-            />
-          ) : (
-            <p className="pending-text">{socialSection.pending}</p>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Books() {
-  return (
-    <section
-      className="section books-section"
-      id="libros"
-      aria-labelledby="books-title"
+      aria-labelledby="outreach-title"
     >
       <div className="container">
-        <div className="section-heading">
-          <p className="section-label">Libros y publicaciones</p>
-          <h2 id="books-title">{site.booksSection.title}</h2>
-          <p>{site.booksSection.description}</p>
-        </div>
-        {site.books.length ? (
-          <div
-            className={`book-grid ${site.books.length === 1 ? "single-book" : ""}`}
-          >
-            {site.books.map((book) => (
-              <article className="book" key={book.title}>
-                <div className="book-cover">
-                  <div className="book-cover-inner">
-                    <Image
-                      src={book.cover}
-                      width={book.coverWidth}
-                      height={book.coverHeight}
-                      sizes="(max-width: 600px) 220px, 240px"
-                      alt={`Portada de ${book.title}, de ${book.author}`}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <h3>{book.title}</h3>
-                  <p className="book-subtitle">{book.subtitle}</p>
-                  <p className="book-author">{book.author}</p>
-                  <p>
-                    {book.publisher}, {book.year}
-                  </p>
-                  <p>{book.description}</p>
-                  {book.pages && <p>{book.pages} páginas · Edición impresa</p>}
-                  {book.isbn && <p>ISBN: {book.isbn}</p>}
-                  {book.links.map((link) => (
-                    <a
-                      className="text-link"
-                      href={link.url}
-                      key={link.url}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {link.label} (nueva pestaña)
-                    </a>
-                  ))}
-                  {book.coverage.length > 0 && (
-                    <div className="book-coverage">
-                      <h4>El libro en los medios</h4>
-                      <ExternalLinks
-                        links={book.coverage.map((item) => ({
-                          heading: item.outlet,
-                          text: item.title,
-                          url: item.url,
-                        }))}
+        <h2 id="outreach-title" className="section-heading">
+          {outreach.title}
+        </h2>
+        <div className="outreach-book">
+          <h3 className="outreach-subtitle">{outreach.booksTitle}</h3>
+          {site.books.length ? (
+            <div
+              className={`book-grid ${site.books.length === 1 ? "single-book" : ""}`}
+            >
+              {site.books.map((book) => (
+                <article className="book" key={book.title}>
+                  <div className="book-cover">
+                    <div className="book-cover-inner">
+                      <Image
+                        src={book.cover}
+                        width={book.coverWidth}
+                        height={book.coverHeight}
+                        sizes="(max-width: 600px) 220px, 240px"
+                        alt={`Portada de ${book.title}, de ${book.author}`}
                       />
                     </div>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="books-pending">
-            <div
-              className="cover-placeholder"
-              aria-label="Espacio reservado para una portada real"
-            >
-              <BookIcon />
-              <span>
-                Portada
-                <br />
-                pendiente
-              </span>
+                  </div>
+                  <div>
+                    <h4>{book.title}</h4>
+                    <p className="book-subtitle">{book.subtitle}</p>
+                    <p className="book-author">{book.author}</p>
+                    <p>
+                      {book.publisher}, {book.year}
+                    </p>
+                    <p>{book.description}</p>
+                    {book.pages && (
+                      <p>{book.pages} páginas · Edición impresa</p>
+                    )}
+                    {book.isbn && <p>ISBN: {book.isbn}</p>}
+                    {book.links.map((link) => (
+                      <a
+                        className="text-link"
+                        href={link.url}
+                        key={link.url}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {link.label} (nueva pestaña)
+                      </a>
+                    ))}
+                  </div>
+                </article>
+              ))}
             </div>
-            <div>
-              <h3>Un espacio para sus publicaciones</h3>
-              <p>{site.booksSection.pending}</p>
-              <p className="editorial-note">
-                Los libros se mostrarán aquí cuando se incorporen sus datos
-                reales.
-              </p>
+          ) : (
+            <div className="books-pending">
+              <div
+                className="cover-placeholder"
+                aria-label="Espacio reservado para una portada real"
+              >
+                <BookIcon />
+                <span>
+                  Portada
+                  <br />
+                  pendiente
+                </span>
+              </div>
+              <div>
+                <h4>Un espacio para sus publicaciones</h4>
+                <p>{site.outreach.booksPending}</p>
+                <p className="editorial-note">
+                  Los libros se mostrarán aquí cuando se incorporen sus datos
+                  reales.
+                </p>
+              </div>
             </div>
+          )}
+        </div>
+        <div className="outreach-grid">
+          <div>
+            <h3 className="outreach-subtitle">{outreach.socialsTitle}</h3>
+            {socials.length ? (
+              <ExternalLinks
+                links={socials.map((social) => ({
+                  heading: social.name,
+                  text: social.description,
+                  url: social.url,
+                  icon: social.id,
+                }))}
+              />
+            ) : (
+              <p className="pending-text">{outreach.socialsPending}</p>
+            )}
           </div>
-        )}
+          <div>
+            <h3 className="outreach-subtitle">{outreach.pressTitle}</h3>
+            <ExternalLinks
+              links={press.map((item) => ({
+                heading: item.outlet,
+                text: item.title,
+                url: item.url,
+              }))}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -275,32 +267,6 @@ export function Collaborations() {
           <a className="button button-light" href="#contacto">
             {site.collaborations.cta}
           </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Press() {
-  return (
-    <section
-      className="section press-section"
-      id="prensa"
-      aria-labelledby="press-title"
-    >
-      <div className="container social-grid">
-        <div>
-          <p className="section-label">Prensa</p>
-          <h2 id="press-title">{site.press.title}</h2>
-        </div>
-        <div>
-          <ExternalLinks
-            links={site.press.items.map((item) => ({
-              heading: item.outlet,
-              text: item.title,
-              url: item.url,
-            }))}
-          />
         </div>
       </div>
     </section>
