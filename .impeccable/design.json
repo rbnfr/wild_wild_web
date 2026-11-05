@@ -1,209 +1,239 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-05T16:39:25+00:00",
+  "generatedAt": "2026-11-05T19:07:10+00:00",
   "title": "Design System: Mary Granero",
   "extensions": {
     "colorMeta": {
-      "forest": {
+      "brand": {
         "role": "primary",
-        "displayName": "Verde bosque",
-        "canonical": "#244c3e",
+        "displayName": "Azul real",
+        "canonical": "#1559b5",
         "tonalRamp": [
-          "#1e2e29",
-          "#325549",
-          "#437e69",
-          "#51aa8b",
-          "#7cbaa4",
-          "#a5cbbe",
-          "#ccded8",
-          "#f0f4f3"
+          "#152438",
+          "#1d3e6a",
+          "#1f57a2",
+          "#1b6fe0",
+          "#5690e0",
+          "#8fb2e1",
+          "#c1d2e9",
+          "#eef2f7"
         ]
       },
-      "forest-deep": {
+      "brand-deep": {
         "role": "primary",
-        "displayName": "Bosque profundo",
-        "canonical": "#16392d",
+        "displayName": "Azul marino",
+        "canonical": "#0c3a7a",
         "tonalRamp": [
-          "#1c3029",
-          "#2e594a",
-          "#3c856c",
-          "#46b58f",
-          "#74c1a7",
-          "#a1cfbf",
-          "#cae0d9",
-          "#f0f5f3"
+          "#142338",
+          "#1c3d6b",
+          "#1d55a4",
+          "#176de4",
+          "#538fe2",
+          "#8db1e3",
+          "#c1d2ea",
+          "#edf1f7"
         ]
       },
-      "moss": {
+      "brand-light": {
+        "role": "primary",
+        "displayName": "Azul claro",
+        "canonical": "#1a64c6",
+        "tonalRamp": [
+          "#152437",
+          "#1e3e69",
+          "#2158a0",
+          "#1e70dd",
+          "#5891de",
+          "#90b2e0",
+          "#c2d2e8",
+          "#eef2f7"
+        ]
+      },
+      "sky": {
         "role": "secondary",
-        "displayName": "Musgo",
-        "canonical": "#688160",
+        "displayName": "Cielo",
+        "canonical": "#8fc2ff",
         "tonalRamp": [
-          "#252a23",
-          "#404a3c",
-          "#5a6d54",
-          "#74906b",
-          "#94a88e",
-          "#b4c0b0",
-          "#d3d9d1",
-          "#f2f3f1"
+          "#10243c",
+          "#133f74",
+          "#0e59b3",
+          "#0173fa",
+          "#4493f2",
+          "#84b3ec",
+          "#bcd3ee",
+          "#ecf2f8"
         ]
       },
-      "lichen": {
-        "role": "secondary",
-        "displayName": "Liquen",
-        "canonical": "#6c855d",
-        "tonalRamp": [
-          "#252a22",
-          "#414c3b",
-          "#5d6f52",
-          "#789468",
-          "#97aa8b",
-          "#b6c1af",
-          "#d4dad1",
-          "#f2f3f1"
-        ]
-      },
-      "ochre": {
-        "role": "tertiary",
-        "displayName": "Ocre",
-        "canonical": "#987532",
-        "tonalRamp": [
-          "#312a1b",
-          "#5c4b2b",
-          "#8a6e37",
-          "#bd913f",
-          "#c7a96f",
-          "#d2c09e",
-          "#e2d9c8",
-          "#f5f3ef"
-        ]
-      },
-      "paper": {
+      "bg": {
         "role": "neutral",
-        "displayName": "Papel marfil",
-        "canonical": "#faf7ef",
+        "displayName": "Blanco",
+        "canonical": "#ffffff",
         "tonalRamp": [
-          "#322c1b",
-          "#5d4f2a",
-          "#8c7435",
-          "#bf9b3c",
-          "#c9b06d",
-          "#d3c49d",
-          "#e2dbc8",
-          "#f5f4ef"
+          "#262626",
+          "#434343",
+          "#616161",
+          "#7e7e7e",
+          "#9b9b9b",
+          "#b8b8b8",
+          "#d5d5d5",
+          "#f2f2f2"
         ]
       },
-      "field-white": {
+      "tint": {
         "role": "neutral",
-        "displayName": "Blanco de campo",
-        "canonical": "#fffdf8",
+        "displayName": "Azul niebla",
+        "canonical": "#ebf3fd",
         "tonalRamp": [
-          "#3c3010",
-          "#745813",
-          "#b3840e",
-          "#fab301",
-          "#f2c044",
-          "#ecce84",
-          "#eee0bc",
-          "#f8f5ec"
+          "#142438",
+          "#1c3f6b",
+          "#1d59a4",
+          "#1872e4",
+          "#5393e2",
+          "#8db3e3",
+          "#c1d3ea",
+          "#edf2f7"
         ]
       },
-      "sage": {
+      "tint-strong": {
         "role": "neutral",
-        "displayName": "Salvia",
-        "canonical": "#e9ede3",
+        "displayName": "Azul pálido",
+        "canonical": "#d7e7f9",
         "tonalRamp": [
-          "#272b21",
-          "#454e39",
-          "#64724f",
-          "#839963",
-          "#9fae88",
-          "#bac3ad",
-          "#d6dbd0",
-          "#f3f4f1"
+          "#162537",
+          "#204167",
+          "#245d9d",
+          "#2278da",
+          "#5a97db",
+          "#91b6df",
+          "#c3d4e8",
+          "#eef2f7"
         ]
       },
-      "sand": {
+      "selection": {
         "role": "neutral",
-        "displayName": "Arena",
-        "canonical": "#f0e9db",
+        "displayName": "Selección",
+        "canonical": "#cfe1fb",
         "tonalRamp": [
-          "#2f291d",
-          "#574a2f",
-          "#826c3f",
-          "#b18f4a",
-          "#bfa777",
-          "#cdbfa2",
-          "#dfd9cb",
-          "#f5f3f0"
-        ]
-      },
-      "ink": {
-        "role": "neutral",
-        "displayName": "Tinta",
-        "canonical": "#243b30",
-        "tonalRamp": [
-          "#212c26",
-          "#384f44",
-          "#4d7561",
-          "#609c7f",
-          "#86b09c",
-          "#abc5b9",
-          "#cfdbd5",
-          "#f1f4f2"
-        ]
-      },
-      "muted": {
-        "role": "neutral",
-        "displayName": "Gris liquen",
-        "canonical": "#5b665c",
-        "tonalRamp": [
-          "#252825",
-          "#414641",
-          "#5c655d",
-          "#778578",
-          "#96a097",
-          "#b5bbb6",
-          "#d4d7d4",
-          "#f2f3f2"
+          "#132339",
+          "#1a3c6c",
+          "#1b54a6",
+          "#146be7",
+          "#518de5",
+          "#8cb0e4",
+          "#c0d1ea",
+          "#edf1f7"
         ]
       },
       "line": {
         "role": "neutral",
         "displayName": "Línea",
-        "canonical": "#d4d9ca",
+        "canonical": "#cfdeef",
         "tonalRamp": [
-          "#272a23",
-          "#464b3b",
-          "#656e53",
-          "#859269",
-          "#a0a98c",
-          "#bbc1af",
-          "#d6d9d1",
-          "#f3f3f1"
+          "#1b2631",
+          "#2b425c",
+          "#375e8a",
+          "#3f7abc",
+          "#6f98c6",
+          "#9eb6d2",
+          "#c9d4e2",
+          "#eff2f5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#0f2744",
+        "tonalRamp": [
+          "#182534",
+          "#254062",
+          "#2c5c95",
+          "#2e76cd",
+          "#6396d3",
+          "#97b5d9",
+          "#c5d4e5",
+          "#eff2f6"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Pizarra",
+        "canonical": "#4a5e78",
+        "tonalRamp": [
+          "#21262c",
+          "#38424f",
+          "#4d5e74",
+          "#607a9b",
+          "#8698b0",
+          "#acb6c4",
+          "#cfd4db",
+          "#f1f2f4"
+        ]
+      },
+      "on-brand": {
+        "role": "neutral",
+        "displayName": "Sobre azul",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#434343",
+          "#616161",
+          "#7e7e7e",
+          "#9b9b9b",
+          "#b8b8b8",
+          "#d5d5d5",
+          "#f2f2f2"
+        ]
+      },
+      "on-brand-muted": {
+        "role": "neutral",
+        "displayName": "Sobre azul secundario",
+        "canonical": "#e6effc",
+        "tonalRamp": [
+          "#152338",
+          "#1d3c69",
+          "#2055a1",
+          "#1c6ce0",
+          "#568edf",
+          "#8fb1e1",
+          "#c1d2e9",
+          "#eef1f7"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Borde de campo",
+        "canonical": "#7c93b3",
+        "tonalRamp": [
+          "#20252c",
+          "#374150",
+          "#4b5d76",
+          "#5d789f",
+          "#8497b2",
+          "#aab6c6",
+          "#ced4dc",
+          "#f1f2f4"
         ]
       },
       "error": {
         "role": "error",
         "displayName": "Error",
-        "canonical": "#9a3026",
+        "canonical": "#b3261e",
         "tonalRamp": [
-          "#341b19",
-          "#612b26",
-          "#92372f",
-          "#c93f32",
-          "#d06f66",
-          "#d79e98",
-          "#e4c9c6",
-          "#f6efef"
+          "#361816",
+          "#662521",
+          "#9b2c26",
+          "#d72e25",
+          "#d9635d",
+          "#dd9793",
+          "#e7c5c3",
+          "#f6efee"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Solo el titular del hero."
+        "purpose": "Solo el titular del inicio."
       },
       "headline": {
         "displayName": "Headline",
@@ -211,53 +241,66 @@
       },
       "title": {
         "displayName": "Title",
-        "purpose": "H3 en sans; los bloques editoriales usan Newsreader a 28–36 px."
+        "purpose": "Títulos de tarjeta y bloque."
       },
       "body": {
         "displayName": "Body",
         "purpose": "Texto general."
       },
-      "body-lead": {
-        "displayName": "Lead",
-        "purpose": "Párrafos destacados."
+      "body-large": {
+        "displayName": "Body large",
+        "purpose": "Entradilla del inicio."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Etiquetas de sección en verde bosque."
+        "purpose": "Subtítulos de bloque."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Notas y pie."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Ayudas de formulario; mínimo absoluto."
       }
     },
     "shadows": [
       {
+        "name": "card",
+        "value": "0 24px 48px -36px rgb(12 39 80 / 0.45)",
+        "purpose": "Tarjetas de servicio."
+      },
+      {
+        "name": "portrait",
+        "value": "0 40px 70px -40px rgb(4 20 48 / 0.7)",
+        "purpose": "Retrato del inicio."
+      },
+      {
         "name": "header-lift",
-        "value": "0 12px 32px -26px rgb(36 59 48 / 0.6)",
+        "value": "0 12px 32px -26px rgb(12 39 80 / 0.5)",
         "purpose": "Cabecera al hacer scroll."
       },
       {
         "name": "button-hover",
-        "value": "0 12px 24px -16px rgb(22 57 45 / 0.8)",
-        "purpose": "Botón en hover con puntero preciso."
-      },
-      {
-        "name": "shadow-soft",
-        "value": "0 18px 40px -24px rgb(36 59 48 / 0.45)",
-        "purpose": "Base de la portada del libro."
+        "value": "0 12px 24px -16px rgb(12 58 122 / 0.6)",
+        "purpose": "Botón en hover."
       },
       {
         "name": "field-focus",
-        "value": "0 0 0 4px rgb(36 76 62 / 0.12)",
-        "purpose": "Halo de foco en campos."
+        "value": "0 0 0 4px rgb(21 89 181 / 0.16)",
+        "purpose": "Foco de campo."
       }
     ],
     "motion": [
       {
         "name": "ease-out",
         "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
-        "purpose": "Curva por defecto de transiciones y entradas."
+        "purpose": "Curva por defecto."
       },
       {
         "name": "hero-rise",
         "value": "0.9s",
-        "purpose": "Entrada escalonada del texto del hero (0, 0.12s, 0.22s)."
+        "purpose": "Entrada escalonada del inicio (0, 0.12s, 0.18s, 0.24s)."
       }
     ],
     "breakpoints": [
@@ -288,113 +331,98 @@
       "name": "Botón principal",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Acción principal: Hablemos, enviar.",
-      "html": "<button class=\"ds-btn-primary\">Hablemos</button>",
-      "css": ".ds-btn-primary{display:inline-flex;align-items:center;min-height:52px;padding:13px 27px;border:1px solid #244c3e;border-radius:6px;background:#244c3e;color:#faf7ef;font:500 15px 'DM Sans',sans-serif;cursor:pointer;transition:background-color .25s,box-shadow .35s cubic-bezier(.2,.7,.2,1),transform .35s cubic-bezier(.2,.7,.2,1)}.ds-btn-primary:hover{background:#16392d;transform:translateY(-2px);box-shadow:0 12px 24px -16px rgb(22 57 45/.8)}.ds-btn-primary:active{transform:scale(.98)}.ds-btn-primary:focus-visible{outline:3px solid #987532;outline-offset:5px}"
+      "description": "Acción principal.",
+      "html": "<button class=\"ds-btn\">Preparar correo</button>",
+      "css": ".ds-btn{font-family:Figtree,sans-serif;display:inline-flex;align-items:center;min-height:52px;padding:13px 27px;border:1px solid #1559b5;border-radius:999px;background:#1559b5;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:background-color .25s,box-shadow .35s cubic-bezier(.2,.7,.2,1),transform .35s cubic-bezier(.2,.7,.2,1)}.ds-btn:hover{background:#0c3a7a;transform:translateY(-2px);box-shadow:0 12px 24px -16px rgb(12 58 122/.6)}.ds-btn:focus-visible{outline:3px solid #0c3a7a;outline-offset:5px}"
     },
     {
-      "name": "Botón claro",
+      "name": "Botón contorno",
       "kind": "button",
-      "refersTo": "button-light",
-      "description": "Acción sobre el plano verde bosque.",
-      "html": "<div style=\"background:#244c3e;padding:24px\"><button class=\"ds-btn-light\">Presentar una propuesta</button></div>",
-      "css": ".ds-btn-light{display:inline-flex;align-items:center;min-height:52px;padding:13px 27px;border:1px solid #faf7ef;border-radius:6px;background:#faf7ef;color:#244c3e;font:500 15px 'DM Sans',sans-serif;cursor:pointer;transition:background-color .25s}.ds-btn-light:hover{background:#e5ebdb}.ds-btn-light:focus-visible{outline:3px solid #987532;outline-offset:5px}"
+      "refersTo": "button-outline",
+      "description": "CTA sobre banda azul.",
+      "html": "<div style=\"background:linear-gradient(135deg,#0c3a7a,#1559b5 60%,#1a64c6);padding:24px\"><a class=\"ds-btn-outline\" href=\"#\">¿Hablamos?</a></div>",
+      "css": ".ds-btn-outline{font-family:Figtree,sans-serif;display:inline-flex;align-items:center;min-height:52px;padding:13px 27px;border:2px solid #fff;border-radius:999px;color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:background-color .25s,color .25s}.ds-btn-outline:hover{background:#fff;color:#0c3a7a}.ds-btn-outline:focus-visible{outline:3px solid #fff;outline-offset:5px}"
     },
     {
-      "name": "Enlace de texto",
-      "kind": "custom",
-      "description": "Acción secundaria con flecha.",
-      "html": "<a class=\"ds-text-link\" href=\"#\">Conoce a Mary <span aria-hidden=\"true\">↗</span></a>",
-      "css": ".ds-text-link{display:inline-flex;align-items:center;gap:20px;min-height:48px;color:#243b30;font:500 16px 'DM Sans',sans-serif;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}.ds-text-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.7,.2,1)}.ds-text-link:hover span{transform:translate(3px,-3px)}.ds-text-link:focus-visible{outline:3px solid #987532;outline-offset:5px}"
+      "name": "Tarjeta de servicio",
+      "kind": "card",
+      "refersTo": "service-card",
+      "description": "Servicio con áreas y enlace.",
+      "html": "<article class=\"ds-card\"><h3>Etología felina</h3><p>Asesoramiento sobre problemas de comportamiento, bienestar y convivencia.</p><ul><li>Conflictos entre gatos</li><li>Adaptación al hogar</li></ul><a href=\"#\">Consultar por mi gato</a></article>",
+      "css": ".ds-card{font-family:Figtree,sans-serif;max-width:340px;padding:34px 32px 26px;background:#fff;border-radius:20px;box-shadow:0 24px 48px -36px rgb(12 39 80/.45);color:#0f2744}.ds-card h3{margin:0 0 13px;font-size:22px;font-weight:650;color:#0c3a7a}.ds-card p{font-size:15px;color:#4a5e78}.ds-card ul{list-style:none;padding:0;font-size:15px}.ds-card li{padding:9px 0;border-top:1px solid #cfdeef}.ds-card a{display:block;padding-top:14px;border-top:1px solid #cfdeef;color:#1559b5;font-weight:600;font-size:14px;text-decoration:none}"
     },
     {
       "name": "Campo de texto",
       "kind": "input",
       "refersTo": "input",
-      "description": "Campo del formulario de contacto.",
-      "html": "<label class=\"ds-field\"><span>Nombre</span><input type=\"text\" placeholder=\"Tu nombre\"></label>",
-      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;font:500 13px 'DM Sans',sans-serif;color:#243b30}.ds-field input{min-height:49px;padding:11px 13px;background:#fffdf8;color:#243b30;border:1px solid #9ea999;border-radius:4px;font:400 16px 'DM Sans',sans-serif;transition:border-color .2s,box-shadow .25s}.ds-field input:focus{outline:none;border-color:#244c3e;box-shadow:0 0 0 4px rgb(36 76 62/.12)}"
+      "description": "Campo del formulario.",
+      "html": "<label class=\"ds-field\"><span>Nombre *</span><input type=\"text\"></label>",
+      "css": ".ds-field{font-family:Figtree,sans-serif;display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#0f2744}.ds-field input{min-height:49px;padding:11px 13px;border:1px solid #7c93b3;border-radius:12px;font-size:16px;transition:border-color .2s,box-shadow .25s}.ds-field input:focus{outline:none;border-color:#1559b5;box-shadow:0 0 0 4px rgb(21 89 181/.16)}"
     },
     {
       "name": "Etiqueta",
       "kind": "chip",
       "refersTo": "tag",
-      "description": "Tipos de colaboración sobre plano bosque.",
-      "html": "<div style=\"background:#244c3e;padding:24px\"><span class=\"ds-tag\">Charlas y eventos</span></div>",
-      "css": ".ds-tag{display:inline-block;font:400 12px 'DM Sans',sans-serif;color:#faf7ef;border:1px solid #668173;padding:7px 13px;border-radius:30px}"
+      "description": "Tipos de colaboración.",
+      "html": "<div style=\"background:#1559b5;padding:24px\"><span class=\"ds-tag\">Charlas y eventos</span></div>",
+      "css": ".ds-tag{font-family:Figtree,sans-serif;display:inline-block;font-size:12px;color:#fff;border:1px solid rgb(255 255 255/.4);padding:7px 14px;border-radius:999px}"
     },
     {
       "name": "Navegación",
       "kind": "nav",
       "description": "Wordmark, enlaces y CTA.",
-      "html": "<nav class=\"ds-nav\"><a class=\"ds-wordmark\" href=\"#\">Mary Granero<span>Etología y convivencia</span></a><div><a href=\"#\">Sobre Mary</a><a href=\"#\">Trayectoria</a><a href=\"#\">Libros</a></div></nav>",
-      "css": ".ds-nav{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:24px 0;border-bottom:1px solid #d4d9ca;background:#faf7ef;color:#243b30}.ds-wordmark{display:inline-flex;flex-direction:column;text-decoration:none;color:inherit;font:400 30px/1.1 Newsreader,Georgia,serif;letter-spacing:-.025em}.ds-wordmark span{margin-top:7px;font:400 11px/1.3 'DM Sans',sans-serif;letter-spacing:.045em}.ds-nav div{display:flex;gap:29px}.ds-nav div a{font:400 14px 'DM Sans',sans-serif;color:inherit;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .35s cubic-bezier(.2,.7,.2,1)}.ds-nav div a:hover{background-size:100% 1px}"
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-wm\" href=\"#\">Mary Granero<span>Etología y convivencia</span></a><div><a href=\"#\">Sobre mí</a><a href=\"#\">Servicios</a><a class=\"ds-cta\" href=\"#\">Hablemos</a></div></nav>",
+      "css": ".ds-nav{font-family:Figtree,sans-serif;display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid #cfdeef;background:#fff;color:#0f2744}.ds-wm{display:flex;flex-direction:column;color:#0c3a7a;text-decoration:none;font-size:26px;font-weight:750;letter-spacing:-.03em}.ds-wm span{margin-top:6px;font-size:12px;font-weight:500;letter-spacing:.01em;color:#4a5e78}.ds-nav div{display:flex;gap:24px;align-items:center;font-size:14px}.ds-nav div a{color:inherit;text-decoration:none}.ds-nav .ds-cta{padding:10px 22px;border-radius:999px;background:#1559b5;color:#fff;font-weight:600}"
     },
     {
-      "name": "Línea temporal",
+      "name": "Iconos de redes",
       "kind": "custom",
-      "description": "Hitos de la trayectoria.",
-      "html": "<ol class=\"ds-timeline\"><li><span>2021</span><h3>Wild Behavior</h3><p>Proyecto de divulgación.</p></li><li><span>2025</span><h3>Libro</h3><p>Lo que la ciencia sabe de tu gato.</p></li></ol>",
-      "css": ".ds-timeline{list-style:none;margin:0;padding:0 0 0 26px;border-left:1px solid #a7b79b;font-family:'DM Sans',sans-serif;color:#243b30}.ds-timeline li{position:relative;padding:0 0 30px 18px}.ds-timeline li:before{content:'';position:absolute;left:-32px;top:9px;width:11px;height:11px;border-radius:50%;background:#6c855d;border:3px solid #faf7ef;transition:transform .35s,background-color .35s}.ds-timeline li:hover:before{transform:scale(1.35);background:#244c3e}.ds-timeline span{display:block;font-size:12px;color:#5b665c;margin-bottom:10px}.ds-timeline h3{font-size:21px;font-weight:500;margin:0 0 13px}.ds-timeline p{font-size:14px;color:#5b665c;margin:0}"
+      "description": "Marcas de redes en círculos de 48 px.",
+      "html": "<ul class=\"ds-soc\"><li><a href=\"#\" aria-label=\"Instagram\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\"><circle cx=\"12\" cy=\"12\" r=\"8\" fill=\"currentColor\"/></svg></a></li><li><a href=\"#\" aria-label=\"YouTube\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"4\" fill=\"currentColor\"/></svg></a></li></ul>",
+      "css": ".ds-soc{display:flex;gap:6px;list-style:none;padding:0}.ds-soc a{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;color:#0c3a7a;transition:background-color .3s}.ds-soc a:hover{background:#ebf3fd}"
     }
   ],
   "narrative": {
-    "northStar": "Cuaderno de campo",
-    "overview": "La web es el cuaderno de una etóloga: observación paciente, rigor científico y calidez natural. Papel marfil, tinta verde oscura y una serif editorial que anota con calma. Nada grita; la jerarquía la marcan la tipografía, el aire y las líneas finas, como en una libreta bien ordenada. La fotografía real de Mary es el único gran gesto visual, enmarcada en un arco que recuerda a una ventana abierta al exterior.",
+    "northStar": "Ciencia a cielo abierto",
+    "overview": "La web transmite la claridad de la ciencia explicada con cercanía: mucho blanco, un azul real que da confianza y titulares en una sans redondeada y firme. El azul no decora, ocupa regiones enteras: la portada y la banda de colaboraciones son planos de azul a sangre con un degradado diagonal suave, y el resto respira sobre blanco y azul muy claro.\n\nLa densidad es moderada. Las secciones alternan blanco, azul claro y azul intenso para marcar el ritmo, y los servicios se presentan en tarjetas blancas que flotan sobre el azul claro. La fotografía real de Mary, con esquinas redondeadas y una sombra profunda, es el ancla de la portada. El movimiento es discreto, siempre opcional, y la página está completa sin él.\n\nSe rechaza lo infantil, lo veterinario, lo de tienda o protectora, las huellas repetidas y las ilustraciones caricaturescas.",
     "keyCharacteristics": [
-      "Papel marfil y tinta verde bosque; un solo acento fuerte.",
-      "Serif editorial (Newsreader) para titulares, sans humanista (DM Sans) para todo lo demás.",
-      "Separadores de línea fina en vez de tarjetas con sombra.",
-      "Planos de color a sangre para alternar secciones.",
-      "Retrato en arco como firma visual.",
+      "Blanco y azul real; el azul ocupa planos completos, no detalles sueltos.",
+      "Una sola familia tipográfica (Figtree, variable) para todo.",
+      "Botones en píldora y esquinas generosas.",
+      "Tarjetas solo donde la referencia las pide: los servicios.",
+      "Iconos de línea con un mismo trazo (flechas, menú, correo) y marcas oficiales de redes.",
       "Movimiento sutil, solo con puntero preciso y siempre desactivable."
     ],
     "rules": [
       {
-        "name": "La regla de la tinta única",
-        "body": "El verde bosque es el único color de acento con peso. Los verdes musgo y liquen son detalles puntuales; el ocre solo indica foco.",
+        "name": "La regla del azul a sangre",
+        "body": "El azul se usa por regiones completas (portada, colaboraciones) o como acento funcional; nunca como degradado decorativo dentro de tarjetas ni en el texto.",
         "section": "colors"
       },
       {
-        "name": "La regla de los planos",
-        "body": "Las secciones se distinguen cambiando el color de fondo a sangre (marfil → salvia → marfil → arena → bosque), nunca con tarjetas flotantes.",
+        "name": "La regla del contraste dentro de la banda",
+        "body": "Los colores claros sobre azul solo se aplican dentro de `.hero-band` y `.collaborations-section`, con un fondo sólido de respaldo, para que el texto nunca quede claro sobre blanco.",
         "section": "colors"
       },
       {
-        "name": "La regla de la voz editorial",
-        "body": "La serif solo se usa para titulares y para el wordmark; nunca para texto corrido, botones ni formularios.",
+        "name": "La regla sin antetítulos",
+        "body": "Los titulares de sección van solos, sin etiqueta pequeña encima. La única excepción es el lema del inicio, que es contenido confirmado por la autora.",
         "section": "typography"
-      },
-      {
-        "name": "La regla sin mayúsculas",
-        "body": "Las etiquetas y botones van en caja normal, sin versalitas ni espaciado ancho: el tono es conversación, no rótulo.",
-        "section": "typography"
-      },
-      {
-        "name": "La regla del aire",
-        "body": "Antes de añadir un elemento, se quita otro. El espacio vacío es parte del cuaderno.",
-        "section": "layout"
-      },
-      {
-        "name": "La regla del objeto real",
-        "body": "Solo la portada del libro recibe tratamiento 3D (rotación, cantos de páginas, brillo), porque es un objeto físico. Ningún otro elemento simula volumen.",
-        "section": "elevation"
       }
     ],
     "dos": [
-      "Do usar marfil como fondo por defecto y verde bosque como único acento con peso.",
-      "Do separar contenidos con líneas de 1 px y planos de color, no con tarjetas.",
-      "Do reservar Newsreader para titulares y el wordmark.",
-      "Do dejar cada elemento completo en su estado final sin animación; el movimiento solo se añade con prefers-reduced-motion: no-preference, y el hover solo con (hover: hover) and (pointer: fine).",
-      "Do mantener objetivos táctiles de 44–48 px y el anillo de foco ocre de 3 px.",
-      "Do dar protagonismo a la fotografía real de Mary."
+      "Do dedicar regiones completas al azul (inicio, colaboraciones) y dejar respirar el resto en blanco y azul claro.",
+      "Do usar Figtree en todos los textos, con titulares en 700 y azul marino.",
+      "Do mantener los iconos en una sola familia de línea (trazo 1,75) más las marcas oficiales de redes.",
+      "Do dejar cada elemento completo sin animación y limitar el hover a `(hover: hover) and (pointer: fine)`.",
+      "Do mantener objetivos táctiles de 44–48 px, texto de 12 px como mínimo y contraste AA."
     ],
     "donts": [
-      "Don't usar huellas, ilustraciones caricaturescas ni imágenes de banco.",
-      "Don't introducir un segundo color de acento ni degradados decorativos.",
-      "Don't animar el retrato del hero al cargar: es el elemento LCP.",
-      "Don't añadir sombras o efectos 3D a elementos que no sean objetos físicos (la portada del libro).",
-      "Don't usar mayúsculas forzadas ni espaciado ancho en etiquetas y botones."
+      "Don't poner antetítulos sobre los titulares de sección.",
+      "Don't usar caracteres Unicode ni emojis como iconos.",
+      "Don't introducir un segundo color de acento ni degradados dentro de tarjetas o en el texto.",
+      "Don't animar el retrato del inicio al cargar: es el elemento LCP.",
+      "Don't usar huellas, ilustraciones caricaturescas ni imágenes de banco."
     ]
   }
 }
