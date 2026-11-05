@@ -23,7 +23,14 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
     >
       {link.icon && <SocialGlyph id={link.icon} />}
       <strong>{link.heading}</strong>
-      <span>{link.text} (nueva pestaña)</span>
+      <span>
+        {link.text}
+        {link.icon ? (
+          <span className="visually-hidden"> (nueva pestaña)</span>
+        ) : (
+          " (nueva pestaña)"
+        )}
+      </span>
       <span aria-hidden="true" className="social-arrow">
         ↗
       </span>
@@ -84,8 +91,8 @@ export function About() {
           <h2 id="about-title">{site.about.title}</h2>
         </div>
         <div className="about-copy">
-          {site.about.paragraphs.map((text, index) => (
-            <p className={index === 0 ? "lead" : undefined} key={text}>
+          {site.about.paragraphs.map((text) => (
+            <p key={text}>
               <RichText text={text} />
             </p>
           ))}
