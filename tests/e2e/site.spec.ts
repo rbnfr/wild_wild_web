@@ -183,7 +183,7 @@ test("mobile navigation supports keyboard, Escape, focus restoration and section
   );
   await page.keyboard.press("Tab");
   await expect(
-    navigation.getByRole("link", { name: "Sobre Mary" }),
+    navigation.getByRole("link", { name: "Sobre mí" }),
   ).toBeFocused();
   expect(
     (
@@ -196,10 +196,10 @@ test("mobile navigation supports keyboard, Escape, focus restoration and section
   await expect(toggle).toBeFocused();
   await expect(navigation).toBeHidden();
   await toggle.click();
-  await navigation.getByRole("link", { name: "Sobre Mary" }).click();
-  await expect(page).toHaveURL(/#sobre-mary$/);
+  await navigation.getByRole("link", { name: "Sobre mí" }).click();
+  await expect(page).toHaveURL(/#sobre-mi$/);
   await expect(navigation).toBeHidden();
-  await expect(page.locator("#sobre-mary")).toBeInViewport();
+  await expect(page.locator("#sobre-mi")).toBeInViewport();
 });
 
 test("keyboard skip link moves focus to main content", async ({ page }) => {

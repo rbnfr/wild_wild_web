@@ -1,6 +1,29 @@
 import { StaticImage as Image } from "@/components/static-image";
 import { site } from "@/content/site";
-import { Icon } from "@/components/icon";
+import { BookIcon } from "@/components/icon";
+import { RichText } from "@/components/rich-text";
+import { SocialIcons } from "@/components/social-icons";
+
+type ExternalLink = { heading: string; text: string; url: string };
+
+// Shared list of external links (social profiles, press, book coverage).
+function ExternalLinks({ links }: { links: ExternalLink[] }) {
+  return links.map((link) => (
+    <a
+      className="social-link"
+      href={link.url}
+      key={link.url}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <strong>{link.heading}</strong>
+      <span>{link.text} (nueva pestaña)</span>
+      <span aria-hidden="true" className="social-arrow">
+        ↗
+      </span>
+    </a>
+  ));
+}
 
 export function Hero() {
   return (
@@ -12,12 +35,10 @@ export function Hero() {
         </p>
         <h1 id="hero-title">{site.hero.title}</h1>
         <p className="hero-description">{site.hero.description}</p>
+        <SocialIcons label="Mis redes sociales" className="hero-socials" />
         <div className="hero-actions">
           <a className="button" href="#contacto">
             {site.hero.primary}
-          </a>
-          <a className="text-link" href="#sobre-mary">
-            {site.hero.secondary} <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
@@ -32,11 +53,10 @@ export function Hero() {
             fetchPriority="high"
           />
         </div>
-        <figcaption>{site.hero.caption}</figcaption>
       </figure>
       <div className="hero-foot">
         <span>Un espacio para entendernos mejor</span>
-        <a href="#sobre-mary" aria-label="Descubrir sobre Mary">
+        <a href="#sobre-mi" aria-label="Descubrir sobre mí">
           ↓
         </a>
         <span>Personas, perros y gatos</span>
@@ -49,98 +69,91 @@ export function About() {
   return (
     <section
       className="section about-section"
-      id="sobre-mary"
+      id="sobre-mi"
       aria-labelledby="about-title"
     >
       <div className="container about-grid">
-        <div className="about-copy">
-          <p className="section-label">Sobre Mary</p>
+        <div>
+          <p className="section-label">Sobre mí</p>
           <h2 id="about-title">{site.about.title}</h2>
-          <p className="lead">{site.about.intro}</p>
-          {site.about.paragraphs.map((text) => (
-            <p key={text}>{text}</p>
-          ))}
-          <a className="text-link" href="#trayectoria">
-            Explorar su trayectoria <span aria-hidden="true">↗</span>
-          </a>
         </div>
-        <aside className="training" aria-labelledby="training-title">
-          <h3 id="training-title">{site.about.trainingTitle}</h3>
-          <ul className="training-list">
-            {site.about.training.map((item) => (
-              <li key={item.title}>
-                <span className="training-year">{item.year}</span>
-                <div>
-                  <h4>{item.title}</h4>
-                  <p>{item.institution}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <div className="about-copy">
+          {site.about.paragraphs.map((text, index) => (
+            <p className={index === 0 ? "lead" : undefined} key={text}>
+              <RichText text={text} />
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-export function Areas() {
+export function Services() {
   return (
     <section
-      className="section areas-section"
-      id="areas"
-      aria-labelledby="areas-title"
+      className="section services-section"
+      id="servicios"
+      aria-labelledby="services-title"
     >
       <div className="container">
         <div className="section-heading">
-          <p className="section-label">Áreas de trabajo</p>
-          <h2 id="areas-title">{site.areas.title}</h2>
+          <p className="section-label">Servicios</p>
+          <h2 id="services-title">{site.services.title}</h2>
         </div>
-        <div className="areas-grid">
-          {site.areas.items.map((item) => (
-            <article className="area" key={item.title}>
-              <Icon kind={item.symbol} />
+        <div className="services-grid">
+          {site.services.items.map((item) => (
+            <article className="service" key={item.title}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <a className="area-link" href="#contacto">
+              {item.topics.length > 0 && (
+                <ul className="service-topics">
+                  {item.topics.map((topic) => (
+                    <li key={topic}>{topic}</li>
+                  ))}
+                </ul>
+              )}
+              <a className="service-link" href="#contacto">
                 {item.tag}
                 <span aria-hidden="true">↗</span>
               </a>
             </article>
           ))}
         </div>
-        {site.areas.note && (
-          <p className="consultation-details">{site.areas.note}</p>
-        )}
+        <p className="consultation-details">{site.services.note}</p>
       </div>
     </section>
   );
 }
 
-export function Trajectory() {
+export function Outreach() {
+  const { socialSection, socials } = site;
   return (
     <section
-      className="section"
-      id="trayectoria"
-      aria-labelledby="trajectory-title"
+      className="section social-section"
+      id="divulgacion"
+      aria-labelledby="social-title"
     >
-      <div className="container trajectory-grid">
+      <div className="container social-grid">
         <div>
-          <p className="section-label">Trayectoria</p>
-          <h2 id="trajectory-title">El camino hasta aquí.</h2>
-          <p className="section-intro">
-            Formación, proyectos y momentos que dan forma a una mirada
-            profesional.
-          </p>
+          <p className="section-label">Divulgación</p>
+          <h2 id="social-title">{socialSection.title}</h2>
+          <p className="section-intro">{socialSection.scenio}</p>
         </div>
-        <ol className="timeline">
-          {site.timeline.map((item) => (
-            <li key={item.title}>
-              <span className="timeline-date">{item.date}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </li>
-          ))}
-        </ol>
+        <div>
+          <p className="lead">{socialSection.description}</p>
+          {socials.length ? (
+            <ExternalLinks
+              links={socials.map((social) => ({
+                heading: social.name,
+                text: social.description,
+                url: social.url,
+              }))}
+            />
+          ) : (
+            <p className="pending-text">{socialSection.pending}</p>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -197,6 +210,18 @@ export function Books() {
                       {link.label} (nueva pestaña)
                     </a>
                   ))}
+                  {book.coverage.length > 0 && (
+                    <div className="book-coverage">
+                      <h4>El libro en los medios</h4>
+                      <ExternalLinks
+                        links={book.coverage.map((item) => ({
+                          heading: item.outlet,
+                          text: item.title,
+                          url: item.url,
+                        }))}
+                      />
+                    </div>
+                  )}
                 </div>
               </article>
             ))}
@@ -207,7 +232,7 @@ export function Books() {
               className="cover-placeholder"
               aria-label="Espacio reservado para una portada real"
             >
-              <Icon kind="book" />
+              <BookIcon />
               <span>
                 Portada
                 <br />
@@ -229,45 +254,6 @@ export function Books() {
   );
 }
 
-export function SocialContent() {
-  return (
-    <section
-      className="section social-section"
-      id="contenido"
-      aria-labelledby="social-title"
-    >
-      <div className="container social-grid">
-        <div>
-          <p className="section-label">Redes y contenido</p>
-          <h2 id="social-title">{site.socialSection.title}</h2>
-        </div>
-        <div>
-          <p className="lead">{site.socialSection.description}</p>
-          {site.socials.length ? (
-            site.socials.map((social) => (
-              <a
-                className="social-link"
-                href={social.url}
-                key={social.name}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <strong>{social.name}</strong>
-                <span>{social.description} (nueva pestaña)</span>
-                <span aria-hidden="true" className="social-arrow">
-                  ↗
-                </span>
-              </a>
-            ))
-          ) : (
-            <p className="pending-text">{site.socialSection.pending}</p>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function Collaborations() {
   return (
     <section
@@ -276,7 +262,7 @@ export function Collaborations() {
     >
       <div className="container collaboration-grid">
         <div>
-          <p className="section-label">Prensa y colaboraciones</p>
+          <p className="section-label">Colaboraciones</p>
           <h2 id="collaboration-title">{site.collaborations.title}</h2>
         </div>
         <div>
@@ -289,6 +275,32 @@ export function Collaborations() {
           <a className="button button-light" href="#contacto">
             {site.collaborations.cta}
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Press() {
+  return (
+    <section
+      className="section press-section"
+      id="prensa"
+      aria-labelledby="press-title"
+    >
+      <div className="container social-grid">
+        <div>
+          <p className="section-label">Prensa</p>
+          <h2 id="press-title">{site.press.title}</h2>
+        </div>
+        <div>
+          <ExternalLinks
+            links={site.press.items.map((item) => ({
+              heading: item.outlet,
+              text: item.title,
+              url: item.url,
+            }))}
+          />
         </div>
       </div>
     </section>

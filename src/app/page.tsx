@@ -1,11 +1,11 @@
 import {
   Hero,
   About,
-  Areas,
-  Trajectory,
+  Services,
+  Outreach,
   Books,
-  SocialContent,
   Collaborations,
+  Press,
 } from "@/components/sections";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
@@ -16,11 +16,11 @@ export default function Home() {
       <div id="inicio" />
       <Hero />
       <About />
-      <Areas />
-      <Trajectory />
+      <Services />
+      <Outreach />
       <Books />
-      <SocialContent />
       <Collaborations />
+      <Press />
       <section
         className="section contact-section"
         id="contacto"

@@ -1,8 +1,3 @@
-export type TimelineEntry = {
-  date: string;
-  title: string;
-  description: string;
-};
 export type Book = {
   title: string;
   author: string;
@@ -17,8 +12,22 @@ export type Book = {
   coverHeight: number;
   isbn?: string;
   links: { label: string; url: string }[];
+  coverage: MediaLink[];
 };
-export type Social = { name: string; description: string; url: string };
+export type SocialId = "instagram" | "tiktok" | "youtube" | "x";
+export type Social = {
+  id: SocialId;
+  name: string;
+  description: string;
+  url: string;
+};
+export type MediaLink = { outlet: string; title: string; url: string };
+export type Service = {
+  title: string;
+  description: string;
+  topics: string[];
+  tag: string;
+};
 
 // Sources and unresolved details are documented in docs/content-sources.md.
 export const site = {
@@ -34,109 +43,71 @@ export const site = {
     readyToIndex: false,
   },
   nav: [
-    { label: "Sobre Mary", href: "/#sobre-mary" },
-    { label: "Trayectoria", href: "/#trayectoria" },
-    { label: "Libros", href: "/#libros" },
-    { label: "Contenido", href: "/#contenido" },
+    { label: "Sobre mí", href: "/#sobre-mi" },
+    { label: "Servicios", href: "/#servicios" },
+    { label: "Divulgación", href: "/#divulgacion" },
+    { label: "Prensa", href: "/#prensa" },
   ],
   hero: {
     label: "Biología y etología · Perros y gatos",
     title: "Comprenderles cambia la forma de convivir.",
     description:
-      "Soy Mary Granero, bióloga y etóloga canina y felina. Combino la educación y el bienestar animal con la divulgación científica para acercarnos a los animales con los que compartimos la vida.",
-    primary: "Hablemos",
-    secondary: "Conoce a Mary",
+      "Ayudo a familias multiespecie a convivir en armonía. Conocer a nuestros peludos con evidencia científica nos ayuda a ofrecerles lo que necesitan para mejorar su bienestar y nuestra convivencia.",
+    primary: "¿Hablamos?",
     image: "/images/portrait_01.jpg",
     imageAlt: "Retrato de Mary Granero, bióloga y etóloga canina y felina",
-    caption: "Mary Granero · Bióloga y etóloga",
   },
   about: {
     title: "Detrás de cada comportamiento, hay algo que comprender.",
-    intro:
-      "Soy María Dolores Granero Fernández, aunque en divulgación me encontrarás como Mary Granero. Mi especialidad es el comportamiento de perros y gatos.",
     paragraphs: [
-      "Me gradué en Biología en la Universidad de Murcia y cursé el Máster en Intervención Asistida con Animales y Etología Aplicada en la Universidad Autónoma de Madrid. Mi recorrido incluye investigación en acuicultura y proyectos de enriquecimiento ambiental con fauna silvestre.",
-      "He trabajado en educación canina y felina con particulares, protectoras y una residencia canina, abordando problemas de conducta y asesorando sobre manejo, cuidado y bienestar. Con Wild Behavior acerco la etología y la evidencia científica a las redes sociales; también soy autora de Lo que la ciencia sabe de tu gato.",
-    ],
-    trainingTitle: "Formación para comprender su mundo",
-    training: [
-      {
-        year: "2018",
-        title: "Grado en Biología",
-        institution: "Universidad de Murcia",
-      },
-      {
-        year: "2019",
-        title:
-          "Máster en Intervención Asistida con Animales y Etología Aplicada",
-        institution: "Universidad Autónoma de Madrid",
-      },
-      {
-        year: "2023",
-        title: "Curso de Asistente y Auxiliar Técnico Veterinario",
-        institution: "Centro de Formación Veterinaria Nubika",
-      },
+      "Mi pasión por la ciencia me llevó a graduarme en biología en la Universidad de Murcia. Allí descubrí mi verdadera vocación: el **comportamiento animal**, lo que me llevó a cursar un Máster en Etología Aplicada e Intervención Asistida con Animales.",
+      "Fue durante el máster cuando me di cuenta de que yo no quería trabajar con animales, sino para ellos. Por eso me especialicé en bienestar animal y durante las prácticas del máster ayudé a implementar planes de enriquecimiento ambiental en un centro de recuperación de especies para mejorar su calidad de vida.",
+      "Mi primera oportunidad laboral fue en una residencia canina mejorando el bienestar de los perros del centro y tratando problemas de conducta a domicilio. A raíz de esta experiencia entré en contacto con el mundo de las mascotas y me formé como Auxiliar Técnico Veterinario y empecé a colaborar con una protectora tratando problemas de conducta de perros y gatos para conseguir facilitar sus adopciones y mejorar su calidad de vida.",
+      "En paralelo comencé a divulgar sobre comportamiento animal en general y más tarde sobre perros y gatos como respuesta a la falta de información basada en evidencia que encontramos por redes. Esto me dio la oportunidad de publicar un libro sobre etología felina titulado «Lo que la ciencia sabe de tu gato».",
+      "Actualmente sigo ayudando a familias multiespecie a mejorar su convivencia y trato de realizar una divulgación rigurosa en redes para competir con la desinformación.",
     ],
   },
-  areas: {
-    title: "Distintas formas de acercarnos a su mundo.",
+  services: {
+    title: "Servicios de etología.",
     note: "Consultas online y presenciales en la Región de Murcia. Para casos especiales, puedo desplazarme a la Comunidad Valenciana y Andalucía; también al resto de España, con un coste de desplazamiento mayor. Consulta disponibilidad y presupuesto según el destino.",
     items: [
       {
-        title: "Comportamiento y convivencia",
+        title: "Etología canina",
         description:
-          "Educación canina y felina, problemas de conducta y asesoramiento sobre cuidado y bienestar para familias y adoptantes.",
-        tag: "Para familias",
-        symbol: "bond",
+          "Asesoramiento sobre problemas de comportamiento, bienestar y convivencia.",
+        topics: [
+          "Miedos e inseguridad",
+          "Problemas de convivencia",
+          "Conductas relacionadas con la separación",
+          "Reactividad",
+          "Enriquecimiento ambiental",
+          "Adaptación y cambios en el entorno",
+        ],
+        tag: "Consultar por mi perro",
       },
       {
-        title: "Divulgación científica",
+        title: "Etología felina",
         description:
-          "Contenidos sobre etología basados en evidencia científica y experiencia en la coordinación de eventos de divulgación.",
-        tag: "Para medios y entidades",
-        symbol: "talk",
+          "Asesoramiento sobre problemas de comportamiento, bienestar y convivencia.",
+        topics: [
+          "Eliminación inadecuada",
+          "Conflictos entre gatos",
+          "Estrés y cambios ambientales",
+          "Enriquecimiento ambiental",
+          "Adaptación al hogar",
+          "Problemas relacionados con el bienestar y la convivencia",
+        ],
+        tag: "Consultar por mi gato",
       },
       {
-        title: "Bienestar y entornos",
+        title: "Asesoramiento a protectoras",
         description:
           "Experiencia en enriquecimiento ambiental, protocolos de manejo y asesoramiento para protectoras y residencias caninas.",
-        tag: "Para profesionales",
-        symbol: "book",
+        topics: [],
+        tag: "Para protectoras",
       },
-    ],
+    ] satisfies Service[],
   },
-  timeline: [
-    {
-      date: "2018–2019",
-      title: "Investigación y recuperación de fauna",
-      description:
-        "Trabajo de laboratorio e investigación en el Centro de Acuicultura de San Pedro del Pinatar (2018) y proyectos de enriquecimiento ambiental en el Centro de Recuperación de Animales Silvestres de Madrid (2019).",
-    },
-    {
-      date: "2020–2025",
-      title: "Educación y bienestar de animales de compañía",
-      description:
-        "Educación canina y felina en la protectora El Cobijo entre 2020 y 2025. En la residencia Somos muy perros (2020–2021), trabajo en protocolos de manejo y enriquecimiento ambiental.",
-    },
-    {
-      date: "2021",
-      title: "Wild Behavior",
-      description:
-        "Inicio del proyecto de divulgación sobre comportamiento animal, con especial atención a la etología canina y felina, en Instagram, TikTok, X y YouTube.",
-    },
-    {
-      date: "2024–actualidad",
-      title: "Coordinación de eventos en Scenio",
-      description:
-        "Como Events Manager de Scenio, coordino actividades de divulgación, equipos, logística y presupuesto.",
-    },
-    {
-      date: "2025",
-      title: "Lo que la ciencia sabe de tu gato",
-      description:
-        "Publicación de su libro sobre comportamiento felino en Hestia, una guía para comprender las necesidades de los gatos desde la ciencia.",
-    },
-  ] satisfies TimelineEntry[],
   books: [
     {
       title: "Lo que la ciencia sabe de tu gato",
@@ -154,8 +125,20 @@ export const site = {
       isbn: "9788412967166",
       links: [
         {
-          label: "Ver el libro en Amazon",
-          url: "https://www.amazon.es/dp/841296716X",
+          label: "Consigue tu ejemplar",
+          url: "https://link.amazon/B0c9jJuJR",
+        },
+      ],
+      coverage: [
+        {
+          outlet: "Muy Interesante",
+          title: "Lectura exclusiva de un capítulo del libro",
+          url: "https://muyinteresante.okdiario.com/curiosidades/lectura-exclusiva-por-que-tenemos-gatos-libro-mary-granero-domesticacion-humana.html",
+        },
+        {
+          outlet: "20 minutos",
+          title: "Noticia sobre la publicación del libro",
+          url: "https://www.20minutos.es/noticia/5725035/0/mary-granero-publica-que-ciencia-sabe-tu-gato-una-guia-para-entender-nuestros-companeros-felinos/",
         },
       ],
     },
@@ -169,21 +152,25 @@ export const site = {
   },
   socials: [
     {
+      id: "instagram",
       name: "Instagram",
       description: "Comportamiento y bienestar animal con Wild Behavior",
       url: "https://www.instagram.com/wildbehav/",
     },
     {
+      id: "tiktok",
       name: "TikTok",
       description: "Divulgación sobre perros, gatos y otros animales",
       url: "https://www.tiktok.com/@wildbehav",
     },
     {
+      id: "youtube",
       name: "YouTube",
       description: "Vídeos para explorar la etología",
       url: "https://www.youtube.com/channel/UCKotSK8QsfIXb7gikmephFQ",
     },
     {
+      id: "x",
       name: "X",
       description: "Etología y conversación sobre comportamiento animal",
       url: "https://x.com/wildbehav",
@@ -194,6 +181,34 @@ export const site = {
     description:
       "Wild Behavior es mi proyecto de divulgación sobre comportamiento animal. Comparto contenidos de etología, especialmente canina y felina, basados en evidencia científica.",
     pending: "Los nuevos perfiles se incorporarán cuando estén confirmados.",
+    scenio:
+      "Como Events Manager de Scenio, coordino actividades de divulgación, equipos, logística y presupuesto.",
+  },
+  press: {
+    title: "En los medios.",
+    items: [
+      {
+        outlet: "La Vanguardia",
+        title: "«Los gatos casi nunca maúllan entre ellos»",
+        url: "https://www.lavanguardia.com/clic/20261007/11652376/mary-granero-etologa-gatos-nunca-maullan-aprendido-nosotros-piensan-tontos-consiguen-comida-gvm.html",
+      },
+      {
+        outlet: "National Geographic",
+        title: "«Ozempic para gatos»",
+        url: "https://www.nationalgeographic.com.es/ciencia/meow-1-esta-probando-si-funciona-ozempic-para-gatos-pero-es-esto-bueno_27022",
+      },
+      {
+        outlet: "La Vanguardia",
+        title: "«Los gatos no tienen herramientas de reconciliación»",
+        url: "https://www.lavanguardia.com/cribeo/fauna/20250819/10985971/mary-granero-experta-comportamiento-animal-gatos-rencor-reconciliacion-presentacion-situaciones-problemas-mmn.html",
+      },
+      {
+        outlet: "Tvnoticias",
+        title:
+          "«La relación entre humanos y gatos no comenzó con adiestramiento ni cría selectiva»",
+        url: "https://www.instagram.com/p/DL17wkog2WN/",
+      },
+    ] satisfies MediaLink[],
   },
   collaborations: {
     title: "Las buenas ideas empiezan con una conversación.",
@@ -210,7 +225,7 @@ export const site = {
   contact: {
     title: "Cuéntame qué tienes en mente.",
     description:
-      "Una consulta online o presencial, un proyecto o una idea. Para desplazamientos fuera de la Región de Murcia, cuéntame dónde necesitas la atención y valoraremos disponibilidad y presupuesto.",
+      "Para una consulta online o presencial (en la Región de Murcia), un proyecto, una charla o cualquier idea que se te ocurra, contacta conmigo y hablamos.",
     email: "mdolores.granfer@gmail.com",
     reasons: [
       { value: "consulta", label: "Consulta" },

@@ -54,6 +54,7 @@
   animation: rise 0.9s var(--ease-out) both;
 }
 .hero-description,
+.hero-socials,
 .hero-actions {
   animation:
     rise 0.9s var(--ease-out) both,
@@ -62,8 +63,11 @@
 .hero-description {
   animation-delay: 0.12s;
 }
+.hero-socials {
+  animation-delay: 0.18s;
+}
 .hero-actions {
-  animation-delay: 0.22s;
+  animation-delay: 0.24s;
 }
 @keyframes rise {
   from {
@@ -183,10 +187,11 @@
   transform: scale(0.98);
 }
 .text-link span[aria-hidden],
-.area-link span[aria-hidden],
+.service-link span[aria-hidden],
 .submit-button span[aria-hidden],
 .social-arrow,
-.hero-foot a {
+.hero-foot a,
+.social-icons svg {
   display: inline-block;
   transition: transform 0.35s var(--ease-out);
 }
@@ -231,7 +236,7 @@
   }
 
   .text-link:hover span[aria-hidden],
-  .area-link:hover span[aria-hidden],
+  .service-link:hover span[aria-hidden],
   .submit-button:hover span[aria-hidden],
   .social-link:hover .social-arrow {
     transform: translate(3px, -3px);
@@ -258,33 +263,23 @@
     transform: translateY(4px);
   }
 
-  .area svg {
-    transition: transform 0.45s var(--ease-out);
-  }
-  .area:hover svg {
-    transform: translateY(-4px) rotate(-4deg);
-  }
-  .area-link {
+  .service-link {
     transition: border-color 0.3s;
   }
-  .area-link:hover {
+  .service-link:hover {
     border-color: var(--forest);
   }
 
-  .timeline li:before {
+  .social-icons a {
     transition:
-      transform 0.35s var(--ease-out),
-      background-color 0.35s;
+      background-color 0.3s,
+      color 0.3s;
   }
-  .timeline li:hover:before {
-    transform: scale(1.35);
-    background-color: var(--forest);
+  .social-icons a:hover {
+    background-color: var(--sage);
   }
-  .timeline-date {
-    transition: color 0.3s;
-  }
-  .timeline li:hover .timeline-date {
-    color: var(--forest);
+  .social-icons a:hover svg {
+    transform: translateY(-3px);
   }
 
   .social-link:hover {
