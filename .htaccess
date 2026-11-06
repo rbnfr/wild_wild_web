@@ -12,13 +12,16 @@ AddType image/webp .webp
 AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-FF6SrHO/0dN/9ohMTpqVo893LyZepzd3rPfgGpt9Wd8=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-RKlW0Rsg4wsc40f61BxpaHdHrCGooLv5kvg4g1IKoXU=' 'sha256-UXodOiedpvHMP3/5zt2kz1WJDosjWpBx5xBd7JxabFc=' 'sha256-Y9GE3VY/uOSX1tvJABCOkxj4Xyjcj4yuMn2iptoAVfs=' 'sha256-r7nqoXwzySiLLv81E8dMJp6hYwXUrU7MYvd2bKJ84Ik=' 'sha256-wvxCcrXalRQbvuYvk6mPIEUypW+g9NZnDDn9iK6mSrg=' 'sha256-yHpox8Kd7pG1u7M2m55f7i6fUniluh3oxKAmJHW/O0Y='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-0zTkBKZed36Tq0rHCq7D4VmX/2Rc9gtJP+HlePxdOJU=' 'sha256-69pmegaoY2DBjuE4/Jswr+5Urwgy4ecovGGvr0kwK7k=' 'sha256-ES/htVCkc9dvmiE8YELC4W5HeMRFWXGdPqehIzDpnjM=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Xg3ihd7h/VU0nGPBBYjqA0FWRtQuXFtf8SVejMhrp60=' 'sha256-cpkzqCHtiQ+z4RAJe1wAvl0bxy4Djzb5j09tjzQtAMA=' 'sha256-pFXMpV7JafNfAarZTPut2mCiERk1BxiqHZ1D71LRVWc=' 'sha256-r7nqoXwzySiLLv81E8dMJp6hYwXUrU7MYvd2bKJ84Ik='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
 Header always set Cross-Origin-Opener-Policy "same-origin"
 Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+<FilesMatch "\.html$">
+Header set Link "</llms.txt>; rel=describedby"
+</FilesMatch>
 <FilesMatch "\.(?:html|txt|xml)$">
 Header set Cache-Control "no-cache"
 </FilesMatch>
