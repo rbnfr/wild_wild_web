@@ -1,4 +1,25 @@
 import { site } from "@/content/site";
+import { legalPages } from "@/content/legal";
+
+type LegalSlug = keyof typeof legalPages;
+
+// Every public page, with the source files whose commits date its content.
+export const sitePages = [
+  {
+    path: "/",
+    title: site.name,
+    sources: ["src/app/page.tsx", "src/components", "src/content/site.ts"],
+  },
+  ...(Object.keys(legalPages) as LegalSlug[]).map((slug) => ({
+    path: `/${slug}/`,
+    title: legalPages[slug].title,
+    sources: [
+      `src/app/${slug}`,
+      "src/components/legal-page.tsx",
+      "src/content/legal.ts",
+    ],
+  })),
+];
 
 export function siteUrl(
   value = process.env.NEXT_PUBLIC_SITE_URL,
@@ -27,11 +48,13 @@ export function safeJsonLd(value: unknown): string {
 
 export function structuredData() {
   const url = siteUrl();
+  const personId = url && `${url.href}#persona`;
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Person",
+        ...(personId ? { "@id": personId } : {}),
         name: site.name,
         alternateName: site.fullName,
         jobTitle: site.profession,
@@ -48,6 +71,33 @@ export function structuredData() {
               name: site.name,
               url: url.href,
               inLanguage: "es",
+            },
+            {
+              "@type": "ProfessionalService",
+              "@id": `${url.href}#servicios`,
+              name: site.name,
+              description: site.hero.description,
+              url: url.href,
+              image: new URL(site.hero.image, url).href,
+              email: site.contact.email,
+              founder: { "@id": personId },
+              knowsLanguage: "es",
+              areaServed: site.services.areaServed.map((area) => ({
+                "@type": area.type,
+                name: area.name,
+              })),
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: site.services.title.replace(/\.$/, ""),
+                itemListElement: site.services.items.map((service) => ({
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: service.title,
+                    description: service.description,
+                  },
+                })),
+              },
             },
           ]
         : []),

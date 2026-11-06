@@ -2,7 +2,11 @@ import { gzipSync } from "node:zlib";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
-import { cacheControl, securityHeaders } from "./static-headers.mjs";
+import {
+  cacheControl,
+  HTML_LINK_HEADER,
+  securityHeaders,
+} from "./static-headers.mjs";
 
 const root = resolve("out");
 const htaccess = await readFile(resolve(root, ".htaccess"), "utf8");
@@ -73,6 +77,8 @@ const server = createServer(async (request, response) => {
       }
     }
     response.setHeader("Content-Type", contentType);
+    if (contentType.startsWith("text/html"))
+      response.setHeader("Link", HTML_LINK_HEADER);
     response.setHeader("Cache-Control", cacheControl(pathname));
     response.setHeader("Content-Length", bytes.length);
     response.writeHead(200);

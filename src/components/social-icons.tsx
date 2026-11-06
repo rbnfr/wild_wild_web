@@ -1,4 +1,10 @@
-import { siInstagram, siTiktok, siX, siYoutube } from "simple-icons";
+import {
+  siFacebook,
+  siInstagram,
+  siTiktok,
+  siX,
+  siYoutube,
+} from "simple-icons";
 import { site, type SocialId } from "@/content/site";
 
 // Brand marks from Simple Icons (CC0), inlined at build time: no requests, no tracking.
@@ -6,6 +12,7 @@ const iconPaths: Record<SocialId, string> = {
   instagram: siInstagram.path,
   tiktok: siTiktok.path,
   youtube: siYoutube.path,
+  facebook: siFacebook.path,
   x: siX.path,
 };
 

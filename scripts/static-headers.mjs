@@ -39,10 +39,13 @@ export function securityHeaders(csp) {
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy":
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()",
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
     "Cross-Origin-Opener-Policy": "same-origin",
   };
 }
+
+// RFC 8288: every HTML page points agents at the site summary.
+export const HTML_LINK_HEADER = "</llms.txt>; rel=describedby";
 
 export function cacheControl(pathname) {
   if (isImmutable(pathname)) return `public, max-age=${ONE_YEAR}, immutable`;
@@ -69,6 +72,9 @@ AddType font/woff2 .woff2
 <IfModule mod_headers.c>
 ${headers}
 Header always set Strict-Transport-Security "max-age=${ONE_YEAR}" "expr=%{HTTPS} == 'on'"
+<FilesMatch "\\.html$">
+Header set Link "${HTML_LINK_HEADER}"
+</FilesMatch>
 <FilesMatch "\\.(?:html|txt|xml)$">
 Header set Cache-Control "no-cache"
 </FilesMatch>

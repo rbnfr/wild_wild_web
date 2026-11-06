@@ -258,6 +258,7 @@ export function Outreach() {
 export function Collaborations() {
   return (
     <section
+      id="colaboraciones"
       className="collaborations-section"
       aria-labelledby="collaboration-title"
     >

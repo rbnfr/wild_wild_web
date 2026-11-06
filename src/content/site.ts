@@ -13,7 +13,7 @@ export type Book = {
   isbn?: string;
   links: { label: string; url: string }[];
 };
-export type SocialId = "instagram" | "tiktok" | "youtube" | "x";
+export type SocialId = "instagram" | "tiktok" | "youtube" | "facebook" | "x";
 export type Social = {
   id: SocialId;
   name: string;
@@ -39,12 +39,24 @@ export const site = {
     title: "Mary Granero | Bióloga y etóloga canina y felina",
     description:
       "Mary Granero, bióloga, etóloga canina y felina y divulgadora de Wild Behavior. Autora de Lo que la ciencia sabe de tu gato.",
-    readyToIndex: false,
+    readyToIndex: true,
+    // robots.txt policy: search engines and AI answers may use the content,
+    // model training may not (https://contentsignals.org/).
+    contentSignal: "search=yes, ai-input=yes, ai-train=no",
+    trainingCrawlers: [
+      "GPTBot",
+      "ClaudeBot",
+      "Google-Extended",
+      "Applebot-Extended",
+      "CCBot",
+      "meta-externalagent",
+    ],
   },
   nav: [
     { label: "Sobre mí", href: "/#sobre-mi" },
     { label: "Servicios", href: "/#servicios" },
     { label: "Divulgación", href: "/#divulgacion" },
+    { label: "Colaboraciones", href: "/#colaboraciones" },
   ],
   hero: {
     label: "Etología · Divulgación · Mascotas",
@@ -67,6 +79,11 @@ export const site = {
   },
   services: {
     title: "Servicios de etología.",
+    // Presencial en la Región de Murcia; online y con desplazamiento, toda España.
+    areaServed: [
+      { type: "AdministrativeArea", name: "Región de Murcia" },
+      { type: "Country", name: "España" },
+    ],
     note: "Consultas online y presenciales en la Región de Murcia. Para casos especiales, puedo desplazarme a la Comunidad Valenciana y Andalucía; también al resto de España, con un coste de desplazamiento mayor. Consulta disponibilidad y presupuesto según el destino.",
     items: [
       {
@@ -147,6 +164,12 @@ export const site = {
       name: "YouTube",
       description: "Vídeos para explorar la etología",
       url: "https://www.youtube.com/channel/UCKotSK8QsfIXb7gikmephFQ",
+    },
+    {
+      id: "facebook",
+      name: "Facebook",
+      description: "La comunidad de Wild Behavior",
+      url: "https://www.facebook.com/p/Wild-Behavior-100069192936244/",
     },
     {
       id: "x",

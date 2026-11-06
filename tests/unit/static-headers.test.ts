@@ -3,6 +3,7 @@ import {
   buildCsp,
   buildHtaccess,
   cacheControl,
+  HTML_LINK_HEADER,
   securityHeaders,
 } from "../../scripts/static-headers.mjs";
 
@@ -33,5 +34,6 @@ describe("static headers", () => {
       expect(htaccess).toContain(`Header always set ${name} "${value}"`);
     expect(htaccess).toContain("Options -Indexes");
     expect(htaccess).toContain("expr=%{HTTPS} == 'on'");
+    expect(htaccess).toContain(`Header set Link "${HTML_LINK_HEADER}"`);
   });
 });

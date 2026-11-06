@@ -50,7 +50,7 @@ for (const path of paths) {
     );
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",
-      /noindex/,
+      "index, follow",
     );
     if (path === "/") {
       const imageUrl = new URL(
@@ -367,7 +367,7 @@ test("static links work under the exported CSP and unknown URLs return 404", asy
   expect((await request.post("/api/contact", { data: {} })).status()).toBe(405);
 });
 
-test("security headers and crawl endpoints describe the draft website", async ({
+test("security headers and crawl endpoints describe the published website", async ({
   request,
 }) => {
   const response = await request.get("/");
@@ -384,6 +384,7 @@ test("security headers and crawl endpoints describe the draft website", async ({
   );
   expect(response.headers()["cross-origin-opener-policy"]).toBe("same-origin");
   expect(response.headers()["cache-control"]).toBe("no-cache");
+  expect(response.headers()["link"]).toBe("</llms.txt>; rel=describedby");
   const html = await response.text();
   const chunk = html.match(/\/_next\/static\/[^"]+\.js/)![0];
   expect((await request.get(chunk)).headers()["cache-control"]).toContain(
@@ -398,7 +399,11 @@ test("security headers and crawl endpoints describe the draft website", async ({
   expect(scriptDirective).not.toContain("unsafe-eval");
   const robots = await request.get("/robots.txt");
   expect(robots.ok()).toBeTruthy();
-  expect(await robots.text()).toContain("Disallow: /");
+  const robotsTxt = await robots.text();
+  expect(robotsTxt).toMatch(
+    /User-Agent: \*\nAllow: \/\nContent-Signal: search=yes, ai-input=yes, ai-train=no/,
+  );
+  expect(robotsTxt).toMatch(/User-Agent: GPTBot\n[\s\S]*?Disallow: \//);
   expect(await robots.text()).toContain(
     "Sitemap: https://marywildbehavior.com/sitemap.xml",
   );
@@ -407,6 +412,13 @@ test("security headers and crawl endpoints describe the draft website", async ({
   const xml = await sitemap.text();
   for (const path of paths)
     expect(xml).toContain(`<loc>https://marywildbehavior.com${path}</loc>`);
+  expect(
+    xml.match(/<lastmod>\d{4}-\d{2}-\d{2}T[^<]+<\/lastmod>/g),
+  ).toHaveLength(paths.length);
+  const llms = await request.get("/llms.txt");
+  expect(llms.ok()).toBeTruthy();
+  expect(llms.headers()["content-type"]).toContain("text/plain");
+  expect(await llms.text()).toMatch(/^# Mary Granero\n/);
 });
 
 test("book cover lifts on pointer hover and keyboard focus", async ({
