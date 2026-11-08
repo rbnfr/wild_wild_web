@@ -1,6 +1,7 @@
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { zipSync, unzipSync } from "fflate";
+import { REQUIRED_DEPLOY_FILES } from "./deploy-files.mjs";
 
 const entries = {};
 async function collect(directory) {
@@ -15,16 +16,7 @@ async function collect(directory) {
   }
 }
 await collect("out");
-for (const required of [
-  "index.html",
-  ".htaccess",
-  "404.html",
-  "privacidad/index.html",
-  "aviso-legal/index.html",
-  "cookies/index.html",
-  "robots.txt",
-  "sitemap.xml",
-]) {
+for (const required of REQUIRED_DEPLOY_FILES) {
   if (!entries[required])
     throw new Error(`Missing deployment file: ${required}`);
 }

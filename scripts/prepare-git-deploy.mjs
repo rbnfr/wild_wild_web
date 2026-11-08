@@ -10,6 +10,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { REQUIRED_DEPLOY_FILES } from "./deploy-files.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const target = "refs/heads/hostinger-static";
@@ -84,16 +85,7 @@ async function collect(directory, prefix = "") {
   }
 }
 await collect(output);
-for (const name of [
-  "index.html",
-  ".htaccess",
-  "404.html",
-  "privacidad/index.html",
-  "aviso-legal/index.html",
-  "cookies/index.html",
-  "robots.txt",
-  "sitemap.xml",
-])
+for (const name of REQUIRED_DEPLOY_FILES)
   if (!files.has(name)) throw new Error(`Missing deployment file: ${name}`);
 if (!files.get("index.html").toString().includes("Mary"))
   throw new Error("The exported index is not the Mary Granero website.");

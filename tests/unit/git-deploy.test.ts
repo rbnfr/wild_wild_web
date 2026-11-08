@@ -3,6 +3,9 @@ import { mkdtemp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve, sep } from "node:path";
 import { spawnSync } from "node:child_process";
+import { REQUIRED_DEPLOY_FILES } from "../../scripts/deploy-files.mjs";
+import { locales } from "@/i18n/config";
+import { href, pageIds } from "@/i18n/routes";
 
 const fixtures: string[] = [];
 function git(root: string, ...args: string[]) {
@@ -14,27 +17,18 @@ async function fixture() {
   const root = await mkdtemp(join(tmpdir(), "mary-git-test-"));
   fixtures.push(root);
   await mkdir(join(root, "scripts"));
-  await writeFile(
-    join(root, "scripts/prepare-git-deploy.mjs"),
-    await readFile("scripts/prepare-git-deploy.mjs"),
-  );
+  for (const name of ["prepare-git-deploy.mjs", "deploy-files.mjs"])
+    await writeFile(
+      join(root, "scripts", name),
+      await readFile(`scripts/${name}`),
+    );
   await writeFile(join(root, ".gitignore"), "out/\n");
   git(root, "init", "-b", "static-version");
   git(root, "config", "user.name", "Deployment Test");
   git(root, "config", "user.email", "deployment-test@example.invalid");
   git(root, "add", ".");
   git(root, "commit", "-m", "Fixture source");
-  for (const name of [
-    "index.html",
-    ".htaccess",
-    "404.html",
-    "privacidad/index.html",
-    "aviso-legal/index.html",
-    "cookies/index.html",
-    "robots.txt",
-    "sitemap.xml",
-    "images/photo.webp",
-  ]) {
+  for (const name of [...REQUIRED_DEPLOY_FILES, "images/photo.webp"]) {
     const path = join(root, "out", name);
     await mkdir(resolve(path, ".."), { recursive: true });
     await writeFile(
@@ -63,6 +57,14 @@ afterEach(async () => {
 });
 
 describe("Hostinger Git deployment branch", () => {
+  it("requires every page in every language", () => {
+    for (const lang of locales)
+      for (const page of pageIds)
+        expect(REQUIRED_DEPLOY_FILES).toContain(
+          `${href(lang, page).slice(1)}index.html`,
+        );
+  });
+
   it("publishes the export at the root and preserves the checkout and index", async () => {
     const root = await fixture();
     const source = git(root, "rev-parse", "HEAD");

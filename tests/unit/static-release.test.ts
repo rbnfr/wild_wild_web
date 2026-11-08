@@ -3,6 +3,7 @@ import { mkdtemp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve, sep } from "node:path";
 import { spawnSync } from "node:child_process";
+import { REQUIRED_DEPLOY_FILES } from "../../scripts/deploy-files.mjs";
 
 const fixtures: string[] = [];
 function git(root: string, ...args: string[]) {
@@ -24,7 +25,11 @@ async function fixture() {
     remote = join(base, "remote.git");
   await mkdir(root);
   await mkdir(join(root, "scripts"));
-  for (const name of ["release-static.mjs", "prepare-git-deploy.mjs"])
+  for (const name of [
+    "release-static.mjs",
+    "prepare-git-deploy.mjs",
+    "deploy-files.mjs",
+  ])
     await writeFile(
       join(root, "scripts", name),
       await readFile(`scripts/${name}`),
@@ -47,16 +52,7 @@ async function fixture() {
   git(root, "config", "user.email", "release-test@example.invalid");
   git(root, "add", ".");
   git(root, "commit", "-m", "Source fixture");
-  for (const name of [
-    "index.html",
-    ".htaccess",
-    "404.html",
-    "privacidad/index.html",
-    "aviso-legal/index.html",
-    "cookies/index.html",
-    "robots.txt",
-    "sitemap.xml",
-  ]) {
+  for (const name of REQUIRED_DEPLOY_FILES) {
     const path = join(root, "out", name);
     await mkdir(resolve(path, ".."), { recursive: true });
     await writeFile(
