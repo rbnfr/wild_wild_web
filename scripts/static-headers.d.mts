@@ -4,5 +4,7 @@ export declare function isImmutable(pathname: string): boolean;
 export declare function buildCsp(scriptHashes: Iterable<string>): string;
 export declare function securityHeaders(csp: string): Record<string, string>;
 export declare const HTML_LINK_HEADER: string;
+export declare const LEGACY_REDIRECTS: Record<string, string>;
+export declare function legacyRedirect(pathname: string): string | undefined;
 export declare function cacheControl(pathname: string): string;
 export declare function buildHtaccess(csp: string): string;

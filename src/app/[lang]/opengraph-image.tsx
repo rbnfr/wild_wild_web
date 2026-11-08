@@ -1,9 +1,19 @@
 export const dynamic = "force-static";
 import { ImageResponse } from "next/og";
-export const alt = "Mary Granero. Etología y convivencia con perros y gatos.";
+import { getDictionary } from "@/content/dictionaries";
+import { defaultLocale, hasLocale, locales } from "@/i18n/config";
+
+export const generateStaticParams = () => locales.map((lang) => ({ lang }));
+export const alt = "Mary Granero";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export default function Image() {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const t = getDictionary(hasLocale(lang) ? lang : defaultLocale);
   return new ImageResponse(
     <div
       style={{
@@ -27,11 +37,9 @@ export default function Image() {
           maxWidth: 950,
         }}
       >
-        Comprenderles cambia la forma de convivir.
+        {t.hero.title}
       </div>
-      <div style={{ fontSize: 26, marginTop: 45 }}>
-        Etología · Perros y gatos
-      </div>
+      <div style={{ fontSize: 26, marginTop: 45 }}>{t.seo.ogTagline}</div>
     </div>,
     size,
   );

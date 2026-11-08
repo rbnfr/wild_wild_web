@@ -1,25 +1,33 @@
 import { site } from "@/content/site";
-import { legalPages } from "@/content/legal";
+import { getDictionary } from "@/content/dictionaries";
+import { locales, type Locale } from "@/i18n/config";
+import { href, pageIds, type PageId } from "@/i18n/routes";
 
-type LegalSlug = keyof typeof legalPages;
+// Source files whose commits date each page's content.
+const pageSources: Record<"home" | "legal", string[]> = {
+  home: [
+    "src/app/[lang]/page.tsx",
+    "src/components",
+    "src/content/site.ts",
+    "src/content/dictionaries",
+  ],
+  legal: [
+    "src/app/[lang]/[slug]",
+    "src/components/legal-page.tsx",
+    "src/content/legal",
+  ],
+};
 
-// Every public page, with the source files whose commits date its content.
-export const sitePages = [
-  {
-    path: "/",
-    title: site.name,
-    sources: ["src/app/page.tsx", "src/components", "src/content/site.ts"],
-  },
-  ...(Object.keys(legalPages) as LegalSlug[]).map((slug) => ({
-    path: `/${slug}/`,
-    title: legalPages[slug].title,
-    sources: [
-      `src/app/${slug}`,
-      "src/components/legal-page.tsx",
-      "src/content/legal.ts",
-    ],
+// Every public page in every language.
+export const sitePages = locales.flatMap((lang) =>
+  pageIds.map((page: PageId) => ({
+    page,
+    lang,
+    path: href(lang, page),
+    title: page === "home" ? site.name : getDictionary(lang).legal[page].title,
+    sources: pageSources[page === "home" ? "home" : "legal"],
   })),
-];
+);
 
 export function siteUrl(
   value = process.env.NEXT_PUBLIC_SITE_URL,
@@ -46,8 +54,10 @@ export function safeJsonLd(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
-export function structuredData() {
+export function structuredData(lang: Locale) {
+  const t = getDictionary(lang);
   const url = siteUrl();
+  const home = url && new URL(href(lang), url).href;
   const personId = url && `${url.href}#persona`;
   return {
     "@context": "https://schema.org",
@@ -57,39 +67,37 @@ export function structuredData() {
         ...(personId ? { "@id": personId } : {}),
         name: site.name,
         alternateName: site.fullName,
-        jobTitle: site.profession,
-        ...(url ? { image: new URL(site.hero.image, url).href } : {}),
+        jobTitle: t.seo.profession,
+        ...(url ? { image: new URL(site.heroImage, url).href } : {}),
         ...(url ? { url: url.href } : {}),
-        ...(site.socials.length
-          ? { sameAs: site.socials.map((social) => social.url) }
-          : {}),
+        sameAs: site.socials.map((social) => social.url),
       },
-      ...(url
+      ...(url && home
         ? [
             {
               "@type": "WebSite",
               name: site.name,
-              url: url.href,
-              inLanguage: "es",
+              url: home,
+              inLanguage: lang,
             },
             {
               "@type": "ProfessionalService",
               "@id": `${url.href}#servicios`,
               name: site.name,
-              description: site.hero.description,
-              url: url.href,
-              image: new URL(site.hero.image, url).href,
-              email: site.contact.email,
+              description: t.hero.description,
+              url: home,
+              image: new URL(site.heroImage, url).href,
+              email: site.contactEmail,
               founder: { "@id": personId },
               knowsLanguage: "es",
-              areaServed: site.services.areaServed.map((area) => ({
+              areaServed: site.areaServed.map((area) => ({
                 "@type": area.type,
                 name: area.name,
               })),
               hasOfferCatalog: {
                 "@type": "OfferCatalog",
-                name: site.services.title.replace(/\.$/, ""),
-                itemListElement: site.services.items.map((service) => ({
+                name: t.services.title.replace(/\.$/, ""),
+                itemListElement: t.services.items.map((service) => ({
                   "@type": "Offer",
                   itemOffered: {
                     "@type": "Service",
@@ -105,13 +113,13 @@ export function structuredData() {
         "@type": "Book",
         name: book.title,
         author: { "@type": "Person", name: book.author },
-        datePublished: book.datePublished ?? String(book.year),
-        description: book.description,
-        inLanguage: "es",
-        ...(book.pages ? { numberOfPages: book.pages } : {}),
+        datePublished: book.datePublished,
+        description: t.books[book.id],
+        inLanguage: book.inLanguage,
+        numberOfPages: book.pages,
         ...(url ? { image: new URL(book.cover, url).href } : {}),
         publisher: { "@type": "Organization", name: book.publisher },
-        ...(book.isbn ? { isbn: book.isbn } : {}),
+        isbn: book.isbn,
       })),
     ],
   };

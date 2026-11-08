@@ -12,7 +12,17 @@ export function lastModified(sources: readonly string[]): string | undefined {
   try {
     if (git("rev-parse", "--is-shallow-repository") !== "false")
       return undefined;
-    return git("log", "-1", "--format=%cI", "--", ...sources) || undefined;
+    // Literal pathspecs: route folders such as "[lang]" are not globs.
+    return (
+      git(
+        "--literal-pathspecs",
+        "log",
+        "-1",
+        "--format=%cI",
+        "--",
+        ...sources,
+      ) || undefined
+    );
   } catch {
     return undefined;
   }

@@ -1,9 +1,18 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { getDictionary } from "../../src/content/dictionaries";
+import { locales } from "../../src/i18n/config";
+import { href, pageIds } from "../../src/i18n/routes";
 
-const paths = ["/", "/aviso-legal/", "/privacidad/", "/cookies/"];
+const es = getDictionary("es");
+const en = getDictionary("en");
+const pages = locales.flatMap((lang) =>
+  pageIds.map((page) => ({ lang, page, path: href(lang, page) })),
+);
+const paths = pages.map(({ path }) => path);
+const wcag = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
-async function openPage(page: Page, path = "/") {
+async function openPage(page: Page, path = "/es/") {
   await page.goto(path);
   await page.waitForLoadState("networkidle");
 }
@@ -20,8 +29,8 @@ async function fillContact(page: Page) {
   await page.getByRole("checkbox").check();
 }
 
-for (const path of paths) {
-  test(`${path}: Spanish semantics, metadata, links and accessibility`, async ({
+for (const { lang, page: pageId, path } of pages) {
+  test(`${path}: language, metadata, links and accessibility`, async ({
     page,
     request,
   }) => {
@@ -31,7 +40,8 @@ for (const path of paths) {
       if (message.type() === "error") errors.push(message.text());
     });
     await openPage(page, path);
-    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    const t = getDictionary(lang);
+    await expect(page.locator("html")).toHaveAttribute("lang", lang);
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(page).toHaveTitle(/Mary Granero/);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
@@ -52,7 +62,17 @@ for (const path of paths) {
       "content",
       "index, follow",
     );
-    if (path === "/") {
+    for (const code of locales)
+      await expect(
+        page.locator(`link[rel="alternate"][hreflang="${code}"]`),
+      ).toHaveAttribute(
+        "href",
+        `https://marywildbehavior.com${href(code, pageId)}`,
+      );
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="x-default"]'),
+    ).toHaveCount(1);
+    if (pageId === "home") {
       const imageUrl = new URL(
         (await page
           .locator('meta[property="og:image"]')
@@ -67,7 +87,7 @@ for (const path of paths) {
         Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
       );
       const brokenAnchors = await page
-        .locator('a[href^="/#"]')
+        .locator(`a[href^="/${lang}/#"]`)
         .evaluateAll((links) =>
           links
             .map((link) => link.getAttribute("href")!)
@@ -76,8 +96,8 @@ for (const path of paths) {
       expect(brokenAnchors).toEqual([]);
       // Verify the exported local images, including the lazy-loaded cover.
       for (const image of [
-        page.getByRole("img", { name: /^Retrato de Mary/ }),
-        page.getByRole("img", { name: /^Portada de/ }),
+        page.getByRole("img", { name: t.hero.imageAlt }),
+        page.locator(".book img"),
       ]) {
         await image.scrollIntoViewIfNeeded();
         await expect(image).toBeVisible();
@@ -109,11 +129,13 @@ for (const path of paths) {
       );
       await page.evaluate(() => window.scrollTo(0, 0));
     }
-    for (const legalPath of paths.slice(1))
-      await expect(page.locator(`footer a[href="${legalPath}"]`)).toBeVisible();
-    const result = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-      .analyze();
+    for (const legal of pages.filter(
+      (item) => item.lang === lang && item.page !== "home",
+    ))
+      await expect(
+        page.locator(`footer a[href="${legal.path}"]`),
+      ).toBeVisible();
+    const result = await new AxeBuilder({ page }).withTags(wcag).analyze();
     expect(result.violations).toEqual([]);
     const labelResult = await new AxeBuilder({ page })
       .withRules(["label-content-name-mismatch"])
@@ -139,10 +161,14 @@ test("each public page has a distinct title and description", async ({
   expect(new Set(descriptions).size).toBe(paths.length);
 });
 
-for (const width of [320, 375, 768, 1024, 1440, 1920]) {
-  test(`layout fits a ${width}px viewport`, async ({ page }, testInfo) => {
+for (const [lang, width] of locales.flatMap((code) =>
+  [320, 375, 768, 1024, 1440, 1920].map((size) => [code, size] as const),
+)) {
+  test(`${lang}: layout fits a ${width}px viewport`, async ({
+    page,
+  }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
-    await openPage(page);
+    await openPage(page, href(lang));
     const dimensions = await page.evaluate(() => ({
       content: document.documentElement.scrollWidth,
       viewport: window.innerWidth,
@@ -150,7 +176,7 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     if (width === 375 || width === 1440) {
-      const cover = page.getByRole("img", { name: /^Portada de/ });
+      const cover = page.locator(".book img");
       await cover.scrollIntoViewIfNeeded();
       await expect
         .poll(() =>
@@ -162,7 +188,7 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
         .toBe(true);
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({
-        path: testInfo.outputPath(`home-${width}.png`),
+        path: testInfo.outputPath(`home-${lang}-${width}.png`),
         fullPage: true,
       });
     }
@@ -190,11 +216,7 @@ test("mobile navigation supports keyboard, Escape, focus restoration and section
     navigation.getByRole("link", { name: "Sobre mí" }),
   ).toBeFocused();
   expect(
-    (
-      await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-        .analyze()
-    ).violations,
+    (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
   await page.keyboard.press("Escape");
   await expect(toggle).toBeFocused();
@@ -219,7 +241,7 @@ test("keyboard skip link moves focus to main content", async ({ page }) => {
 test("contact validation associates inline errors and focuses the first invalid field", async ({
   page,
 }) => {
-  await openPage(page, "/#contacto");
+  await openPage(page, "/es/#contacto");
   let apiRequests = 0;
   page.on("request", (request) => {
     if (request.url().endsWith("/api/contact")) apiRequests++;
@@ -242,18 +264,14 @@ test("contact validation associates inline errors and focuses the first invalid 
   );
   expect(apiRequests).toBe(0);
   expect(
-    (
-      await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-        .analyze()
-    ).violations,
+    (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
 });
 
 test("contact prepares a complete draft without sending data or claiming delivery", async ({
   page,
 }) => {
-  await openPage(page, "/#contacto");
+  await openPage(page, "/es/#contacto");
   const transmissions: string[] = [];
   page.on("request", (request) => {
     if (request.method() !== "GET") transmissions.push(request.url());
@@ -280,11 +298,7 @@ test("contact prepares a complete draft without sending data or claiming deliver
   );
   expect(transmissions).toEqual([]);
   expect(
-    (
-      await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-        .analyze()
-    ).violations,
+    (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
   await page.setViewportSize({ width: 320, height: 812 });
   expect(
@@ -305,7 +319,7 @@ test("copying a draft works and retains the manual fallback when clipboard acces
   context,
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  await openPage(page, "/#contacto");
+  await openPage(page, "/es/#contacto");
   await fillContact(page);
   await page.getByRole("button", { name: "Preparar correo" }).click();
   await page.getByRole("button", { name: "Copiar borrador" }).click();
@@ -330,7 +344,9 @@ test("static pages preserve content and direct email without JavaScript", async 
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
+  // "/" falls back to Spanish through its <noscript> refresh.
   await page.goto("http://localhost:3000/");
+  await expect(page).toHaveURL("http://localhost:3000/es/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator("#divulgacion .book h4").first()).toHaveText(
     "Lo que la ciencia sabe de tu gato",
@@ -341,6 +357,10 @@ test("static pages preserve content and direct email without JavaScript", async 
   await expect(
     page.getByRole("button", { name: "Preparar correo" }),
   ).toBeHidden();
+  // The <details> switcher still opens and links to the other language.
+  await page.locator(".lang-switcher summary").click();
+  await page.getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL("http://localhost:3000/en/");
   await context.close();
 });
 
@@ -359,18 +379,27 @@ test("static links work under the exported CSP and unknown URLs return 404", asy
     "Aviso legal",
   );
   await page.getByRole("link", { name: "Volver al inicio" }).click();
+  await expect(page).toHaveURL(/\/es\/$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Comprenderles cambia la forma de convivir.",
+    es.hero.title,
   );
   expect(errors).toEqual([]);
   expect((await request.get("/ruta-inexistente/")).status()).toBe(404);
+  expect((await request.get("/fr/")).status()).toBe(404);
+  for (const legacy of ["/aviso-legal/", "/privacidad", "/cookies/"]) {
+    const moved = await request.get(legacy, { maxRedirects: 0 });
+    expect(moved.status()).toBe(301);
+    expect(moved.headers()["location"]).toBe(
+      `/es/${legacy.replaceAll("/", "")}/`,
+    );
+  }
   expect((await request.post("/api/contact", { data: {} })).status()).toBe(405);
 });
 
 test("security headers and crawl endpoints describe the published website", async ({
   request,
 }) => {
-  const response = await request.get("/");
+  const response = await request.get("/es/");
   expect(response.ok()).toBeTruthy();
   expect(response.headers()["x-content-type-options"]).toBe("nosniff");
   expect(response.headers()["referrer-policy"]).toBe(
@@ -479,4 +508,126 @@ test("reduced motion disables decorative animation", async ({ page }) => {
       elements.map((element) => getComputedStyle(element).animationName),
     );
   expect(names.every((name) => name === "none")).toBe(true);
+});
+
+for (const [locale, expected] of [
+  ["en-US", "/en/"],
+  ["es-ES", "/es/"],
+  ["fr-FR", "/es/"],
+] as const) {
+  test(`"/" opens ${expected} for a browser in ${locale}`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ locale });
+    const page = await context.newPage();
+    await page.goto("/");
+    await expect(page).toHaveURL(`http://localhost:3000${expected}`);
+    // Old links to sections keep working.
+    await page.goto("/#contacto");
+    await expect(page).toHaveURL(`http://localhost:3000${expected}#contacto`);
+    await context.close();
+  });
+}
+
+test("the language switcher keeps the page, shows flags and remembers the choice", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ locale: "en-US" });
+  const page = await context.newPage();
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await openPage(page, "/en/privacy/");
+  const trigger = page.locator(".lang-switcher summary");
+  await expect(trigger).toHaveAccessibleName(`${en.common.language}: English`);
+  await expect(trigger.locator('img[src="/flags/en.svg"]')).toBeVisible();
+  await trigger.click();
+  const options = page.getByRole("list", { name: en.common.language });
+  await expect(options).toBeVisible();
+  await expect(options.getByRole("link", { name: "English" })).toHaveAttribute(
+    "aria-current",
+    "true",
+  );
+  await expect(options.locator('img[src="/flags/es.svg"]')).toBeVisible();
+  expect(
+    (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
+  ).toEqual([]);
+  await page.keyboard.press("Escape");
+  await expect(options).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await options.getByRole("link", { name: "Español" }).click();
+  await expect(page).toHaveURL("http://localhost:3000/es/privacidad/");
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    es.legal.privacy.title,
+  );
+  // The browser prefers English, but the reader chose Spanish.
+  await page.goto("/");
+  await expect(page).toHaveURL("http://localhost:3000/es/");
+  // Clicking outside closes the list.
+  await trigger.click();
+  await page.locator("h1").click();
+  await expect(
+    page.getByRole("list", { name: es.common.language }),
+  ).toBeHidden();
+  expect(errors).toEqual([]);
+  await context.close();
+});
+
+test("the switcher shows only the flag in the mobile header and fits 320px", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 700 });
+  await openPage(page, "/en/");
+  const trigger = page.locator(".lang-switcher summary");
+  await expect(trigger).toHaveAccessibleName(`${en.common.language}: English`);
+  await expect(trigger.locator(".lang-name")).toHaveCSS("width", "1px");
+  await trigger.click();
+  await expect(page.getByRole("link", { name: "Español" })).toBeInViewport();
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(320);
+});
+
+test("the English contact form validates and drafts in English", async ({
+  page,
+}) => {
+  const form = en.contact.form;
+  await openPage(page, "/en/#contacto");
+  await page.getByRole("button", { name: form.submit }).click();
+  await expect(page.getByRole("status")).toHaveText(form.status.invalid);
+  await expect(page.locator("#name-error")).toHaveText(form.errors.nameShort);
+  await page.getByLabel(form.fields.name, { exact: false }).fill("Test person");
+  await page
+    .getByLabel(form.fields.email, { exact: false })
+    .fill("qa@example.com");
+  await page.getByLabel(form.reason).selectOption("evento");
+  await page
+    .getByLabel(form.message)
+    .fill("I would like information about a talk for our association.");
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: form.submit }).click();
+  await expect(page.getByRole("status")).toHaveText(form.status.ready);
+  const mail = new URL(
+    (await page
+      .getByRole("link", { name: form.draft.open })
+      .getAttribute("href"))!,
+  );
+  expect(mail.searchParams.get("subject")).toBe(
+    `${form.mail.reasons.evento} — ${form.mail.subject}`,
+  );
+  await expect(
+    page.locator(`.privacy-field a[href="/en/privacy/"]`),
+  ).toBeVisible();
+});
+
+test("unknown URLs get a bilingual 404 page", async ({ page }) => {
+  const response = await page.goto("/ruta-inexistente/");
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    es.notFound.title,
+  );
+  await expect(page.locator('section[lang="en"]')).toContainText(
+    en.notFound.title,
+  );
 });

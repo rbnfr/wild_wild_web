@@ -5,6 +5,7 @@ import { resolve, extname, sep } from "node:path";
 import {
   cacheControl,
   HTML_LINK_HEADER,
+  legacyRedirect,
   securityHeaders,
 } from "./static-headers.mjs";
 
@@ -41,6 +42,12 @@ const server = createServer(async (request, response) => {
     const pathname = decodeURIComponent(
       new URL(request.url, "http://localhost").pathname,
     );
+    const redirect = legacyRedirect(pathname);
+    if (redirect) {
+      response.writeHead(301, { Location: redirect });
+      response.end();
+      return;
+    }
     let path = resolve(root, `.${pathname}`);
     if (path !== root && !path.startsWith(`${root}${sep}`)) {
       response.writeHead(403);
@@ -61,10 +68,9 @@ const server = createServer(async (request, response) => {
       path = resolve(path, "index.html");
     }
     let bytes = await readFile(path);
-    const contentType =
-      pathname === "/opengraph-image"
-        ? "image/png"
-        : mime[extname(path)] || "application/octet-stream";
+    const contentType = pathname.endsWith("/opengraph-image")
+      ? "image/png"
+      : mime[extname(path)] || "application/octet-stream";
     if (
       /^(?:text\/|application\/(?:javascript|json)|image\/svg)/.test(
         contentType,

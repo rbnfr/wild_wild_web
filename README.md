@@ -24,7 +24,7 @@ El proceso regenera `out` desde cero para evitar archivos obsoletos, compila y g
 3. Sube `mary-granero-static.zip` y extráelo directamente en `public_html`. `index.html` debe quedar en esa carpeta, sin un nivel `out` o `mary-granero-static` intermedio. Si el asistente de sitios estáticos acepta el ZIP, selecciona ese mismo paquete.
 4. Comprueba que también se haya extraído `.htaccess`; activa la visualización de archivos ocultos si hace falta. Sube el paquete completo de una misma compilación, porque la política CSP contiene los hashes de sus scripts.
 5. Retira o aparta la página de bienvenida anterior para que no tenga prioridad sobre el nuevo `index.html`. No borres archivos de otro sitio o aplicaciones que compartan la carpeta.
-6. Activa el certificado SSL y fuerza HTTPS desde hPanel. Abre `https://marywildbehavior.com` y prueba también `/privacidad/`, `/aviso-legal/`, `/cookies/`, el menú móvil, imágenes y formulario.
+6. Activa el certificado SSL y fuerza HTTPS desde hPanel. Abre `https://marywildbehavior.com` y prueba también `/es/privacidad/`, `/en/privacy/`, el selector de idioma, el menú móvil, imágenes y formulario.
 
 Las instrucciones de carga se basan en el [administrador de archivos oficial de Hostinger](https://www.hostinger.com/support/4548688-basic-actions-in-the-file-manager-in-hostinger/). No se ha realizado ningún despliegue ni modificado tu cuenta de Hostinger.
 
@@ -74,7 +74,11 @@ Para editar con recarga automática puedes utilizar `npm run dev`; la comprobaci
 
 ## Contenido y dirección pública
 
-Edita `src/content/site.ts` para los textos, libros, experiencia, redes y contacto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales (unos 105 KB y 27 KB) se conservan. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
+Los datos que no dependen del idioma (enlaces, redes, libro, correo) están en `src/content/site.ts`; los textos, en un diccionario por idioma: `src/content/dictionaries/es.ts` (el castellano es el idioma de referencia) y `en.ts`, y los textos legales en `src/content/legal/`. TypeScript y los tests fallan si a un idioma le falta un texto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales (unos 105 KB y 27 KB) se conservan. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
+
+## Idiomas
+
+La web se publica en castellano (`/es/`) y en inglés (`/en/`), con las rutas legales traducidas (`/es/aviso-legal/` ↔ `/en/legal-notice/`) definidas en `src/i18n/routes.ts`. La raíz `/` solo elige idioma: un script mínimo usa el idioma elegido antes en el selector (guardado en `localStorage`, clave `lang`) o, si no hay, el primer idioma del navegador que esté disponible; en cualquier otro caso, castellano. Sin JavaScript redirige a `/es/`. Las direcciones antiguas (`/aviso-legal/`, `/privacidad/`, `/cookies/`) redirigen con 301 a su versión `/es/`. Cada página declara sus alternativas `hreflang`, también en el sitemap. Para añadir un idioma: añádelo en `src/i18n/config.ts`, crea su diccionario, su bandera en `public/flags/` y sus slugs en `routes.ts`.
 
 La compilación utiliza `https://marywildbehavior.com` aunque una `.env.local` anterior contenga localhost. Para cambiar el dominio en PowerShell:
 

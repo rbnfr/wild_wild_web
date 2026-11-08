@@ -1,18 +1,36 @@
-import { reasonLabels, type ContactInput } from "./schema";
+import type { ContactInput, ContactReason } from "./schema";
 
-export function createMailDraft(input: ContactInput, recipient: string) {
-  const subject = `${reasonLabels[input.reason]} — Contacto con Mary Granero`;
+// Labels of the draft, in the language the visitor is reading.
+export type MailDraftText = {
+  to: string;
+  subjectLabel: string;
+  subject: string;
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  reason: string;
+  reasons: Record<ContactReason, string>;
+};
+
+export function createMailDraft(
+  input: ContactInput,
+  recipient: string,
+  t: MailDraftText,
+) {
+  const reason = t.reasons[input.reason];
+  const subject = `${reason} — ${t.subject}`;
   const body = [
-    `Nombre: ${input.name}`,
-    `Email de contacto: ${input.email}`,
-    ...(input.company ? [`Empresa u organización: ${input.company}`] : []),
-    ...(input.phone ? [`Teléfono: ${input.phone}`] : []),
-    `Motivo: ${reasonLabels[input.reason]}`,
+    `${t.name}: ${input.name}`,
+    `${t.email}: ${input.email}`,
+    ...(input.company ? [`${t.company}: ${input.company}`] : []),
+    ...(input.phone ? [`${t.phone}: ${input.phone}`] : []),
+    `${t.reason}: ${reason}`,
     "",
     input.message,
   ].join("\n");
   return {
     href: `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-    text: `Para: ${recipient}\nAsunto: ${subject}\n\n${body}`,
+    text: `${t.to}: ${recipient}\n${t.subjectLabel}: ${subject}\n\n${body}`,
   };
 }

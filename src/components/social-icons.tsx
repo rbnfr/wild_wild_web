@@ -32,9 +32,11 @@ export function SocialGlyph({ id }: { id: SocialId }) {
 
 export function SocialIcons({
   label,
+  newTab,
   className = "",
 }: {
   label: string;
+  newTab: string;
   className?: string;
 }) {
   return (
@@ -45,7 +47,7 @@ export function SocialIcons({
             href={social.url}
             rel="noopener noreferrer"
             target="_blank"
-            aria-label={`${social.name} (nueva pestaña)`}
+            aria-label={`${social.name} ${newTab}`}
             title={social.name}
           >
             <SocialGlyph id={social.id} />

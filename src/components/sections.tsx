@@ -1,5 +1,6 @@
 import { StaticImage as Image } from "@/components/static-image";
 import { site, type SocialId } from "@/content/site";
+import type { Dictionary } from "@/content/dictionaries";
 import { ArrowDownIcon, ArrowUpRightIcon, BookIcon } from "@/components/icon";
 import { RichText } from "@/components/rich-text";
 import { SocialGlyph, SocialIcons } from "@/components/social-icons";
@@ -12,7 +13,13 @@ type ExternalLink = {
 };
 
 // Shared list of external links (social profiles and press).
-function ExternalLinks({ links }: { links: ExternalLink[] }) {
+function ExternalLinks({
+  links,
+  newTab,
+}: {
+  links: ExternalLink[];
+  newTab: string;
+}) {
   return links.map((link) => (
     <a
       className={`social-link ${link.icon ? "has-icon" : ""}`}
@@ -25,7 +32,7 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
       <strong>{link.heading}</strong>
       <span>
         {link.text}
-        <span className="visually-hidden"> (nueva pestaña)</span>
+        <span className="visually-hidden"> {newTab}</span>
       </span>
       <span aria-hidden="true" className="social-arrow">
         <ArrowUpRightIcon />
@@ -34,29 +41,33 @@ function ExternalLinks({ links }: { links: ExternalLink[] }) {
   ));
 }
 
-export function Hero() {
+export function Hero({ t }: { t: Dictionary }) {
   return (
     <section className="hero-band" aria-labelledby="hero-title">
       <div className="hero container">
         <div className="hero-copy">
           <p className="hero-label">
             <span aria-hidden="true" className="leaf-dot" />
-            {site.hero.label}
+            {t.hero.label}
           </p>
-          <h1 id="hero-title">{site.hero.title}</h1>
-          <p className="hero-description">{site.hero.description}</p>
-          <SocialIcons label="Mis redes sociales" className="hero-socials" />
+          <h1 id="hero-title">{t.hero.title}</h1>
+          <p className="hero-description">{t.hero.description}</p>
+          <SocialIcons
+            label={t.hero.socialsLabel}
+            newTab={t.common.newTab}
+            className="hero-socials"
+          />
           <div className="hero-actions">
             <a className="button button-outline" href="#contacto">
-              {site.hero.primary}
+              {t.hero.primary}
             </a>
           </div>
         </div>
         <figure className="hero-figure">
           <div className="hero-image">
             <Image
-              src={site.hero.image}
-              alt={site.hero.imageAlt}
+              src={site.heroImage}
+              alt={t.hero.imageAlt}
               fill
               sizes="(max-width: 400px) calc(100vw - 32px), (max-width: 760px) calc(100vw - 40px), 48vw"
               loading="eager"
@@ -65,18 +76,18 @@ export function Hero() {
           </div>
         </figure>
         <div className="hero-foot">
-          <span>Un espacio para entendernos mejor</span>
-          <a href="#sobre-mi" aria-label="Descubrir sobre mí">
+          <span>{t.hero.footStart}</span>
+          <a href="#sobre-mi" aria-label={t.hero.scrollLabel}>
             <ArrowDownIcon />
           </a>
-          <span>Personas, perros y gatos</span>
+          <span>{t.hero.footEnd}</span>
         </div>
       </div>
     </section>
   );
 }
 
-export function About() {
+export function About({ t }: { t: Dictionary }) {
   return (
     <section
       className="section about-section"
@@ -85,10 +96,10 @@ export function About() {
     >
       <div className="container about-grid">
         <div>
-          <h2 id="about-title">{site.about.title}</h2>
+          <h2 id="about-title">{t.about.title}</h2>
         </div>
         <div className="about-copy">
-          {site.about.paragraphs.map((text) => (
+          {t.about.paragraphs.map((text) => (
             <p key={text}>
               <RichText text={text} />
             </p>
@@ -99,7 +110,7 @@ export function About() {
   );
 }
 
-export function Services() {
+export function Services({ t }: { t: Dictionary }) {
   return (
     <section
       className="section services-section"
@@ -108,10 +119,10 @@ export function Services() {
     >
       <div className="container">
         <div className="section-heading">
-          <h2 id="services-title">{site.services.title}</h2>
+          <h2 id="services-title">{t.services.title}</h2>
         </div>
         <div className="services-grid">
-          {site.services.items.map((item) => (
+          {t.services.items.map((item) => (
             <article className="service" key={item.title}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
@@ -131,14 +142,15 @@ export function Services() {
             </article>
           ))}
         </div>
-        <p className="consultation-details">{site.services.note}</p>
+        <p className="consultation-details">{t.services.note}</p>
       </div>
     </section>
   );
 }
 
-export function Outreach() {
-  const { outreach, socials, press } = site;
+export function Outreach({ t }: { t: Dictionary }) {
+  const { outreach } = t;
+  const { books, socials, press } = site;
   return (
     <section
       className="section outreach-section"
@@ -151,12 +163,12 @@ export function Outreach() {
         </h2>
         <div className="outreach-book">
           <h3 className="outreach-subtitle">{outreach.booksTitle}</h3>
-          {site.books.length ? (
+          {books.length ? (
             <div
-              className={`book-grid ${site.books.length === 1 ? "single-book" : ""}`}
+              className={`book-grid ${books.length === 1 ? "single-book" : ""}`}
             >
-              {site.books.map((book) => (
-                <article className="book" key={book.title}>
+              {books.map((book) => (
+                <article className="book" key={book.id}>
                   <div className="book-cover">
                     <div className="book-cover-inner">
                       <Image
@@ -164,7 +176,7 @@ export function Outreach() {
                         width={book.coverWidth}
                         height={book.coverHeight}
                         sizes="(max-width: 600px) 220px, 240px"
-                        alt={`Portada de ${book.title}, de ${book.author}`}
+                        alt={outreach.coverAlt(book.title, book.author)}
                       />
                     </div>
                   </div>
@@ -175,26 +187,21 @@ export function Outreach() {
                     <p>
                       {book.publisher}, {book.year}
                     </p>
-                    <p>{book.description}</p>
-                    {book.pages && (
-                      <p>{book.pages} páginas · Edición impresa</p>
-                    )}
-                    {book.isbn && <p>ISBN: {book.isbn}</p>}
-                    {book.links.map((link) => (
-                      <a
-                        className="text-link"
-                        href={link.url}
-                        key={link.url}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        {link.label}
-                        <span className="visually-hidden">
-                          {" "}
-                          (nueva pestaña)
-                        </span>
-                      </a>
-                    ))}
+                    <p>{t.books[book.id]}</p>
+                    <p>{outreach.printEdition(book.pages)}</p>
+                    <p>ISBN: {book.isbn}</p>
+                    <a
+                      className="text-link"
+                      href={book.url}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {outreach.bookCta}
+                      <span className="visually-hidden">
+                        {" "}
+                        {t.common.newTab}
+                      </span>
+                    </a>
                   </div>
                 </article>
               ))}
@@ -203,22 +210,15 @@ export function Outreach() {
             <div className="books-pending">
               <div
                 className="cover-placeholder"
-                aria-label="Espacio reservado para una portada real"
+                aria-label={outreach.coverPendingLabel}
               >
                 <BookIcon />
-                <span>
-                  Portada
-                  <br />
-                  pendiente
-                </span>
+                <span>{outreach.coverPending}</span>
               </div>
               <div>
-                <h4>Un espacio para sus publicaciones</h4>
-                <p>{site.outreach.booksPending}</p>
-                <p className="editorial-note">
-                  Los libros se mostrarán aquí cuando se incorporen sus datos
-                  reales.
-                </p>
+                <h4>{outreach.booksPendingTitle}</h4>
+                <p>{outreach.booksPending}</p>
+                <p className="editorial-note">{outreach.booksPendingNote}</p>
               </div>
             </div>
           )}
@@ -228,9 +228,10 @@ export function Outreach() {
             <h3 className="outreach-subtitle">{outreach.socialsTitle}</h3>
             {socials.length ? (
               <ExternalLinks
+                newTab={t.common.newTab}
                 links={socials.map((social) => ({
                   heading: social.name,
-                  text: social.description,
+                  text: t.socials[social.id],
                   url: social.url,
                   icon: social.id,
                 }))}
@@ -242,9 +243,10 @@ export function Outreach() {
           <div>
             <h3 className="outreach-subtitle">{outreach.pressTitle}</h3>
             <ExternalLinks
+              newTab={t.common.newTab}
               links={press.map((item) => ({
                 heading: item.outlet,
-                text: item.title,
+                text: t.press[item.id],
                 url: item.url,
               }))}
             />
@@ -255,7 +257,7 @@ export function Outreach() {
   );
 }
 
-export function Collaborations() {
+export function Collaborations({ t }: { t: Dictionary }) {
   return (
     <section
       id="colaboraciones"
@@ -264,17 +266,17 @@ export function Collaborations() {
     >
       <div className="container collaboration-grid">
         <div>
-          <h2 id="collaboration-title">{site.collaborations.title}</h2>
+          <h2 id="collaboration-title">{t.collaborations.title}</h2>
         </div>
         <div>
-          <p>{site.collaborations.description}</p>
+          <p>{t.collaborations.description}</p>
           <ul className="collaboration-tags">
-            {site.collaborations.tags.map((tag) => (
+            {t.collaborations.tags.map((tag) => (
               <li key={tag}>{tag}</li>
             ))}
           </ul>
           <a className="button button-light" href="#contacto">
-            {site.collaborations.cta}
+            {t.collaborations.cta}
           </a>
         </div>
       </div>

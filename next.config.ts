@@ -3,6 +3,8 @@ const config: NextConfig = {
   output: "export",
   trailingSlash: true,
   poweredByHeader: false,
+  // Routes live under app/[lang], so unmatched URLs need a 404 of their own.
+  experimental: { globalNotFound: true },
   images: {
     loader: "custom",
     loaderFile: "./src/lib/static-image-loader.ts",

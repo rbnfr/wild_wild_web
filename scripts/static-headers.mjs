@@ -47,6 +47,18 @@ export function securityHeaders(csp) {
 // RFC 8288: every HTML page points agents at the site summary.
 export const HTML_LINK_HEADER = "</llms.txt>; rel=describedby";
 
+// URLs from before the site had languages, now under the Spanish prefix.
+// Permanent (301) so search engines move the existing ranking to them.
+export const LEGACY_REDIRECTS = {
+  "/aviso-legal/": "/es/aviso-legal/",
+  "/privacidad/": "/es/privacidad/",
+  "/cookies/": "/es/cookies/",
+};
+
+export function legacyRedirect(pathname) {
+  return LEGACY_REDIRECTS[pathname.endsWith("/") ? pathname : `${pathname}/`];
+}
+
 export function cacheControl(pathname) {
   if (isImmutable(pathname)) return `public, max-age=${ONE_YEAR}, immutable`;
   return "no-cache";
@@ -64,6 +76,11 @@ AddDefaultCharset utf-8
 <Files "opengraph-image">
 ForceType image/png
 </Files>
+<IfModule mod_alias.c>
+${Object.entries(LEGACY_REDIRECTS)
+  .map(([from, to]) => `RedirectMatch 301 ^${from.slice(0, -1)}/?$ ${to}`)
+  .join("\n")}
+</IfModule>
 <IfModule mod_mime.c>
 AddType image/avif .avif
 AddType image/webp .webp

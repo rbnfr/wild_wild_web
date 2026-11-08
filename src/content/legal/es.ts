@@ -1,17 +1,15 @@
-import { site } from "@/content/site";
+import { email, ownerLines } from "./owner";
 
-const { owner, taxId, address, email } = site.legal;
-const pending = "pendiente de completar";
+const owner = ownerLines({
+  owner: "Titular",
+  taxId: "NIF",
+  address: "Domicilio",
+  email: "Correo electrónico",
+  pending: "pendiente de completar",
+});
 
-const ownerLines = [
-  `Titular: ${owner}`,
-  `NIF: ${taxId || pending}`,
-  `Domicilio: ${address || pending}`,
-  `Correo electrónico: ${email}`,
-];
-
-export const legalPages = {
-  "aviso-legal": {
+export const legal = {
+  legalNotice: {
     title: "Aviso legal",
     description: "Identificación del titular y condiciones de uso del sitio.",
     sections: [
@@ -19,7 +17,7 @@ export const legalPages = {
         title: "Titular del sitio",
         paragraphs: [
           "En cumplimiento del artículo 10 de la Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), se informa de los datos del titular de este sitio web:",
-          ...ownerLines,
+          ...owner,
         ],
       },
       {
@@ -47,14 +45,11 @@ export const legalPages = {
       },
     ],
   },
-  privacidad: {
+  privacy: {
     title: "Política de privacidad",
     description: "Cómo se tratan los datos que envías por correo electrónico.",
     sections: [
-      {
-        title: "Responsable del tratamiento",
-        paragraphs: ownerLines,
-      },
+      { title: "Responsable del tratamiento", paragraphs: owner },
       {
         title: "Qué datos se tratan y para qué",
         paragraphs: [
@@ -95,8 +90,14 @@ export const legalPages = {
       {
         title: "Uso de cookies",
         paragraphs: [
-          "Este sitio no utiliza cookies propias ni de terceros con fines analíticos, publicitarios o de personalización, ni guarda información en tu navegador. Por eso no se muestra un aviso de cookies.",
+          "Este sitio no utiliza cookies propias ni de terceros con fines analíticos, publicitarios o de personalización. Por eso no se muestra un aviso de cookies.",
           "Solo podrían emplearse cookies técnicas estrictamente necesarias para el funcionamiento del alojamiento, que están exentas de consentimiento según el artículo 22.2 de la LSSI-CE.",
+        ],
+      },
+      {
+        title: "Preferencia de idioma",
+        paragraphs: [
+          "Si cambias el idioma con el selector, tu navegador guarda esa elección (almacenamiento local, clave «lang») para mostrarte el mismo idioma en tu próxima visita. Es una preferencia que tú solicitas, no identifica a nadie, no se envía a ningún servidor y está exenta de consentimiento según el artículo 22.2 de la LSSI-CE. Puedes borrarla desde la configuración de tu navegador.",
         ],
       },
       {
@@ -107,4 +108,4 @@ export const legalPages = {
       },
     ],
   },
-} as const;
+};

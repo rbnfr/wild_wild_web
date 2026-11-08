@@ -1,4 +1,7 @@
 import { site } from "@/content/site";
+import { getDictionary } from "@/content/dictionaries";
+import { defaultLocale, localeDetails, locales } from "@/i18n/config";
+import { href } from "@/i18n/routes";
 import { sitePages } from "@/lib/seo";
 
 type Entry = { label: string; url: string; note?: string };
@@ -11,68 +14,76 @@ const list = (entries: Entry[]) =>
     )
     .join("\n");
 
-// Plain Markdown summary of the site for language models (https://llmstxt.org/).
-export function llmsTxt(url: URL): string {
-  const at = (path: string) => new URL(path, url).href;
-  const { about, services, outreach, socials, books, press } = site;
-  const { collaborations, contact } = site;
+// Plain Markdown summary of the site for language models (https://llmstxt.org/),
+// written in the default language and pointing at every translation.
+export function llmsTxt(url: URL, lang = defaultLocale): string {
+  const t = getDictionary(lang);
+  const at = (hash = "") => new URL(href(lang, "home", hash), url).href;
+  const { about, services, outreach, collaborations, contact } = t;
   return `${[
     `# ${site.name}`,
-    `> ${site.seo.description}`,
-    site.hero.description,
-    "## Sobre mí",
+    `> ${t.seo.description}`,
+    t.hero.description,
+    `## ${t.header.nav.about}`,
     ...about.paragraphs,
-    "## Servicios",
+    `## ${t.header.nav.services}`,
     services.note,
     list(
       services.items.map((service) => ({
         label: service.title,
-        url: at("/#servicios"),
+        url: at("#servicios"),
         note: service.topics.length
-          ? `${service.description} Temas: ${service.topics.join(", ")}.`
+          ? `${service.description} ${t.llms.topics}: ${service.topics.join(", ")}.`
           : service.description,
       })),
     ),
-    "## Divulgación",
+    `## ${t.header.nav.outreach}`,
     `### ${outreach.socialsTitle}`,
     list(
-      socials.map((social) => ({
+      site.socials.map((social) => ({
         label: social.name,
         url: social.url,
-        note: social.description,
+        note: t.socials[social.id],
       })),
     ),
     `### ${outreach.booksTitle}`,
     list(
-      books.flatMap((book) =>
-        book.links.map((link) => ({
-          label: `${book.title} (${book.publisher}, ${book.year})`,
-          url: link.url,
-          note: book.description,
-        })),
-      ),
+      site.books.map((book) => ({
+        label: `${book.title} (${book.publisher}, ${book.year})`,
+        url: book.url,
+        note: t.books[book.id],
+      })),
     ),
     `### ${outreach.pressTitle}`,
     list(
-      press.map((item) => ({
-        label: `${item.outlet}: ${item.title}`,
+      site.press.map((item) => ({
+        label: `${item.outlet}: ${t.press[item.id]}`,
         url: item.url,
       })),
     ),
-    "## Colaboraciones",
+    `## ${t.header.nav.collaborations}`,
     `${collaborations.description} ${collaborations.tags.join(", ")}.`,
-    list([{ label: "Presentar una propuesta", url: at("/#colaboraciones") }]),
-    "## Contacto",
+    list([{ label: collaborations.cta, url: at("#colaboraciones") }]),
+    `## ${t.llms.contact}`,
     contact.description,
     list([
-      { label: "Formulario de contacto", url: at("/#contacto") },
-      { label: "Correo electrónico", url: `mailto:${contact.email}` },
+      { label: t.llms.contactForm, url: at("#contacto") },
+      { label: t.llms.email, url: `mailto:${site.contactEmail}` },
     ]),
     "## Optional",
-    list(
-      sitePages
-        .slice(1)
-        .map((page) => ({ label: page.title, url: at(page.path) })),
-    ),
+    list([
+      ...locales
+        .filter((code) => code !== lang)
+        .map((code) => ({
+          label: `${site.name} (${localeDetails[code].name})`,
+          url: new URL(href(code), url).href,
+        })),
+      ...sitePages
+        .filter((page) => page.lang === lang && page.page !== "home")
+        .map((page) => ({
+          label: page.title,
+          url: new URL(page.path, url).href,
+        })),
+    ]),
   ].join("\n\n")}\n`;
 }

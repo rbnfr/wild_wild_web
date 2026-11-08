@@ -4,6 +4,8 @@ import {
   buildHtaccess,
   cacheControl,
   HTML_LINK_HEADER,
+  LEGACY_REDIRECTS,
+  legacyRedirect,
   securityHeaders,
 } from "../../scripts/static-headers.mjs";
 
@@ -35,5 +37,17 @@ describe("static headers", () => {
     expect(htaccess).toContain("Options -Indexes");
     expect(htaccess).toContain("expr=%{HTTPS} == 'on'");
     expect(htaccess).toContain(`Header set Link "${HTML_LINK_HEADER}"`);
+  });
+
+  it("moves pre-language URLs permanently to their Spanish page", () => {
+    expect(legacyRedirect("/aviso-legal")).toBe("/es/aviso-legal/");
+    expect(legacyRedirect("/privacidad/")).toBe("/es/privacidad/");
+    expect(legacyRedirect("/es/cookies/")).toBeUndefined();
+    expect(legacyRedirect("/")).toBeUndefined();
+    const htaccess = buildHtaccess(csp);
+    for (const [from, to] of Object.entries(LEGACY_REDIRECTS))
+      expect(htaccess).toContain(
+        `RedirectMatch 301 ^${from.slice(0, -1)}/?$ ${to}`,
+      );
   });
 });

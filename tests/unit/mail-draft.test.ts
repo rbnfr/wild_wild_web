@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { contactSchema } from "@/lib/contact/schema";
 import { createMailDraft } from "@/lib/contact/mail-draft";
+import { getDictionary } from "@/content/dictionaries";
 
+const es = getDictionary("es").contact.form.mail;
+const en = getDictionary("en").contact.form.mail;
 const input = {
   name: "Ana García",
   email: "ana@example.com",
@@ -15,6 +18,7 @@ describe("mail draft", () => {
     const draft = createMailDraft(
       contactSchema.parse(input),
       "mary@example.com",
+      es,
     );
     const url = new URL(draft.href);
     expect(url.protocol).toBe("mailto:");
@@ -26,6 +30,18 @@ describe("mail draft", () => {
     expect(url.searchParams.get("body")).toContain(input.message);
     expect(draft.text).toContain("Nombre: Ana García");
   });
+  it("labels the draft in the visitor's language", () => {
+    const draft = createMailDraft(
+      contactSchema.parse(input),
+      "mary@example.com",
+      en,
+    );
+    expect(new URL(draft.href).searchParams.get("subject")).toBe(
+      "Talk or event — Contact with Mary Granero",
+    );
+    expect(draft.text).toMatch(/^To: mary@example.com\nSubject: /);
+    expect(draft.text).toContain("Name: Ana García");
+  });
   it("includes optional contact information and preserves long messages in the copyable fallback", () => {
     const value = contactSchema.parse({
       ...input,
@@ -33,7 +49,7 @@ describe("mail draft", () => {
       phone: "+34 123456789",
       message: "á".repeat(4000),
     });
-    const draft = createMailDraft(value, "mary@example.com");
+    const draft = createMailDraft(value, "mary@example.com", es);
     expect(draft.text).toContain(value.message);
     expect(draft.text).toContain(value.company);
     expect(draft.text).toContain(value.phone);

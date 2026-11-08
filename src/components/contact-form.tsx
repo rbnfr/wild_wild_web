@@ -1,13 +1,16 @@
 "use client";
 import { useRef, useState, type FormEvent } from "react";
-import { site } from "@/content/site";
 import { ArrowUpRightIcon } from "@/components/icon";
-import { contactSchema } from "@/lib/contact/schema";
+import type { Dictionary } from "@/content/dictionaries";
+import {
+  contactReasons,
+  contactSchema,
+  type ContactError,
+} from "@/lib/contact/schema";
 import { createMailDraft } from "@/lib/contact/mail-draft";
 const fields = [
   {
     name: "name",
-    label: "Nombre",
     type: "text",
     autoComplete: "name",
     maxLength: 100,
@@ -15,7 +18,6 @@ const fields = [
   },
   {
     name: "email",
-    label: "Email",
     type: "email",
     autoComplete: "email",
     maxLength: 254,
@@ -23,7 +25,6 @@ const fields = [
   },
   {
     name: "company",
-    label: "Empresa u organización",
     type: "text",
     autoComplete: "organization",
     maxLength: 150,
@@ -31,7 +32,6 @@ const fields = [
   },
   {
     name: "phone",
-    label: "Teléfono",
     type: "tel",
     autoComplete: "tel",
     maxLength: 40,
@@ -39,7 +39,15 @@ const fields = [
   },
 ] as const;
 
-export function ContactForm() {
+export function ContactForm({
+  t,
+  email,
+  privacyHref,
+}: {
+  t: Dictionary["contact"]["form"];
+  email: string;
+  privacyHref: string;
+}) {
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [message, setMessage] = useState("");
   const [draft, setDraft] = useState<ReturnType<typeof createMailDraft> | null>(
@@ -64,34 +72,31 @@ export function ContactForm() {
       const nextErrors: Record<string, string[]> = {};
       for (const issue of parsed.error.issues) {
         const key = String(issue.path[0]);
-        nextErrors[key] = [...(nextErrors[key] ?? []), issue.message];
+        const text = t.errors[issue.message as ContactError] ?? issue.message;
+        nextErrors[key] = [...(nextErrors[key] ?? []), text];
       }
       setErrors(nextErrors);
       setDraft(null);
-      setMessage("Revisa los campos indicados antes de preparar el correo.");
+      setMessage(t.status.invalid);
       form
         .querySelector<HTMLElement>(`[name="${Object.keys(nextErrors)[0]}"]`)
         ?.focus();
       return;
     }
     setErrors({});
-    setDraft(createMailDraft(parsed.data, site.contact.email));
-    setMessage("Borrador preparado. Todavía no se ha enviado ningún correo.");
+    setDraft(createMailDraft(parsed.data, email, t.mail));
+    setMessage(t.status.ready);
   };
 
   const copyDraft = async () => {
     if (!draft) return;
     try {
       await navigator.clipboard.writeText(draft.text);
-      setMessage(
-        "Borrador copiado. Pégalo en tu correo, revísalo y envíalo desde allí.",
-      );
+      setMessage(t.status.copied);
     } catch {
       draftText.current?.focus();
       draftText.current?.select();
-      setMessage(
-        "No se ha podido copiar automáticamente. El borrador está seleccionado para que lo copies manualmente.",
-      );
+      setMessage(t.status.copyFailed);
     }
   };
   const errorFor = (name: string) =>
@@ -109,18 +114,15 @@ export function ContactForm() {
         setDraft(null);
         setMessage("");
       }}
-      aria-label="Formulario de contacto"
+      aria-label={t.label}
     >
-      <p className="form-note">
-        Los campos con * son obligatorios. Prepararemos un correo para que lo
-        envíes desde tu aplicación; también podrás copiarlo.
-      </p>
+      <p className="form-note">{t.note}</p>
       <div className="form-grid">
         {fields.map((field) => (
           <div className="form-field" key={field.name}>
             <label htmlFor={field.name}>
-              {field.label}
-              {field.required ? " *" : " (opcional)"}
+              {t.fields[field.name]}
+              {field.required ? " *" : ` ${t.optional}`}
             </label>
             <input
               id={field.name}
@@ -139,7 +141,7 @@ export function ContactForm() {
         ))}
       </div>
       <div className="form-field">
-        <label htmlFor="reason">Motivo de contacto *</label>
+        <label htmlFor="reason">{t.reason} *</label>
         <select
           id="reason"
           name="reason"
@@ -149,18 +151,18 @@ export function ContactForm() {
           aria-describedby={errors.reason ? "reason-error" : undefined}
         >
           <option value="" disabled>
-            Selecciona un motivo
+            {t.reasonPlaceholder}
           </option>
-          {site.contact.reasons.map((reason) => (
-            <option key={reason.value} value={reason.value}>
-              {reason.label}
+          {contactReasons.map((reason) => (
+            <option key={reason} value={reason}>
+              {t.mail.reasons[reason]}
             </option>
           ))}
         </select>
         {errorFor("reason")}
       </div>
       <div className="form-field">
-        <label htmlFor="message">Tu mensaje *</label>
+        <label htmlFor="message">{t.message} *</label>
         <textarea
           id="message"
           name="message"
@@ -172,7 +174,7 @@ export function ContactForm() {
           aria-describedby={`message-help${errors.message ? " message-error" : ""}`}
         />
         <span className="field-help" id="message-help">
-          Entre 20 y 4.000 caracteres. No incluyas datos sensibles.
+          {t.messageHelp}
         </span>
         {errorFor("message")}
       </div>
@@ -187,35 +189,30 @@ export function ContactForm() {
             aria-describedby={errors.privacy ? "privacy-error" : undefined}
           />
           <label htmlFor="privacy">
-            He leído y acepto la{" "}
-            <a href="/privacidad/">política de privacidad</a>. *
+            {t.privacyAccept} <a href={privacyHref}>{t.privacyLink}</a>. *
           </label>
         </div>
         {errorFor("privacy")}
       </div>
       <button className="button submit-button" type="submit">
-        Preparar correo
+        {t.submit}
         <span aria-hidden="true">
           <ArrowUpRightIcon />
         </span>
       </button>
       {draft && (
         <div className="mail-draft">
-          <h3>Tu correo está preparado</h3>
-          <p>
-            Ábrelo en tu aplicación, revisa el contenido y pulsa enviar allí. Si
-            no tienes una aplicación configurada, copia el borrador en tu correo
-            habitual.
-          </p>
+          <h3>{t.draft.title}</h3>
+          <p>{t.draft.text}</p>
           <div className="draft-actions">
             <a className="button" href={draft.href}>
-              Abrir mi aplicación de correo
+              {t.draft.open}
             </a>
             <button className="draft-copy" type="button" onClick={copyDraft}>
-              Copiar borrador
+              {t.draft.copy}
             </button>
           </div>
-          <label htmlFor="draft-content">Borrador para copiar</label>
+          <label htmlFor="draft-content">{t.draft.label}</label>
           <textarea
             ref={draftText}
             id="draft-content"
@@ -228,9 +225,7 @@ export function ContactForm() {
       <noscript>
         <style>{".contact-form > :not(noscript) { display: none; }"}</style>
         <p>
-          Para usar el formulario, activa JavaScript. También puedes escribir
-          directamente a{" "}
-          <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+          {t.noscript} <a href={`mailto:${email}`}>{email}</a>.
         </p>
       </noscript>
       <p
