@@ -6,13 +6,18 @@ AddDefaultCharset utf-8
 <Files "opengraph-image">
 ForceType image/png
 </Files>
+<IfModule mod_alias.c>
+RedirectMatch 301 ^/aviso-legal/?$ /es/aviso-legal/
+RedirectMatch 301 ^/privacidad/?$ /es/privacidad/
+RedirectMatch 301 ^/cookies/?$ /es/cookies/
+</IfModule>
 <IfModule mod_mime.c>
 AddType image/avif .avif
 AddType image/webp .webp
 AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-0zTkBKZed36Tq0rHCq7D4VmX/2Rc9gtJP+HlePxdOJU=' 'sha256-69pmegaoY2DBjuE4/Jswr+5Urwgy4ecovGGvr0kwK7k=' 'sha256-ES/htVCkc9dvmiE8YELC4W5HeMRFWXGdPqehIzDpnjM=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Xg3ihd7h/VU0nGPBBYjqA0FWRtQuXFtf8SVejMhrp60=' 'sha256-cpkzqCHtiQ+z4RAJe1wAvl0bxy4Djzb5j09tjzQtAMA=' 'sha256-pFXMpV7JafNfAarZTPut2mCiERk1BxiqHZ1D71LRVWc=' 'sha256-r7nqoXwzySiLLv81E8dMJp6hYwXUrU7MYvd2bKJ84Ik='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-+f7mxmiDubcTRysskaGHzZg4cn4QY5BPHQHE6QaToLc=' 'sha256-/HG0zdk5Y73W2vR/aByTp3A4Nc2n0U1FSNAfs7knccQ=' 'sha256-7tkKdU1zORBGqd3t71MlW+gh710kfHJBAWyYtEkyz1o=' 'sha256-8AWobz6RuwxGDrw+8mBxNZ2ZxSjBhJ5MJkrj3w52XPg=' 'sha256-BfrnZqvDi0RkHdFZ3bZFSdkMCD4Lkexh1VRUZuhpsmA=' 'sha256-G3iuYQ3JuNYEJNewyyL+FvH5Rw7btTcUtb6mr0jMQdo=' 'sha256-ItAkjGjkvvksrCg1NGuuTa2TP4twBYAeBVgsO0f7H8s=' 'sha256-J8MvEe4gOEJRONKSv3gNxGHfrkuHxnMpIFjSdkx6/t8=' 'sha256-JzHXNZrqtV2GDGHmv4e55xgRbD8oDv5MqI7PQ6YHoK8=' 'sha256-Kv0PTj3WW6N2LRohmm24SNk2AJmXomXQuJvIWR33CU4=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Oyl7XVpvefwIr/ETKymd8VNvCup4OHAIcWlAQWQ3uv4=' 'sha256-QoW40i914rZ4q9nD/IVrTVMGYWgHhCOydhIEYVKfNjE=' 'sha256-lBnHiYNnUzu6bTVpWIlPTW2cgbmuMLcJ+kccgf3pjCw=' 'sha256-px7qZamanrkuMrtderE8BRTnHVuYnrX9fp4XD564WGw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"

@@ -1,5 +1,0 @@
-:HL["/_next/static/chunks/08txwygrgez8m.css","style"]
-:HL["/_next/static/media/figtree-s.p.08sr_7r2rzxl4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-2:[["children",{"s":"__PAGE__","h":160}]]
-1:[["children",{"s":"aviso-legal","h":64,"c":"$Q2"}]]
-0:{"b":"6XE7UtIwBmv3S-gJBSkTB","t":{"t":{"s":"","h":16,"c":"$Q1"}}}

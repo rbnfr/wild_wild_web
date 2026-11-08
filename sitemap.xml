@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <url>
-<loc>https://marywildbehavior.com/</loc>
-<lastmod>2026-11-06T07:26:21Z</lastmod>
+<loc>https://marywildbehavior.com/es/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
 </url>
 <url>
-<loc>https://marywildbehavior.com/aviso-legal/</loc>
-<lastmod>2026-11-05T18:57:28Z</lastmod>
+<loc>https://marywildbehavior.com/es/aviso-legal/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/aviso-legal/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/legal-notice/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/aviso-legal/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
 </url>
 <url>
-<loc>https://marywildbehavior.com/privacidad/</loc>
-<lastmod>2026-11-05T18:57:28Z</lastmod>
+<loc>https://marywildbehavior.com/es/privacidad/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/privacidad/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/privacy/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/privacidad/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
 </url>
 <url>
-<loc>https://marywildbehavior.com/cookies/</loc>
-<lastmod>2026-11-05T18:57:28Z</lastmod>
+<loc>https://marywildbehavior.com/es/cookies/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/cookies/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/cookies/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/cookies/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
+</url>
+<url>
+<loc>https://marywildbehavior.com/en/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
+</url>
+<url>
+<loc>https://marywildbehavior.com/en/legal-notice/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/aviso-legal/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/legal-notice/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/aviso-legal/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
+</url>
+<url>
+<loc>https://marywildbehavior.com/en/privacy/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/privacidad/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/privacy/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/privacidad/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
+</url>
+<url>
+<loc>https://marywildbehavior.com/en/cookies/</loc>
+<xhtml:link rel="alternate" hreflang="es" href="https://marywildbehavior.com/es/cookies/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://marywildbehavior.com/en/cookies/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://marywildbehavior.com/es/cookies/" />
+<lastmod>2026-11-09T00:06:28+01:00</lastmod>
 </url>
 </urlset>
