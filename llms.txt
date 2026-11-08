@@ -20,9 +20,9 @@ Actualmente sigo ayudando a familias multiespecie a mejorar su convivencia y tra
 
 Consultas online y presenciales en la Región de Murcia. Para casos especiales, puedo desplazarme a la Comunidad Valenciana y Andalucía; también al resto de España, con un coste de desplazamiento mayor. Consulta disponibilidad y presupuesto según el destino.
 
-- [Etología canina](https://marywildbehavior.com/#servicios): Asesoramiento sobre problemas de comportamiento, bienestar y convivencia. Temas: Miedos e inseguridad, Problemas de convivencia, Conductas relacionadas con la separación, Reactividad, Enriquecimiento ambiental, Adaptación y cambios en el entorno.
-- [Etología felina](https://marywildbehavior.com/#servicios): Asesoramiento sobre problemas de comportamiento, bienestar y convivencia. Temas: Eliminación inadecuada, Conflictos entre gatos, Estrés y cambios ambientales, Enriquecimiento ambiental, Adaptación al hogar, Problemas relacionados con el bienestar y la convivencia.
-- [Asesoramiento a protectoras](https://marywildbehavior.com/#servicios): Experiencia en enriquecimiento ambiental, protocolos de manejo y asesoramiento para protectoras y residencias caninas.
+- [Etología canina](https://marywildbehavior.com/es/#servicios): Asesoramiento sobre problemas de comportamiento, bienestar y convivencia. Temas: Miedos e inseguridad, Problemas de convivencia, Conductas relacionadas con la separación, Reactividad, Enriquecimiento ambiental, Adaptación y cambios en el entorno.
+- [Etología felina](https://marywildbehavior.com/es/#servicios): Asesoramiento sobre problemas de comportamiento, bienestar y convivencia. Temas: Eliminación inadecuada, Conflictos entre gatos, Estrés y cambios ambientales, Enriquecimiento ambiental, Adaptación al hogar, Problemas relacionados con el bienestar y la convivencia.
+- [Asesoramiento a protectoras](https://marywildbehavior.com/es/#servicios): Experiencia en enriquecimiento ambiental, protocolos de manejo y asesoramiento para protectoras y residencias caninas.
 
 ## Divulgación
 
@@ -51,17 +51,18 @@ Consultas online y presenciales en la Región de Murcia. Para casos especiales, 
 
 Si representas a un medio, una editorial, una marca o una entidad y tienes una propuesta, este es tu punto de encuentro. Prensa y podcasts, Charlas y eventos, Proyectos editoriales, Colaboraciones.
 
-- [Presentar una propuesta](https://marywildbehavior.com/#colaboraciones)
+- [Presentar una propuesta](https://marywildbehavior.com/es/#colaboraciones)
 
 ## Contacto
 
 Para una consulta online o presencial (en la Región de Murcia), un proyecto, una charla o cualquier idea que se te ocurra, contacta conmigo y hablamos.
 
-- [Formulario de contacto](https://marywildbehavior.com/#contacto)
+- [Formulario de contacto](https://marywildbehavior.com/es/#contacto)
 - [Correo electrónico](mailto:wildbehaviorofficial@gmail.com)
 
 ## Optional
 
-- [Aviso legal](https://marywildbehavior.com/aviso-legal/)
-- [Política de privacidad](https://marywildbehavior.com/privacidad/)
-- [Política de cookies](https://marywildbehavior.com/cookies/)
+- [Mary Granero (English)](https://marywildbehavior.com/en/)
+- [Aviso legal](https://marywildbehavior.com/es/aviso-legal/)
+- [Política de privacidad](https://marywildbehavior.com/es/privacidad/)
+- [Política de cookies](https://marywildbehavior.com/es/cookies/)
