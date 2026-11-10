@@ -43,7 +43,7 @@ No debe parecer una clínica veterinaria, una protectora, una tienda de mascotas
 - Servicios confirmados: etología canina, etología felina (con sus áreas: miedos, convivencia, separación, reactividad, eliminación inadecuada, conflictos entre gatos, enriquecimiento, adaptación) y asesoramiento a protectoras.
 - Lema del inicio confirmado: «Etología · Divulgación · Mascotas».
 - Modalidades confirmadas: consultas online y presenciales en la Región de Murcia; desplazamientos según destino y presupuesto.
-- Indexación desactivada (`seo.readyToIndex: false`) hasta completar los datos jurídicos.
+- Indexación activada (`seo.readyToIndex: true`): la web es rastreable por buscadores. `robots.txt` permite búsqueda y respuestas de IA, pero no entrenamiento de modelos.
 - Textos legales mínimos redactados (LSSI y RGPD). Pendiente: NIF y domicilio de la titular, que completará el usuario; no se deben inventar.
 - Prioridades del proyecto, en orden: funcionamiento, seguridad, accesibilidad, rendimiento, mantenibilidad, SEO, calidad visual y efectos. Ningún efecto justifica perder rendimiento, accesibilidad o claridad.
 
