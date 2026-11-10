@@ -8,7 +8,7 @@ const config: NextConfig = {
   images: {
     loader: "custom",
     loaderFile: "./src/lib/static-image-loader.ts",
-    deviceSizes: [320, 480, 640, 704, 854],
+    deviceSizes: [320, 480, 640, 854, 1024],
     imageSizes: [160, 240, 297],
   },
 };

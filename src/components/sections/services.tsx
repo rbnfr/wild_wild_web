@@ -1,6 +1,8 @@
 import { ArrowUpRightIcon } from "@/components/icon";
+import { StaticImage as Image } from "@/components/static-image";
 import type { Dictionary } from "@/content/dictionaries";
 import { sectionHash, sectionIds } from "@/content/sections";
+import { site } from "@/content/site";
 
 export function Services({ t }: { t: Dictionary }) {
   return (
@@ -15,7 +17,16 @@ export function Services({ t }: { t: Dictionary }) {
         </h2>
         <div className="services-grid">
           {t.services.items.map((item) => (
-            <article className="service" key={item.title}>
+            <article className="service" key={item.id}>
+              <div className="service-image">
+                <Image
+                  src={site.serviceImages[item.id]}
+                  alt={item.imageAlt}
+                  fill
+                  sizes="(max-width: 900px) calc(100vw - 40px), 390px"
+                  loading="lazy"
+                />
+              </div>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               {item.topics.length > 0 && (

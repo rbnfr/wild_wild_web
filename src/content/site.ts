@@ -3,6 +3,7 @@
 // Sources and unresolved details are documented in docs/content-sources.md.
 
 export type SocialId = "instagram" | "tiktok" | "youtube" | "facebook" | "x";
+export type ServiceId = "canine" | "feline" | "shelters";
 
 export const site = {
   name: "Mary Granero",
@@ -21,7 +22,21 @@ export const site = {
       "meta-externalagent",
     ],
   },
-  heroImage: "/images/portrait_01.jpg",
+  heroImage: "/images/mary_principal.jpg",
+  // Photographs shown as a stack of prints in "Sobre mí". All are square.
+  aboutPhotos: [
+    { id: "with-dog", src: "/images/sobre_mi_01.jpg" },
+    { id: "shelter-walk", src: "/images/sobre_mi_02.jpg" },
+    { id: "event-group", src: "/images/sobre_mi_03.jpg" },
+  ],
+  // Milliseconds each photograph stays on top before the next one is shown.
+  aboutPhotosInterval: 20_000,
+  // Illustrative photograph of each service card (3:2).
+  serviceImages: {
+    canine: "/images/servicio_canina.jpg",
+    feline: "/images/servicio_felina.jpg",
+    shelters: "/images/servicio_protectoras.jpg",
+  } satisfies Record<ServiceId, string>,
   // Presencial en la Región de Murcia; online y con desplazamiento, toda España.
   areaServed: [
     { type: "AdministrativeArea", name: "Región de Murcia" },
@@ -108,5 +123,6 @@ export const site = {
   },
 } as const;
 
+export type AboutPhotoId = (typeof site.aboutPhotos)[number]["id"];
 export type BookId = (typeof site.books)[number]["id"];
 export type PressId = (typeof site.press)[number]["id"];

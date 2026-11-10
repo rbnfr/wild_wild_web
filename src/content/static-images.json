@@ -1,16 +1,70 @@
 {
+  "/images/mary_principal.jpg": {
+    "160": "/images/generated/mary_principal-80350f88e82c-160.webp",
+    "240": "/images/generated/mary_principal-80350f88e82c-240.webp",
+    "320": "/images/generated/mary_principal-80350f88e82c-320.webp",
+    "480": "/images/generated/mary_principal-80350f88e82c-480.webp",
+    "640": "/images/generated/mary_principal-80350f88e82c-640.webp",
+    "854": "/images/generated/mary_principal-80350f88e82c-854.webp",
+    "1024": "/images/generated/mary_principal-80350f88e82c-1024.webp"
+  },
   "/images/portada_libro_01.jpg": {
     "160": "/images/generated/portada_libro_01-196beade053f-160.webp",
     "240": "/images/generated/portada_libro_01-196beade053f-240.webp",
     "297": "/images/generated/portada_libro_01-196beade053f-297.webp"
   },
-  "/images/portrait_01.jpg": {
-    "160": "/images/generated/portrait_01-66a95ea07ae6-160.webp",
-    "240": "/images/generated/portrait_01-66a95ea07ae6-240.webp",
-    "320": "/images/generated/portrait_01-66a95ea07ae6-320.webp",
-    "480": "/images/generated/portrait_01-66a95ea07ae6-480.webp",
-    "640": "/images/generated/portrait_01-66a95ea07ae6-640.webp",
-    "704": "/images/generated/portrait_01-66a95ea07ae6-704.webp",
-    "854": "/images/generated/portrait_01-66a95ea07ae6-854.webp"
+  "/images/servicio_canina.jpg": {
+    "160": "/images/generated/servicio_canina-bcf40474a82f-160.webp",
+    "240": "/images/generated/servicio_canina-bcf40474a82f-240.webp",
+    "320": "/images/generated/servicio_canina-bcf40474a82f-320.webp",
+    "480": "/images/generated/servicio_canina-bcf40474a82f-480.webp",
+    "640": "/images/generated/servicio_canina-bcf40474a82f-640.webp",
+    "854": "/images/generated/servicio_canina-bcf40474a82f-854.webp",
+    "1024": "/images/generated/servicio_canina-bcf40474a82f-1024.webp"
+  },
+  "/images/servicio_felina.jpg": {
+    "160": "/images/generated/servicio_felina-094768241c4a-160.webp",
+    "240": "/images/generated/servicio_felina-094768241c4a-240.webp",
+    "320": "/images/generated/servicio_felina-094768241c4a-320.webp",
+    "480": "/images/generated/servicio_felina-094768241c4a-480.webp",
+    "640": "/images/generated/servicio_felina-094768241c4a-640.webp",
+    "854": "/images/generated/servicio_felina-094768241c4a-854.webp",
+    "1024": "/images/generated/servicio_felina-094768241c4a-1024.webp"
+  },
+  "/images/servicio_protectoras.jpg": {
+    "160": "/images/generated/servicio_protectoras-4b979c7e26bb-160.webp",
+    "240": "/images/generated/servicio_protectoras-4b979c7e26bb-240.webp",
+    "320": "/images/generated/servicio_protectoras-4b979c7e26bb-320.webp",
+    "480": "/images/generated/servicio_protectoras-4b979c7e26bb-480.webp",
+    "640": "/images/generated/servicio_protectoras-4b979c7e26bb-640.webp",
+    "854": "/images/generated/servicio_protectoras-4b979c7e26bb-854.webp",
+    "1024": "/images/generated/servicio_protectoras-4b979c7e26bb-1024.webp"
+  },
+  "/images/sobre_mi_01.jpg": {
+    "160": "/images/generated/sobre_mi_01-144553d5e89f-160.webp",
+    "240": "/images/generated/sobre_mi_01-144553d5e89f-240.webp",
+    "320": "/images/generated/sobre_mi_01-144553d5e89f-320.webp",
+    "480": "/images/generated/sobre_mi_01-144553d5e89f-480.webp",
+    "640": "/images/generated/sobre_mi_01-144553d5e89f-640.webp",
+    "854": "/images/generated/sobre_mi_01-144553d5e89f-854.webp",
+    "1024": "/images/generated/sobre_mi_01-144553d5e89f-1024.webp"
+  },
+  "/images/sobre_mi_02.jpg": {
+    "160": "/images/generated/sobre_mi_02-b864486a11e5-160.webp",
+    "240": "/images/generated/sobre_mi_02-b864486a11e5-240.webp",
+    "320": "/images/generated/sobre_mi_02-b864486a11e5-320.webp",
+    "480": "/images/generated/sobre_mi_02-b864486a11e5-480.webp",
+    "640": "/images/generated/sobre_mi_02-b864486a11e5-640.webp",
+    "854": "/images/generated/sobre_mi_02-b864486a11e5-854.webp",
+    "1024": "/images/generated/sobre_mi_02-b864486a11e5-1024.webp"
+  },
+  "/images/sobre_mi_03.jpg": {
+    "160": "/images/generated/sobre_mi_03-a23bbe919534-160.webp",
+    "240": "/images/generated/sobre_mi_03-a23bbe919534-240.webp",
+    "320": "/images/generated/sobre_mi_03-a23bbe919534-320.webp",
+    "480": "/images/generated/sobre_mi_03-a23bbe919534-480.webp",
+    "640": "/images/generated/sobre_mi_03-a23bbe919534-640.webp",
+    "854": "/images/generated/sobre_mi_03-a23bbe919534-854.webp",
+    "964": "/images/generated/sobre_mi_03-a23bbe919534-964.webp"
   }
 }

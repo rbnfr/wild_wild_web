@@ -1,12 +1,23 @@
+/* The tilted prints and the one being turned may reach past a narrow screen. */
+.about-section {
+  overflow-x: clip;
+}
 .about-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: clamp(32px, 8vw, 110px);
   align-items: start;
 }
-.about-grid h2 {
-  position: sticky;
-  top: calc(var(--header-height) + 40px);
+.about-grid > * {
+  min-width: 0;
+}
+/* Title and photographs stay in sight while the story is read, when the
+   window is tall enough to hold them. */
+@media (min-width: 761px) and (min-height: 820px) {
+  .about-intro {
+    position: sticky;
+    top: calc(var(--header-height) + 32px);
+  }
 }
 .about-copy {
   max-width: 68ch;
@@ -20,8 +31,5 @@
 @media (max-width: 760px) {
   .about-grid {
     grid-template-columns: 1fr;
-  }
-  .about-grid h2 {
-    position: static;
   }
 }

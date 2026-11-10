@@ -7,12 +7,27 @@
   gap: clamp(16px, 2vw, 24px);
 }
 .service {
+  --pad-x: clamp(24px, 2.6vw, 32px);
+  --pad-top: clamp(28px, 3vw, 34px);
   display: flex;
   flex-direction: column;
-  padding: clamp(28px, 3vw, 34px) clamp(24px, 2.6vw, 32px) 20px;
+  padding: var(--pad-top) var(--pad-x) 20px;
+  overflow: hidden;
   background: var(--bg);
   border-radius: var(--radius-card);
   box-shadow: 0 24px 48px -36px rgb(12 39 80 / 0.45);
+}
+/* Illustrative photograph, bleeding to the edges of the card. The tint shows
+   while it loads, and the fixed ratio keeps the layout from shifting. */
+.service-image {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  margin: calc(-1 * var(--pad-top)) calc(-1 * var(--pad-x)) 24px;
+  overflow: hidden;
+  background: var(--tint-strong);
+}
+.service-image img {
+  object-fit: cover;
 }
 .service h3 {
   margin-bottom: 12px;

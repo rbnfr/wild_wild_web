@@ -29,7 +29,7 @@ describe("static headers", () => {
     );
     expect(cacheControl("/")).toBe("no-cache");
     expect(cacheControl("/index.html")).toBe("no-cache");
-    expect(cacheControl("/images/portrait_01.jpg")).toBe("no-cache");
+    expect(cacheControl("/images/mary_principal.jpg")).toBe("no-cache");
   });
 
   it("writes every security header into .htaccess", () => {

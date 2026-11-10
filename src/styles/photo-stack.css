@@ -1,0 +1,132 @@
+/*
+ * A pile of photographic prints (components/photo-stack.tsx). The component
+ * only sets --depth on each print (0 is the top); every pose and movement
+ * lives here.
+ */
+.photo-stack {
+  /* Fits the column, and the window when the column is sticky. */
+  width: min(100% - 28px, 400px, 44vh);
+  min-width: min(100% - 28px, 240px);
+  margin-top: clamp(28px, 4vw, 44px);
+}
+.photo-pile {
+  position: relative;
+  aspect-ratio: 1;
+  /* Horizontal drags turn the photograph; vertical ones still scroll. */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+.photo-pile:active {
+  cursor: grabbing;
+}
+.photo {
+  --tilt: calc(var(--depth) * 3.5deg - 2deg);
+  position: absolute;
+  inset: 0;
+  z-index: calc(10 - var(--depth));
+  padding: clamp(8px, 2.6%, 12px);
+  background: var(--bg);
+  border-radius: 6px;
+  box-shadow:
+    0 1px 2px rgb(12 39 80 / 0.14),
+    0 22px 40px -26px rgb(12 39 80 / 0.55);
+  transform: translate(calc(var(--depth) * 2.5%), calc(var(--depth) * 1.5%))
+    rotate(var(--tilt));
+}
+/* The picture box: tinted while the photograph loads. */
+.photo .picture-fill {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--tint-strong);
+}
+.photo img {
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.photo-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.photo-controls span {
+  min-width: 5ch;
+  text-align: center;
+}
+.photo-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--brand-deep);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+.photo-controls button:hover {
+  background: var(--tint);
+  border-color: var(--field-border);
+}
+.photo-pause {
+  margin-left: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photo {
+    transition: transform 0.7s var(--ease-out);
+  }
+  /* Forward: the top print is slid off, turning, and tucked under the pile. */
+  .photo.is-tossed {
+    animation: photo-toss 0.9s cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  @keyframes photo-toss {
+    0% {
+      z-index: 20;
+      transform: rotate(-2deg);
+    }
+    45% {
+      z-index: 20;
+      transform: translate(-60%, 5%) rotate(-14deg);
+    }
+    55% {
+      z-index: 0;
+      transform: translate(-60%, 5%) rotate(-14deg);
+    }
+    100% {
+      z-index: 0;
+    }
+  }
+  /* Back: the bottom print is pulled out and laid on top. */
+  .photo.is-fetched {
+    animation: photo-fetch 0.9s cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  @keyframes photo-fetch {
+    0% {
+      z-index: 0;
+    }
+    45% {
+      z-index: 0;
+      transform: translate(-60%, 5%) rotate(-14deg);
+    }
+    55% {
+      z-index: 20;
+      transform: translate(-60%, 5%) rotate(-14deg);
+    }
+    100% {
+      z-index: 20;
+    }
+  }
+}

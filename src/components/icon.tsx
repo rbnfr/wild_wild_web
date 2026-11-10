@@ -39,3 +39,15 @@ export const MailIcon = ({ size = 20 }: { size?: number }) => (
     d="M5.5 5h13A2.5 2.5 0 0 1 21 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 16.5v-9A2.5 2.5 0 0 1 5.5 5ZM4 7.5l8 6 8-6"
   />
 );
+export const ChevronLeftIcon = ({ size = 20 }: { size?: number }) => (
+  <LineIcon size={size} d="m15 6-6 6 6 6" />
+);
+export const ChevronRightIcon = ({ size = 20 }: { size?: number }) => (
+  <LineIcon size={size} d="m9 6 6 6-6 6" />
+);
+export const PauseIcon = ({ size = 18 }: { size?: number }) => (
+  <LineIcon size={size} d="M9 6v12M15 6v12" />
+);
+export const PlayIcon = ({ size = 18 }: { size?: number }) => (
+  <LineIcon size={size} d="M8 5.5v13l10.5-6.5Z" />
+);
