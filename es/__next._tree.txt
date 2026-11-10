@@ -2,4 +2,4 @@
 :HL["/_next/static/media/figtree-s.p.08sr_7r2rzxl4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:[["children",{"s":"__PAGE__","h":128}]]
 1:[["children",{"s":{"n":"lang","t":"d","k":"es","s":["llms.txt"]},"h":65584,"c":"$Q2"}]]
-0:{"b":"WjR9vRYRnPX42VXAZU0LI","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"n53GDR24kSjho-71KD602","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
