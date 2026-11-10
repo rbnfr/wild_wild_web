@@ -101,12 +101,20 @@ Las cabeceras, compresión y caché de producción dependen de que Hostinger apl
 
 Los textos legales continúan como borradores visibles; se han ajustado al flujo de correo local. Completa titular, datos fiscales, domicilio profesional, derechos y conservación, y revisa las condiciones reales antes de abrir el sitio al público. No se publican domicilio, fecha de nacimiento ni teléfono privados de los CV.
 
+## Estructura del código
+
+- `src/content/`: todo el contenido editable. `site.ts` (datos comunes), `dictionaries/` (textos por idioma), `sections.ts` (anclas de la portada) y `theme.ts` (los colores que se usan fuera del CSS).
+- `src/components/sections/`: una sección de la portada por archivo. `src/hooks/`: comportamiento reutilizable (sección activa, cierre de menús).
+- `src/styles/`: un archivo por zona (`header.css`, `hero.css`…), con `tokens.css` como única fuente de colores, radios y espaciados, y `motion.css` para todo el movimiento. `index.css` fija el orden.
+- `src/lib/contact/`: validación del formulario sin dependencias y generación del borrador de correo.
+
 ## Animaciones y efectos
 
-Los efectos visuales están en `src/app/effects.css`, separados de los estilos base. Sin JavaScript adicional, por lo que no afectan a la CSP:
+El movimiento está en `src/styles/motion.css`, separado de los estilos base y sin JavaScript, por lo que no afecta a la CSP:
 
+- Las secciones entran al desplazarse (animaciones ligadas al scroll con `animation-timeline: view()`); en navegadores sin soporte, el contenido se muestra sin animar.
+- La cabecera marca la sección en la que estás (`aria-current`, con `IntersectionObserver`) y dibuja una línea de progreso de lectura.
 - Portada del libro con volumen (lomo, cantos de página y sombra). Con ratón se gira y eleva al pasar el cursor o al enfocar su enlace con teclado; en pantallas táctiles se coloca suavemente al entrar en pantalla.
-- Cabecera que gana profundidad y un fondo translúcido al desplazarse, entrada breve del texto de portada, menú móvil animado, subrayados y flechas con micro-movimiento.
 - Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema se desactivan todas las animaciones.
 - El retrato de portada (elemento LCP) no se anima al cargar, porque retrasaría la métrica LCP.
 

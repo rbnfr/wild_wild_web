@@ -1,0 +1,27 @@
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(32px, 8vw, 110px);
+  align-items: start;
+}
+.about-grid h2 {
+  position: sticky;
+  top: calc(var(--header-height) + 40px);
+}
+.about-copy {
+  max-width: 68ch;
+}
+.about-copy strong {
+  color: var(--brand);
+}
+.about-copy .text-link {
+  margin-top: 4px;
+}
+@media (max-width: 760px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-grid h2 {
+    position: static;
+  }
+}

@@ -91,7 +91,9 @@ for (const { lang, page: pageId, path } of pages) {
         .evaluateAll((links) =>
           links
             .map((link) => link.getAttribute("href")!)
-            .filter((href) => !document.getElementById(href.split("#")[1])),
+            .filter(
+              (href) => !document.getElementById(href.split("#")[1] ?? ""),
+            ),
         );
       expect(brokenAnchors).toEqual([]);
       // Verify the exported local images, including the lazy-loaded cover.
@@ -419,7 +421,7 @@ test("security headers and crawl endpoints describe the published website", asyn
   expect((await request.get(chunk)).headers()["cache-control"]).toContain(
     "immutable",
   );
-  const policy = response.headers()["content-security-policy"];
+  const policy = response.headers()["content-security-policy"] ?? "";
   const scriptDirective = policy
     .split(";")
     .find((directive) => directive.trim().startsWith("script-src"))!;
@@ -464,7 +466,7 @@ test("book cover lifts on pointer hover and keyboard focus", async ({
   await expect.poll(transform).not.toBe(rest);
   await page.mouse.move(0, 0);
   await expect.poll(transform).toBe(rest);
-  await page.locator("#divulgacion .book a.text-link").focus();
+  await page.locator("#divulgacion .book a").focus();
   await expect.poll(transform).not.toBe(rest);
 });
 

@@ -44,7 +44,8 @@ export const es = {
     title: "Comprenderles cambia la forma de convivir.",
     description:
       "Ayudo a familias multiespecie a convivir en armonía. Conocer a nuestros peludos con evidencia científica nos ayuda a ofrecerles lo que necesitan para mejorar su bienestar y nuestra convivencia.",
-    primary: "¿Hablamos?",
+    primary: "Cuéntame tu caso",
+    secondary: "Propón una colaboración",
     imageAlt: "Retrato de Mary Granero, bióloga y etóloga canina y felina",
     socialsLabel: "Mis redes sociales",
     footStart: "Un espacio para entendernos mejor",
@@ -53,6 +54,7 @@ export const es = {
   },
   about: {
     title: "Detrás de cada comportamiento, hay algo que comprender.",
+    cta: "Mira cómo puedo ayudarte",
     paragraphs: [
       "Mi pasión por la ciencia me llevó a graduarme en biología en la Universidad de Murcia. Allí descubrí mi verdadera vocación: el **comportamiento animal**, lo que me llevó a cursar un Máster en Etología Aplicada e Intervención Asistida con Animales.",
       "Fue durante el máster cuando me di cuenta de que yo no quería trabajar con animales, sino para ellos. Por eso me especialicé en bienestar animal y durante las prácticas del máster ayudé a implementar planes de enriquecimiento ambiental en un centro de recuperación de especies para mejorar su calidad de vida.",
@@ -105,16 +107,7 @@ export const es = {
   outreach: {
     title: "Divulgación.",
     socialsTitle: "Redes",
-    socialsPending:
-      "Los nuevos perfiles se incorporarán cuando estén confirmados.",
     booksTitle: "Libro",
-    booksPending:
-      "Las nuevas publicaciones se incorporarán aquí cuando estén disponibles.",
-    booksPendingTitle: "Un espacio para sus publicaciones",
-    booksPendingNote:
-      "Los libros se mostrarán aquí cuando se incorporen sus datos reales.",
-    coverPending: "Portada pendiente",
-    coverPendingLabel: "Espacio reservado para una portada real",
     pressTitle: "Prensa",
     bookCta: "Consigue tu ejemplar",
     printEdition: (pages: number) => `${pages} páginas · Edición impresa`,

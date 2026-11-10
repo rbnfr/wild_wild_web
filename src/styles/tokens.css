@@ -1,0 +1,40 @@
+/* Design tokens. Colours used outside CSS are mirrored in src/content/theme.ts. */
+:root {
+  /* Surfaces */
+  --bg: #ffffff;
+  --tint: #ebf3fd;
+  --tint-strong: #d7e7f9;
+  --line: #cfdeef;
+  /* Text */
+  --ink: #0f2744;
+  --muted: #4a5e78;
+  /* Brand blue */
+  --brand: #1559b5;
+  --brand-deep: #0c3a7a;
+  --brand-band: linear-gradient(135deg, #0c3a7a 0%, #1559b5 60%, #1a64c6 100%);
+  --sky: #8fc2ff;
+  --on-brand: #ffffff;
+  --on-brand-muted: #e6effc;
+  --on-brand-line: rgb(255 255 255 / 0.28);
+  --selection: #cfe1fb;
+  /* Forms and states */
+  --field-border: #7c93b3;
+  --error: #b3261e;
+  /* Shape */
+  --radius: 999px;
+  --radius-card: 20px;
+  --radius-field: 12px;
+  --shadow-soft: 0 18px 40px -24px rgb(12 39 80 / 0.45);
+  /* Layout */
+  --gutter: clamp(16px, 5vw, 48px);
+  --container: 1220px;
+  --header-height: 84px;
+  --section-space: clamp(64px, 9vw, 112px);
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (max-width: 760px) {
+  :root {
+    --header-height: 72px;
+  }
+}

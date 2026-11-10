@@ -4,7 +4,7 @@ import { getDictionary } from "@/content/dictionaries";
 import { defaultLocale, locales } from "@/i18n/config";
 import { href } from "@/i18n/routes";
 import { sans } from "./fonts";
-import "./globals.css";
+import "@/styles/index.css";
 
 // Unknown URLs have no language of their own, so the 404 speaks both.
 export const metadata: Metadata = {

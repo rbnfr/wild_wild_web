@@ -1,0 +1,39 @@
+.collaborations-section {
+  background-color: var(--brand-deep);
+  background-image: var(--brand-band);
+  color: var(--on-brand);
+}
+.collaborations-section :focus-visible {
+  outline-color: var(--on-brand);
+}
+.collaboration-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(32px, 8vw, 100px);
+  align-items: center;
+}
+.collaboration-grid h2 {
+  color: var(--on-brand);
+}
+.collaboration-grid p {
+  margin: 0;
+  font-size: 17px;
+  color: var(--on-brand-muted);
+}
+.collaboration-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block: 26px 30px;
+}
+.collaboration-tags li {
+  padding: 7px 14px;
+  border: 1px solid var(--on-brand-line);
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+@media (max-width: 760px) {
+  .collaboration-grid {
+    grid-template-columns: 1fr;
+  }
+}

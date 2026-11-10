@@ -7,8 +7,6 @@ export type SocialId = "instagram" | "tiktok" | "youtube" | "facebook" | "x";
 export const site = {
   name: "Mary Granero",
   fullName: "María Dolores Granero Fernández",
-  contentStatus:
-    "Perfil actualizado con los CV y la ficha editorial. Contacto, modalidades y colaboraciones confirmados por el usuario. Versión estática con borrador de correo. Pendientes: datos jurídicos.",
   seo: {
     readyToIndex: true,
     // robots.txt policy: search engines and AI answers may use the content,

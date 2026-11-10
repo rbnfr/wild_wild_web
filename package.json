@@ -21,13 +21,10 @@
     "prepare:git": "npm run build && node scripts/prepare-git-deploy.mjs"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "4.3.3",
     "next": "16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "simple-icons": "16.35.0",
-    "tailwindcss": "4.3.3",
-    "zod": "4.6.7"
+    "simple-icons": "16.35.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

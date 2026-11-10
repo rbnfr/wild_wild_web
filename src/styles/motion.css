@@ -1,0 +1,249 @@
+/*
+ * Motion layer.
+ *  - Every element's natural (un-animated) state is its final state, so the
+ *    page is complete when animations are unsupported or disabled.
+ *  - Entrances are tied to scrolling itself (scroll-driven animations): no
+ *    JavaScript, no timers, nothing to animate off-screen.
+ *  - Hover effects only exist for devices with a precise pointer.
+ *  - prefers-reduced-motion switches all of it off.
+ */
+
+/* ---------- Pressed and focus feedback (all devices) ---------- */
+.button,
+.draft-copy {
+  transition:
+    background-color 0.25s,
+    border-color 0.25s,
+    box-shadow 0.35s var(--ease-out),
+    transform 0.35s var(--ease-out);
+}
+.button:active,
+.draft-copy:active {
+  transform: scale(0.98);
+}
+.text-link span[aria-hidden],
+.service-link span[aria-hidden],
+.submit-button span[aria-hidden],
+.social-arrow,
+.hero-foot a svg,
+.social-icons svg {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-out);
+}
+.main-nav > a:not(.button),
+.social-icons a,
+.hero-foot a {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+.social-link {
+  transition:
+    border-color 0.3s,
+    padding-left 0.4s var(--ease-out);
+}
+.service-link {
+  transition: border-color 0.3s;
+}
+
+/* ---------- Hover: only for precise pointers ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -16px rgb(12 58 122 / 0.6);
+  }
+  .button:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .text-link:hover span[aria-hidden],
+  .service-link:hover span[aria-hidden],
+  .submit-button:hover span[aria-hidden],
+  .social-link:hover .social-arrow {
+    transform: translate(3px, -3px);
+  }
+  .about-copy .text-link:hover span[aria-hidden],
+  .hero-foot a:hover svg {
+    transform: translateY(4px);
+  }
+  .hero-image img {
+    transition: transform 1.4s var(--ease-out);
+  }
+  .hero-figure:hover .hero-image img {
+    transform: scale(1.03);
+  }
+  .service-link:hover,
+  .social-link:hover {
+    border-color: var(--brand);
+  }
+  .social-link:hover {
+    padding-left: 10px;
+  }
+  .social-icons a:hover {
+    background-color: var(--tint);
+  }
+  .hero-socials a:hover,
+  .hero-foot a:hover {
+    background-color: rgb(255 255 255 / 0.14);
+  }
+  .footer-socials a:hover {
+    background-color: var(--bg);
+  }
+  .social-icons a:hover svg {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---------- Menus: short reveal answering the tap ---------- */
+  .main-nav.is-open,
+  .lang-switcher[open] .lang-options {
+    animation: menu-in 0.25s var(--ease-out) both;
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  /* ---------- Hero: one orchestrated entrance on load ---------- */
+  /* The portrait is the LCP element: it is never animated on load, because
+     any load animation on it delays the LCP metric until it ends. */
+  .hero-label,
+  .hero-copy h1,
+  .hero-description,
+  .hero-actions,
+  .hero-socials {
+    animation: rise 0.9s var(--ease-out) both;
+  }
+  .hero-copy h1 {
+    animation-delay: 0.06s;
+  }
+  .hero-description {
+    animation-delay: 0.14s;
+  }
+  .hero-actions {
+    animation-delay: 0.22s;
+  }
+  .hero-socials {
+    animation-delay: 0.3s;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    /* ---------- Header: depth and a reading-progress line ---------- */
+    .site-header {
+      animation: header-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 140px;
+    }
+    @keyframes header-lift {
+      to {
+        box-shadow: 0 12px 32px -26px rgb(12 39 80 / 0.5);
+      }
+    }
+    .site-header::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -1px;
+      height: 2px;
+      background: var(--brand);
+      transform-origin: 0 50%;
+      animation: progress linear both;
+      animation-timeline: scroll(root);
+    }
+    @keyframes progress {
+      from {
+        transform: scaleX(0);
+      }
+    }
+
+    /* ---------- Sections arrive as they scroll into view ---------- */
+    .section h2,
+    .about-copy > *,
+    .consultation-details,
+    .book-details,
+    .link-list > li,
+    .collaboration-grid > div,
+    .contact-copy > :not(h2),
+    .contact-form {
+      animation: arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+    @keyframes arrive {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+    }
+    /* Headings wipe in from the reading edge instead of fading. */
+    .section h2 {
+      animation-name: unveil;
+      animation-range: entry 10% entry 90%;
+    }
+    @keyframes unveil {
+      from {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+        transform: translateX(-16px);
+      }
+      to {
+        clip-path: inset(-10% -5% -10% -5%);
+      }
+    }
+    /* Service cards land one after another. */
+    .service {
+      animation: arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    .service:nth-child(2) {
+      animation-range: entry 12% entry 75%;
+    }
+    .service:nth-child(3) {
+      animation-range: entry 24% entry 95%;
+    }
+    .collaboration-tags li {
+      animation: pop linear both;
+      animation-timeline: view();
+      animation-range: entry 20% entry 120%;
+    }
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+    /* Touch screens have no hover: the cover settles into place instead. */
+    @media (hover: none), (pointer: coarse) {
+      .book-cover-inner {
+        animation: cover-settle linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 40%;
+      }
+    }
+    @keyframes cover-settle {
+      from {
+        transform: rotateY(-28deg) translateY(24px);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
