@@ -41,30 +41,66 @@
     "1024": "/images/generated/servicio_protectoras-4b979c7e26bb-1024.webp"
   },
   "/images/sobre_mi_01.jpg": {
-    "160": "/images/generated/sobre_mi_01-144553d5e89f-160.webp",
-    "240": "/images/generated/sobre_mi_01-144553d5e89f-240.webp",
-    "320": "/images/generated/sobre_mi_01-144553d5e89f-320.webp",
-    "480": "/images/generated/sobre_mi_01-144553d5e89f-480.webp",
-    "640": "/images/generated/sobre_mi_01-144553d5e89f-640.webp",
-    "854": "/images/generated/sobre_mi_01-144553d5e89f-854.webp",
-    "1024": "/images/generated/sobre_mi_01-144553d5e89f-1024.webp"
+    "160": "/images/generated/sobre_mi_01-bea511368a50-160.webp",
+    "240": "/images/generated/sobre_mi_01-bea511368a50-240.webp",
+    "320": "/images/generated/sobre_mi_01-bea511368a50-320.webp",
+    "480": "/images/generated/sobre_mi_01-bea511368a50-480.webp",
+    "640": "/images/generated/sobre_mi_01-bea511368a50-640.webp",
+    "854": "/images/generated/sobre_mi_01-bea511368a50-854.webp",
+    "1024": "/images/generated/sobre_mi_01-bea511368a50-1024.webp"
   },
   "/images/sobre_mi_02.jpg": {
-    "160": "/images/generated/sobre_mi_02-b864486a11e5-160.webp",
-    "240": "/images/generated/sobre_mi_02-b864486a11e5-240.webp",
-    "320": "/images/generated/sobre_mi_02-b864486a11e5-320.webp",
-    "480": "/images/generated/sobre_mi_02-b864486a11e5-480.webp",
-    "640": "/images/generated/sobre_mi_02-b864486a11e5-640.webp",
-    "854": "/images/generated/sobre_mi_02-b864486a11e5-854.webp",
-    "1024": "/images/generated/sobre_mi_02-b864486a11e5-1024.webp"
+    "160": "/images/generated/sobre_mi_02-b0de64594be2-160.webp",
+    "240": "/images/generated/sobre_mi_02-b0de64594be2-240.webp",
+    "320": "/images/generated/sobre_mi_02-b0de64594be2-320.webp",
+    "480": "/images/generated/sobre_mi_02-b0de64594be2-480.webp",
+    "640": "/images/generated/sobre_mi_02-b0de64594be2-640.webp",
+    "854": "/images/generated/sobre_mi_02-b0de64594be2-854.webp",
+    "964": "/images/generated/sobre_mi_02-b0de64594be2-964.webp"
   },
   "/images/sobre_mi_03.jpg": {
-    "160": "/images/generated/sobre_mi_03-a23bbe919534-160.webp",
-    "240": "/images/generated/sobre_mi_03-a23bbe919534-240.webp",
-    "320": "/images/generated/sobre_mi_03-a23bbe919534-320.webp",
-    "480": "/images/generated/sobre_mi_03-a23bbe919534-480.webp",
-    "640": "/images/generated/sobre_mi_03-a23bbe919534-640.webp",
-    "854": "/images/generated/sobre_mi_03-a23bbe919534-854.webp",
-    "964": "/images/generated/sobre_mi_03-a23bbe919534-964.webp"
+    "160": "/images/generated/sobre_mi_03-ffd1284f66a7-160.webp",
+    "240": "/images/generated/sobre_mi_03-ffd1284f66a7-240.webp",
+    "320": "/images/generated/sobre_mi_03-ffd1284f66a7-320.webp",
+    "480": "/images/generated/sobre_mi_03-ffd1284f66a7-480.webp",
+    "640": "/images/generated/sobre_mi_03-ffd1284f66a7-640.webp",
+    "854": "/images/generated/sobre_mi_03-ffd1284f66a7-854.webp",
+    "1024": "/images/generated/sobre_mi_03-ffd1284f66a7-1024.webp"
+  },
+  "/images/sobre_mi_04.jpg": {
+    "160": "/images/generated/sobre_mi_04-7d769af498c6-160.webp",
+    "240": "/images/generated/sobre_mi_04-7d769af498c6-240.webp",
+    "320": "/images/generated/sobre_mi_04-7d769af498c6-320.webp",
+    "480": "/images/generated/sobre_mi_04-7d769af498c6-480.webp",
+    "640": "/images/generated/sobre_mi_04-7d769af498c6-640.webp",
+    "854": "/images/generated/sobre_mi_04-7d769af498c6-854.webp",
+    "1024": "/images/generated/sobre_mi_04-7d769af498c6-1024.webp"
+  },
+  "/images/sobre_mi_05.jpg": {
+    "160": "/images/generated/sobre_mi_05-3879a65ea5a9-160.webp",
+    "240": "/images/generated/sobre_mi_05-3879a65ea5a9-240.webp",
+    "320": "/images/generated/sobre_mi_05-3879a65ea5a9-320.webp",
+    "480": "/images/generated/sobre_mi_05-3879a65ea5a9-480.webp",
+    "640": "/images/generated/sobre_mi_05-3879a65ea5a9-640.webp",
+    "854": "/images/generated/sobre_mi_05-3879a65ea5a9-854.webp",
+    "1024": "/images/generated/sobre_mi_05-3879a65ea5a9-1024.webp"
+  },
+  "/images/sobre_mi_06.jpg": {
+    "160": "/images/generated/sobre_mi_06-07e8e3d7f6cc-160.webp",
+    "240": "/images/generated/sobre_mi_06-07e8e3d7f6cc-240.webp",
+    "320": "/images/generated/sobre_mi_06-07e8e3d7f6cc-320.webp",
+    "480": "/images/generated/sobre_mi_06-07e8e3d7f6cc-480.webp",
+    "640": "/images/generated/sobre_mi_06-07e8e3d7f6cc-640.webp",
+    "854": "/images/generated/sobre_mi_06-07e8e3d7f6cc-854.webp",
+    "1024": "/images/generated/sobre_mi_06-07e8e3d7f6cc-1024.webp"
+  },
+  "/images/sobre_mi_07.jpg": {
+    "160": "/images/generated/sobre_mi_07-a41fdfe8b992-160.webp",
+    "240": "/images/generated/sobre_mi_07-a41fdfe8b992-240.webp",
+    "320": "/images/generated/sobre_mi_07-a41fdfe8b992-320.webp",
+    "480": "/images/generated/sobre_mi_07-a41fdfe8b992-480.webp",
+    "640": "/images/generated/sobre_mi_07-a41fdfe8b992-640.webp",
+    "854": "/images/generated/sobre_mi_07-a41fdfe8b992-854.webp",
+    "1024": "/images/generated/sobre_mi_07-a41fdfe8b992-1024.webp"
   }
 }
