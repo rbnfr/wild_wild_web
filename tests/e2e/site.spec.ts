@@ -12,6 +12,8 @@ const pages = locales.flatMap((lang) =>
 );
 const paths = pages.map(({ path }) => path);
 const wcag = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
+// Alt texts in the order the photo pile shows them.
+const photoAlts = site.aboutPhotos.map(({ id }) => es.about.photos.alt[id]);
 
 async function openPage(page: Page, path = "/es/") {
   await page.goto(path);
@@ -459,27 +461,28 @@ test("the photo pile turns in a loop with buttons and swipes, lazily loaded", as
   await openPage(page);
   const pile = page.getByRole("group", { name: es.about.photos.label });
   const top = pile.locator(".photo:not([aria-hidden=true]) img");
-  const alts = Object.values(es.about.photos.alt);
   // Below the fold: nothing but the hero image is requested eagerly.
   for (const image of await pile.locator("img").all())
     await expect(image).toHaveAttribute("loading", "lazy");
   await pile.scrollIntoViewIfNeeded();
-  await expect(top).toHaveAttribute("alt", alts[0]!);
+  await expect(top).toHaveAttribute("alt", photoAlts[0]!);
   const next = pile.getByRole("button", { name: es.about.photos.next });
-  for (const alt of [...alts.slice(1), alts[0]!]) {
+  for (const alt of [...photoAlts.slice(1), photoAlts[0]!]) {
     await next.click();
     await expect(top).toHaveAttribute("alt", alt);
   }
   await pile.getByRole("button", { name: es.about.photos.previous }).click();
-  await expect(top).toHaveAttribute("alt", alts.at(-1)!);
+  await expect(top).toHaveAttribute("alt", photoAlts.at(-1)!);
   // Dragging to the left turns to the next photograph (back to the first).
   const box = (await pile.locator(".photo-pile").boundingBox())!;
   await page.mouse.move(box.x + box.width * 0.7, box.y + box.height / 2);
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.3, box.y + box.height / 2);
   await page.mouse.up();
-  await expect(top).toHaveAttribute("alt", alts[0]!);
-  await expect(pile.getByText("1 de 3")).toBeVisible();
+  await expect(top).toHaveAttribute("alt", photoAlts[0]!);
+  await expect(
+    pile.getByText(`1 de ${photoAlts.length}`, { exact: true }),
+  ).toBeVisible();
   expect(
     (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
@@ -494,13 +497,12 @@ test("the photo pile turns by itself and can be paused", async ({
   await openPage(page);
   const pile = page.getByRole("group", { name: es.about.photos.label });
   const top = pile.locator(".photo:not([aria-hidden=true]) img");
-  const alts = Object.values(es.about.photos.alt);
   await page.clock.runFor(site.aboutPhotosInterval + 500);
-  await expect(top).toHaveAttribute("alt", alts[1]!);
+  await expect(top).toHaveAttribute("alt", photoAlts[1]!);
   await pile.getByRole("button", { name: es.about.photos.pause }).click();
   await page.mouse.move(0, 0);
   await page.clock.runFor(site.aboutPhotosInterval * 2);
-  await expect(top).toHaveAttribute("alt", alts[1]!);
+  await expect(top).toHaveAttribute("alt", photoAlts[1]!);
   await expect(
     pile.getByRole("button", { name: es.about.photos.play }),
   ).toBeVisible();
