@@ -26,8 +26,12 @@ export const site = {
   // Photographs shown as a stack of prints in "Sobre mí". All are square.
   aboutPhotos: [
     { id: "with-dog", src: "/images/sobre_mi_01.jpg" },
-    { id: "shelter-walk", src: "/images/sobre_mi_02.jpg" },
-    { id: "event-group", src: "/images/sobre_mi_03.jpg" },
+    { id: "event-group", src: "/images/sobre_mi_02.jpg" },
+    { id: "awards-group", src: "/images/sobre_mi_03.jpg" },
+    { id: "book-signature", src: "/images/sobre_mi_04.jpg" },
+    { id: "wellbeing-conference", src: "/images/sobre_mi_05.jpg" },
+    { id: "shelter-walk", src: "/images/sobre_mi_06.jpg" },
+    { id: "with-cat", src: "/images/sobre_mi_07.jpg" },
   ],
   // Milliseconds each photograph stays on top before the next one is shown.
   aboutPhotosInterval: 20_000,

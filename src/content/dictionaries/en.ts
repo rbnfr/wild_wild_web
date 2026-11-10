@@ -67,6 +67,14 @@ export const en: Dictionary = {
         "shelter-walk":
           "Walking a black and tan dog on a lead in front of some kennels",
         "event-group": "Group photo of about thirty people at an event",
+        "awards-group":
+          "Group photo of fourteen badge-wearing people in front of the Edu-Con España 2026 Digital Educators Awards backdrop",
+        "book-signature":
+          "Mary sticks her tongue out and holds up her book «Lo que la ciencia sabe de tu gato» at a bookstall",
+        "wellbeing-conference":
+          "Mary seated at a laptop and microphone during an outdoor talk, with her book cover projected behind her",
+        "with-cat":
+          "Close-up of a tabby and white cat with amber eyes, with Mary peeking out behind it",
       },
     },
     paragraphs: [

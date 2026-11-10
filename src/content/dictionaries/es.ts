@@ -52,8 +52,7 @@ export const es = {
       "Ayudo a familias multiespecie a convivir en armonía. Conocer a nuestros peludos con evidencia científica nos ayuda a ofrecerles lo que necesitan para mejorar su bienestar y nuestra convivencia.",
     primary: "Cuéntame tu caso",
     secondary: "Propón una colaboración",
-    imageAlt:
-      "Mary Granero agachada junto a un perro negro y fuego en el monte",
+    imageAlt: "Mary Granero agachada junto a un perro negro en el monte",
     socialsLabel: "Mis redes sociales",
     footStart: "Un espacio para entendernos mejor",
     footEnd: "Personas, perros y gatos",
@@ -73,9 +72,17 @@ export const es = {
         "with-dog":
           "Mary sonríe junto a un perro de pelo largo castaño y blanco",
         "shelter-walk":
-          "Paseo con correa de un perro negro y fuego frente a unos cheniles",
+          "Paseo con correa de un perro negro frente a unos cheniles",
         "event-group":
           "Foto de grupo con una treintena de personas en un evento",
+        "awards-group":
+          "Foto de grupo de catorce personas con acreditación ante el panel de Edu-Con España 2026, Premios Educadores Digitales",
+        "book-signature":
+          "Mary saca la lengua y muestra su libro «Lo que la ciencia sabe de tu gato» en un puesto de libros",
+        "wellbeing-conference":
+          "Mary sentada ante un portátil y un micrófono en una charla al aire libre, con la portada de su libro proyectada detrás",
+        "with-cat":
+          "Primer plano de un gato atigrado y blanco de ojos ámbar, con Mary asomando tras él",
       } satisfies Record<AboutPhotoId, string>,
     },
     paragraphs: [
