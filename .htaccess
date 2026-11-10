@@ -7,6 +7,8 @@ AddDefaultCharset utf-8
 ForceType image/png
 </Files>
 <IfModule mod_alias.c>
+# Hidden files (.git from the Git deployment, .htaccess, .env) are never served.
+RedirectMatch 404 ^/\.(?!well-known/)
 RedirectMatch 301 ^/aviso-legal/?$ /es/aviso-legal/
 RedirectMatch 301 ^/privacidad/?$ /es/privacidad/
 RedirectMatch 301 ^/cookies/?$ /es/cookies/
@@ -17,11 +19,11 @@ AddType image/webp .webp
 AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-+f7mxmiDubcTRysskaGHzZg4cn4QY5BPHQHE6QaToLc=' 'sha256-/HG0zdk5Y73W2vR/aByTp3A4Nc2n0U1FSNAfs7knccQ=' 'sha256-7tkKdU1zORBGqd3t71MlW+gh710kfHJBAWyYtEkyz1o=' 'sha256-8AWobz6RuwxGDrw+8mBxNZ2ZxSjBhJ5MJkrj3w52XPg=' 'sha256-BfrnZqvDi0RkHdFZ3bZFSdkMCD4Lkexh1VRUZuhpsmA=' 'sha256-G3iuYQ3JuNYEJNewyyL+FvH5Rw7btTcUtb6mr0jMQdo=' 'sha256-ItAkjGjkvvksrCg1NGuuTa2TP4twBYAeBVgsO0f7H8s=' 'sha256-J8MvEe4gOEJRONKSv3gNxGHfrkuHxnMpIFjSdkx6/t8=' 'sha256-JzHXNZrqtV2GDGHmv4e55xgRbD8oDv5MqI7PQ6YHoK8=' 'sha256-Kv0PTj3WW6N2LRohmm24SNk2AJmXomXQuJvIWR33CU4=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-Oyl7XVpvefwIr/ETKymd8VNvCup4OHAIcWlAQWQ3uv4=' 'sha256-QoW40i914rZ4q9nD/IVrTVMGYWgHhCOydhIEYVKfNjE=' 'sha256-lBnHiYNnUzu6bTVpWIlPTW2cgbmuMLcJ+kccgf3pjCw=' 'sha256-px7qZamanrkuMrtderE8BRTnHVuYnrX9fp4XD564WGw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-7t3F4tpuAOlpE89U4d1KLMFsPvQjsk9TAO5SMOmx7s8=' 'sha256-HdhBgjiN/GQBBwOn9t12gzqHz1KdnRB6sk+kjZ/KPsc=' 'sha256-ItAkjGjkvvksrCg1NGuuTa2TP4twBYAeBVgsO0f7H8s=' 'sha256-JIW04Pr+q3zMDbNGWw1xfkyEL+kmf2a/4kJYKJJjjdE=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-P38cst4Dng+/zKqe7ayQ+9lW1GELnosHrRuM1xaa9PY=' 'sha256-QoW40i914rZ4q9nD/IVrTVMGYWgHhCOydhIEYVKfNjE=' 'sha256-Uao8mj2xJ/NAbWJd8lPpoZONMLoOF6I2lmNrAG8QCUk=' 'sha256-V3BnL71INIGf1dMbTwWhZIpDvcIEBQVMYib3Hnv3l7Y=' 'sha256-bO8wZYa+h+uK2EdIBo9SODfibccBu4SCfOdTAk828Qo=' 'sha256-fHRbNznNxV0BUWOAIHd86awUt6rS3BEameDTMn2i8yE=' 'sha256-lPQiz3MG3UNC2CJ9pqn6fgYVvHNXvyD30R2BJVl3Ge8=' 'sha256-qnpKoL66MHpqXrjhSZqyK/gjupYaYdrcgSJPyx1YB4g=' 'sha256-rYOERlUlPJ0rxhm2R6aPbQVx6HthyBDFDLtPVnPByUk=' 'sha256-zwlMb6dfjnqPSMIQbKzg6qxu66olpHUFBUII5H5BFJc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
 Header always set Cross-Origin-Opener-Policy "same-origin"
 Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
 <FilesMatch "\.html$">
