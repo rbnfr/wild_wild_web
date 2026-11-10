@@ -15,6 +15,8 @@ describe("static headers", () => {
   it("builds a strict, deterministic CSP from script hashes", () => {
     expect(csp).toContain("script-src 'self' 'sha256-a' 'sha256-b'");
     expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).toContain("worker-src 'none'");
+    expect(csp).toContain("img-src 'self' data:;");
     expect(csp).not.toMatch(/unsafe-(?:eval)|script-src[^;]*unsafe-inline/);
   });
 
@@ -27,7 +29,7 @@ describe("static headers", () => {
     );
     expect(cacheControl("/")).toBe("no-cache");
     expect(cacheControl("/index.html")).toBe("no-cache");
-    expect(cacheControl("/images/portrait_01.jpg")).toBe("no-cache");
+    expect(cacheControl("/images/mary_principal.jpg")).toBe("no-cache");
   });
 
   it("writes every security header into .htaccess", () => {
@@ -35,6 +37,7 @@ describe("static headers", () => {
     for (const [name, value] of Object.entries(securityHeaders(csp)))
       expect(htaccess).toContain(`Header always set ${name} "${value}"`);
     expect(htaccess).toContain("Options -Indexes");
+    expect(htaccess).toContain("RedirectMatch 404 ^/\\.(?!well-known/)");
     expect(htaccess).toContain("expr=%{HTTPS} == 'on'");
     expect(htaccess).toContain(`Header set Link "${HTML_LINK_HEADER}"`);
   });

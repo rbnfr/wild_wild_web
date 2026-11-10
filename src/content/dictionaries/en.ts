@@ -1,3 +1,4 @@
+import type { ServiceId } from "@/content/site";
 import type { Dictionary } from "./index";
 import { legal } from "@/content/legal/en";
 
@@ -42,8 +43,10 @@ export const en: Dictionary = {
     title: "Understanding them changes how we live together.",
     description:
       "I help multispecies families live together in harmony. Getting to know our furry companions through scientific evidence helps us give them what they need, improving their wellbeing and our life together.",
-    primary: "Shall we talk?",
-    imageAlt: "Portrait of Mary Granero, biologist and dog and cat ethologist",
+    primary: "Tell me about your case",
+    secondary: "Propose a collaboration",
+    imageAlt:
+      "Mary Granero crouching beside a black and tan dog in the countryside",
     socialsLabel: "My social media",
     footStart: "A space to understand each other better",
     footEnd: "People, dogs and cats",
@@ -51,6 +54,21 @@ export const en: Dictionary = {
   },
   about: {
     title: "Behind every behaviour, there is something to understand.",
+    cta: "See how I can help",
+    photos: {
+      label: "Photographs of my work",
+      previous: "Previous photograph",
+      next: "Next photograph",
+      pause: "Stop the automatic slideshow",
+      play: "Resume the automatic slideshow",
+      position: "{current} of {total}",
+      alt: {
+        "with-dog": "Mary smiles beside a long-haired brown and white dog",
+        "shelter-walk":
+          "Walking a black and tan dog on a lead in front of some kennels",
+        "event-group": "Group photo of about thirty people at an event",
+      },
+    },
     paragraphs: [
       "My passion for science led me to a degree in biology at the University of Murcia. There I found my true calling, **animal behaviour**, which led me to a Master’s in Applied Ethology and Animal-Assisted Intervention.",
       "It was during the master’s that I realised I didn’t want to work with animals, but for them. So I specialised in animal welfare, and during my master’s placement I helped implement environmental enrichment plans at a wildlife recovery centre to improve the animals’ quality of life.",
@@ -64,6 +82,8 @@ export const en: Dictionary = {
     note: "Online consultations, and in-person consultations in the Region of Murcia. For special cases I can travel to the Valencia region and Andalusia, and to the rest of Spain at a higher travel cost. Ask about availability and pricing for your location.",
     items: [
       {
+        id: "canine" as ServiceId,
+        imageAlt: "Three dogs sitting on the grass in a park",
         title: "Dog ethology",
         description:
           "Advice on behaviour problems, welfare and living together.",
@@ -78,6 +98,8 @@ export const en: Dictionary = {
         tag: "Ask about my dog",
       },
       {
+        id: "feline" as ServiceId,
+        imageAlt: "Calico cat lying on the arm of a sofa",
         title: "Cat ethology",
         description:
           "Advice on behaviour problems, welfare and living together.",
@@ -92,6 +114,8 @@ export const en: Dictionary = {
         tag: "Ask about my cat",
       },
       {
+        id: "shelters" as ServiceId,
+        imageAlt: "Two German shepherds in a kennel",
         title: "Advice for animal shelters",
         description:
           "Experience in environmental enrichment, handling protocols and advice for animal shelters and dog boarding centres.",
@@ -103,13 +127,7 @@ export const en: Dictionary = {
   outreach: {
     title: "Outreach.",
     socialsTitle: "Social media",
-    socialsPending: "New profiles will be added once confirmed.",
     booksTitle: "Book (in Spanish)",
-    booksPending: "New publications will appear here when available.",
-    booksPendingTitle: "A space for her publications",
-    booksPendingNote: "Books will appear here once their details are added.",
-    coverPending: "Cover coming soon",
-    coverPendingLabel: "Placeholder for a book cover",
     pressTitle: "Press (in Spanish)",
     bookCta: "Get your copy",
     printEdition: (pages: number) => `${pages} pages · Print edition`,

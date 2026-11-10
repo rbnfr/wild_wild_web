@@ -1,43 +1,3 @@
-export function BookIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="40"
-      height="40"
-      viewBox="0 0 40 40"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 11c-4-3-9-3-14-2v23c5-1 10-1 14 2 4-3 9-3 14-2V9c-5-1-10-1-14 2Z" />
-      <path d="M20 11v23M11 15h4M25 15h4" />
-    </svg>
-  );
-}
-
-export function MailIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="2.5" />
-      <path d="m4 7.5 8 6 8-6" />
-    </svg>
-  );
-}
-
 // Line icons share one stroke so arrows, menu and mail read as one family.
 function LineIcon({ size, d }: { size: number; d: string }) {
   return (
@@ -69,4 +29,25 @@ export const MenuIcon = ({ size = 22 }: { size?: number }) => (
 );
 export const CloseIcon = ({ size = 22 }: { size?: number }) => (
   <LineIcon size={size} d="M6 6l12 12M18 6 6 18" />
+);
+export const ChevronDownIcon = ({ size = 14 }: { size?: number }) => (
+  <LineIcon size={size} d="m6 9 6 6 6-6" />
+);
+export const MailIcon = ({ size = 20 }: { size?: number }) => (
+  <LineIcon
+    size={size}
+    d="M5.5 5h13A2.5 2.5 0 0 1 21 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 16.5v-9A2.5 2.5 0 0 1 5.5 5ZM4 7.5l8 6 8-6"
+  />
+);
+export const ChevronLeftIcon = ({ size = 20 }: { size?: number }) => (
+  <LineIcon size={size} d="m15 6-6 6 6 6" />
+);
+export const ChevronRightIcon = ({ size = 20 }: { size?: number }) => (
+  <LineIcon size={size} d="m9 6 6 6-6 6" />
+);
+export const PauseIcon = ({ size = 18 }: { size?: number }) => (
+  <LineIcon size={size} d="M9 6v12M15 6v12" />
+);
+export const PlayIcon = ({ size = 18 }: { size?: number }) => (
+  <LineIcon size={size} d="M8 5.5v13l10.5-6.5Z" />
 );

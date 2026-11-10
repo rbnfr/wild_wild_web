@@ -1,5 +1,6 @@
 export const dynamic = "force-static";
 import { ImageResponse } from "next/og";
+import { theme } from "@/content/theme";
 import { getDictionary } from "@/content/dictionaries";
 import { defaultLocale, hasLocale, locales } from "@/i18n/config";
 
@@ -17,9 +18,8 @@ export default async function Image({
   return new ImageResponse(
     <div
       style={{
-        background:
-          "linear-gradient(135deg, #0c3a7a 0%, #1559b5 60%, #1a64c6 100%)",
-        color: "#ffffff",
+        background: `linear-gradient(135deg, ${theme.brandDeep} 0%, ${theme.brand} 60%, ${theme.brandLight} 100%)`,
+        color: theme.onBrand,
         height: "100%",
         width: "100%",
         display: "flex",

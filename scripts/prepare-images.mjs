@@ -22,7 +22,7 @@ for (const item of await readdir("public/images", { withFileTypes: true })) {
   const digest = createHash("sha256").update(bytes).digest("hex").slice(0, 12);
   const widths = [
     ...new Set(
-      [160, 240, 320, 480, 640, 704, 854].map((width) =>
+      [160, 240, 320, 480, 640, 854, 1024].map((width) =>
         Math.min(width, metadata.width),
       ),
     ),

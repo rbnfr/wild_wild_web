@@ -6,17 +6,17 @@ import { site } from "@/content/site";
 import { getDictionary } from "@/content/dictionaries";
 import { hasLocale, localeDetails, locales } from "@/i18n/config";
 import { href } from "@/i18n/routes";
+import { theme } from "@/content/theme";
 import { siteUrl } from "@/lib/seo";
 import { sans } from "../fonts";
-import "../globals.css";
-import "../effects.css";
+import "@/styles/index.css";
 
 // HTML is generated at build time; the export step hashes its inline scripts for CSP.
 export const dynamicParams = false;
 export const generateStaticParams = () => locales.map((lang) => ({ lang }));
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: theme.background,
   colorScheme: "light",
 };
 

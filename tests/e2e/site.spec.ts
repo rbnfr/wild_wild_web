@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { getDictionary } from "../../src/content/dictionaries";
+import { site } from "../../src/content/site";
 import { locales } from "../../src/i18n/config";
 import { href, pageIds } from "../../src/i18n/routes";
 
@@ -91,7 +92,9 @@ for (const { lang, page: pageId, path } of pages) {
         .evaluateAll((links) =>
           links
             .map((link) => link.getAttribute("href")!)
-            .filter((href) => !document.getElementById(href.split("#")[1])),
+            .filter(
+              (href) => !document.getElementById(href.split("#")[1] ?? ""),
+            ),
         );
       expect(brokenAnchors).toEqual([]);
       // Verify the exported local images, including the lazy-loaded cover.
@@ -419,7 +422,7 @@ test("security headers and crawl endpoints describe the published website", asyn
   expect((await request.get(chunk)).headers()["cache-control"]).toContain(
     "immutable",
   );
-  const policy = response.headers()["content-security-policy"];
+  const policy = response.headers()["content-security-policy"] ?? "";
   const scriptDirective = policy
     .split(";")
     .find((directive) => directive.trim().startsWith("script-src"))!;
@@ -450,6 +453,79 @@ test("security headers and crawl endpoints describe the published website", asyn
   expect(await llms.text()).toMatch(/^# Mary Granero\n/);
 });
 
+test("the photo pile turns in a loop with buttons and swipes, lazily loaded", async ({
+  page,
+}) => {
+  await openPage(page);
+  const pile = page.getByRole("group", { name: es.about.photos.label });
+  const top = pile.locator(".photo:not([aria-hidden=true]) img");
+  const alts = Object.values(es.about.photos.alt);
+  // Below the fold: nothing but the hero image is requested eagerly.
+  for (const image of await pile.locator("img").all())
+    await expect(image).toHaveAttribute("loading", "lazy");
+  await pile.scrollIntoViewIfNeeded();
+  await expect(top).toHaveAttribute("alt", alts[0]!);
+  const next = pile.getByRole("button", { name: es.about.photos.next });
+  for (const alt of [...alts.slice(1), alts[0]!]) {
+    await next.click();
+    await expect(top).toHaveAttribute("alt", alt);
+  }
+  await pile.getByRole("button", { name: es.about.photos.previous }).click();
+  await expect(top).toHaveAttribute("alt", alts.at(-1)!);
+  // Dragging to the left turns to the next photograph (back to the first).
+  const box = (await pile.locator(".photo-pile").boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.7, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.3, box.y + box.height / 2);
+  await page.mouse.up();
+  await expect(top).toHaveAttribute("alt", alts[0]!);
+  await expect(pile.getByText("1 de 3")).toBeVisible();
+  expect(
+    (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
+  ).toEqual([]);
+});
+
+test("the photo pile turns by itself and can be paused", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ reducedMotion: "no-preference" });
+  const page = await context.newPage();
+  await page.clock.install();
+  await openPage(page);
+  const pile = page.getByRole("group", { name: es.about.photos.label });
+  const top = pile.locator(".photo:not([aria-hidden=true]) img");
+  const alts = Object.values(es.about.photos.alt);
+  await page.clock.runFor(site.aboutPhotosInterval + 500);
+  await expect(top).toHaveAttribute("alt", alts[1]!);
+  await pile.getByRole("button", { name: es.about.photos.pause }).click();
+  await page.mouse.move(0, 0);
+  await page.clock.runFor(site.aboutPhotosInterval * 2);
+  await expect(top).toHaveAttribute("alt", alts[1]!);
+  await expect(
+    pile.getByRole("button", { name: es.about.photos.play }),
+  ).toBeVisible();
+  await context.close();
+});
+
+test("service cards carry a lazy photograph and light up under the pointer", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openPage(page);
+  const cards = page.locator(".service");
+  await expect(cards.locator("img")).toHaveCount(es.services.items.length);
+  for (const image of await cards.locator("img").all()) {
+    await expect(image).toHaveAttribute("loading", "lazy");
+    await expect(image).toHaveAttribute("alt", /\S/);
+  }
+  const card = cards.first();
+  await card.scrollIntoViewIfNeeded();
+  const shadow = () => card.evaluate((e) => getComputedStyle(e).boxShadow);
+  const rest = await shadow();
+  await card.hover();
+  await expect.poll(shadow).not.toBe(rest);
+});
+
 test("book cover lifts on pointer hover and keyboard focus", async ({
   page,
 }) => {
@@ -464,7 +540,7 @@ test("book cover lifts on pointer hover and keyboard focus", async ({
   await expect.poll(transform).not.toBe(rest);
   await page.mouse.move(0, 0);
   await expect.poll(transform).toBe(rest);
-  await page.locator("#divulgacion .book a.text-link").focus();
+  await page.locator("#divulgacion .book a").focus();
   await expect.poll(transform).not.toBe(rest);
 });
 

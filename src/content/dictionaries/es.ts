@@ -1,4 +1,10 @@
-import type { BookId, PressId, SocialId } from "@/content/site";
+import type {
+  AboutPhotoId,
+  BookId,
+  PressId,
+  ServiceId,
+  SocialId,
+} from "@/content/site";
 import type { ContactError, ContactReason } from "@/lib/contact/schema";
 import { legal } from "@/content/legal/es";
 
@@ -44,8 +50,10 @@ export const es = {
     title: "Comprenderles cambia la forma de convivir.",
     description:
       "Ayudo a familias multiespecie a convivir en armonía. Conocer a nuestros peludos con evidencia científica nos ayuda a ofrecerles lo que necesitan para mejorar su bienestar y nuestra convivencia.",
-    primary: "¿Hablamos?",
-    imageAlt: "Retrato de Mary Granero, bióloga y etóloga canina y felina",
+    primary: "Cuéntame tu caso",
+    secondary: "Propón una colaboración",
+    imageAlt:
+      "Mary Granero agachada junto a un perro negro y fuego en el monte",
     socialsLabel: "Mis redes sociales",
     footStart: "Un espacio para entendernos mejor",
     footEnd: "Personas, perros y gatos",
@@ -53,6 +61,23 @@ export const es = {
   },
   about: {
     title: "Detrás de cada comportamiento, hay algo que comprender.",
+    cta: "Mira cómo puedo ayudarte",
+    photos: {
+      label: "Fotografías de mi trabajo",
+      previous: "Fotografía anterior",
+      next: "Fotografía siguiente",
+      pause: "Detener el pase automático",
+      play: "Reanudar el pase automático",
+      position: "{current} de {total}",
+      alt: {
+        "with-dog":
+          "Mary sonríe junto a un perro de pelo largo castaño y blanco",
+        "shelter-walk":
+          "Paseo con correa de un perro negro y fuego frente a unos cheniles",
+        "event-group":
+          "Foto de grupo con una treintena de personas en un evento",
+      } satisfies Record<AboutPhotoId, string>,
+    },
     paragraphs: [
       "Mi pasión por la ciencia me llevó a graduarme en biología en la Universidad de Murcia. Allí descubrí mi verdadera vocación: el **comportamiento animal**, lo que me llevó a cursar un Máster en Etología Aplicada e Intervención Asistida con Animales.",
       "Fue durante el máster cuando me di cuenta de que yo no quería trabajar con animales, sino para ellos. Por eso me especialicé en bienestar animal y durante las prácticas del máster ayudé a implementar planes de enriquecimiento ambiental en un centro de recuperación de especies para mejorar su calidad de vida.",
@@ -66,6 +91,8 @@ export const es = {
     note: "Consultas online y presenciales en la Región de Murcia. Para casos especiales, puedo desplazarme a la Comunidad Valenciana y Andalucía; también al resto de España, con un coste de desplazamiento mayor. Consulta disponibilidad y presupuesto según el destino.",
     items: [
       {
+        id: "canine" as ServiceId,
+        imageAlt: "Tres perros sentados sobre el césped de un parque",
         title: "Etología canina",
         description:
           "Asesoramiento sobre problemas de comportamiento, bienestar y convivencia.",
@@ -80,6 +107,8 @@ export const es = {
         tag: "Consultar por mi perro",
       },
       {
+        id: "feline" as ServiceId,
+        imageAlt: "Gata tricolor tumbada en el brazo de un sofá",
         title: "Etología felina",
         description:
           "Asesoramiento sobre problemas de comportamiento, bienestar y convivencia.",
@@ -94,6 +123,8 @@ export const es = {
         tag: "Consultar por mi gato",
       },
       {
+        id: "shelters" as ServiceId,
+        imageAlt: "Dos pastores alemanes en un chenil",
         title: "Asesoramiento a protectoras",
         description:
           "Experiencia en enriquecimiento ambiental, protocolos de manejo y asesoramiento para protectoras y residencias caninas.",
@@ -105,16 +136,7 @@ export const es = {
   outreach: {
     title: "Divulgación.",
     socialsTitle: "Redes",
-    socialsPending:
-      "Los nuevos perfiles se incorporarán cuando estén confirmados.",
     booksTitle: "Libro",
-    booksPending:
-      "Las nuevas publicaciones se incorporarán aquí cuando estén disponibles.",
-    booksPendingTitle: "Un espacio para sus publicaciones",
-    booksPendingNote:
-      "Los libros se mostrarán aquí cuando se incorporen sus datos reales.",
-    coverPending: "Portada pendiente",
-    coverPendingLabel: "Espacio reservado para una portada real",
     pressTitle: "Prensa",
     bookCta: "Consigue tu ejemplar",
     printEdition: (pages: number) => `${pages} páginas · Edición impresa`,

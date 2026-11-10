@@ -39,11 +39,11 @@ No debe parecer una clínica veterinaria, una protectora, una tienda de mascotas
 
 ## Capabilities and Constraints
 
-- Secciones actuales: inicio (con iconos de redes), Sobre mí, Servicios de etología, Divulgación (libro, redes y prensa), colaboraciones, contacto y páginas legales (aviso legal, privacidad, cookies). La formación, la trayectoria y las antiguas áreas de trabajo se retiraron a petición de la autora.
+- Secciones actuales: inicio (con iconos de redes), Sobre mí (con una pila de fotografías que se pasan solas, con el dedo o con botones), Servicios de etología (cada tarjeta con su fotografía), Divulgación (libro, redes y prensa), colaboraciones, contacto y páginas legales (aviso legal, privacidad, cookies). La formación, la trayectoria y las antiguas áreas de trabajo se retiraron a petición de la autora.
 - Servicios confirmados: etología canina, etología felina (con sus áreas: miedos, convivencia, separación, reactividad, eliminación inadecuada, conflictos entre gatos, enriquecimiento, adaptación) y asesoramiento a protectoras.
 - Lema del inicio confirmado: «Etología · Divulgación · Mascotas».
 - Modalidades confirmadas: consultas online y presenciales en la Región de Murcia; desplazamientos según destino y presupuesto.
-- Indexación desactivada (`seo.readyToIndex: false`) hasta completar los datos jurídicos.
+- Indexación activada (`seo.readyToIndex: true`): la web es rastreable por buscadores. `robots.txt` permite búsqueda y respuestas de IA, pero no entrenamiento de modelos.
 - Textos legales mínimos redactados (LSSI y RGPD). Pendiente: NIF y domicilio de la titular, que completará el usuario; no se deben inventar.
 - Prioridades del proyecto, en orden: funcionamiento, seguridad, accesibilidad, rendimiento, mantenibilidad, SEO, calidad visual y efectos. Ningún efecto justifica perder rendimiento, accesibilidad o claridad.
 
@@ -55,13 +55,13 @@ No debe parecer una clínica veterinaria, una protectora, una tienda de mascotas
 
 ## Evidence on Hand
 
-- Retrato de Mary: `public/images/portrait_01.jpg` (854 × 1280).
+- Fotografías facilitadas por la autora, en `public/images` (los originales, en `.docs/images`): imagen principal `mary_principal.jpg` (Mary con un perro), tres fotos para «Sobre mí» (`sobre_mi_01`–`03.jpg`) y una ilustrativa por servicio (`servicio_canina.jpg`, `servicio_felina.jpg`, `servicio_protectoras.jpg`).
 - Portada del libro: `public/images/portada_libro_01.jpg` (297 × 445). Ficha: Hestia, 2025, 304 páginas, ISBN 9788412967166, enlace de compra facilitado por la autora (`link.amazon/B0c9jJuJR`).
 - Prensa: Muy Interesante y 20 minutos (sobre el libro), dos artículos de La Vanguardia, uno de National Geographic y uno de Tvnoticias.
 - Publicación científica en *Aquaculture Research* (2019), DOI 10.1111/are.13955.
 - Perfiles oficiales: Instagram, TikTok, X (`wildbehav`) y YouTube, verificados desde el Linktree de Wild Behavior.
 - CV privados en `.docs/CVs`: fuente de datos, nunca se publican (ni domicilio, fecha de nacimiento, teléfono ni números de certificados).
-- **No existen y no se deben fabricar:** testimonios, clientes, cifras de seguidores, otras apariciones en prensa, tarifas, resultados clínicos ni fotografías de Mary con animales. Si se necesitan, se dejan como hueco identificado.
+- **No existen y no se deben fabricar:** testimonios, clientes, cifras de seguidores, otras apariciones en prensa, tarifas, resultados clínicos ni más fotografías que las facilitadas por la autora. Si se necesitan, se dejan como hueco identificado.
 
 ## Product Principles
 

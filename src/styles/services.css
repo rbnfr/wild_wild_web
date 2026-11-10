@@ -1,0 +1,82 @@
+.services-section {
+  background: var(--tint);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+}
+.service {
+  --pad-x: clamp(24px, 2.6vw, 32px);
+  --pad-top: clamp(28px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad-top) var(--pad-x) 20px;
+  overflow: hidden;
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  box-shadow: 0 24px 48px -36px rgb(12 39 80 / 0.45);
+}
+/* Illustrative photograph, bleeding to the edges of the card. The tint shows
+   while it loads, and the fixed ratio keeps the layout from shifting. */
+.service-image {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  margin: calc(-1 * var(--pad-top)) calc(-1 * var(--pad-x)) 24px;
+  overflow: hidden;
+  background: var(--tint-strong);
+}
+.service-image img {
+  object-fit: cover;
+}
+.service h3 {
+  margin-bottom: 12px;
+  color: var(--brand-deep);
+}
+.service p {
+  font-size: 15px;
+  color: var(--muted);
+}
+.service-topics {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+.service-topics li {
+  position: relative;
+  padding: 9px 0 9px 22px;
+  border-top: 1px solid var(--line);
+}
+.service-topics li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 18px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.service-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--brand);
+}
+.consultation-details {
+  max-width: 850px;
+  margin: 36px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}

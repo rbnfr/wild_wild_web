@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { usePathname } from "next/navigation";
+import { ChevronDownIcon } from "@/components/icon";
 import {
   locales,
   localeDetails,
   LOCALE_STORAGE_KEY,
   type Locale,
 } from "@/i18n/config";
+import { useDismiss } from "@/hooks/use-dismiss";
 import { translatePath } from "@/i18n/routes";
 
 function Flag({ lang }: { lang: Locale }) {
@@ -22,7 +24,7 @@ function Flag({ lang }: { lang: Locale }) {
   );
 }
 
-// <details> keeps the switcher usable without JavaScript; the effect only adds
+// <details> keeps the switcher usable without JavaScript; the hook only adds
 // closing on Escape and on outside clicks.
 export function LanguageSwitcher({
   lang,
@@ -33,26 +35,12 @@ export function LanguageSwitcher({
 }) {
   const pathname = usePathname();
   const details = useRef<HTMLDetailsElement>(null);
-  useEffect(() => {
+  useDismiss(details, (reason) => {
     const element = details.current;
-    if (!element) return;
-    const close = (event: Event) => {
-      if (!element.open) return;
-      if (event instanceof KeyboardEvent) {
-        if (event.key !== "Escape") return;
-        element.open = false;
-        element.querySelector("summary")?.focus();
-      } else if (!element.contains(event.target as Node)) {
-        element.open = false;
-      }
-    };
-    document.addEventListener("keydown", close);
-    document.addEventListener("click", close);
-    return () => {
-      document.removeEventListener("keydown", close);
-      document.removeEventListener("click", close);
-    };
-  }, []);
+    if (!element?.open) return;
+    element.open = false;
+    if (reason === "escape") element.querySelector("summary")?.focus();
+  });
   const remember = (code: Locale) => {
     try {
       localStorage.setItem(LOCALE_STORAGE_KEY, code);
@@ -66,21 +54,9 @@ export function LanguageSwitcher({
         <Flag lang={lang} />
         <span className="visually-hidden">{label}: </span>
         <span className="lang-name">{localeDetails[lang].name}</span>
-        <svg
-          className="lang-chevron"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        <span className="lang-chevron" aria-hidden="true">
+          <ChevronDownIcon />
+        </span>
       </summary>
       <ul className="lang-options" aria-label={label}>
         {locales.map((code) => (

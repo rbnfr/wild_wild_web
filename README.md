@@ -48,7 +48,7 @@ Si existe contenido previo, guarda una copia antes de cambiar el despliegue. Com
 
 La revisión del 7 de octubre de 2026 de `marywildbehavior.com` devuelve la página de dominio aparcado de Hostinger, no esta web. Vincula el dominio al sitio correcto en hPanel y comprueba que DNS apunte a la IP que indique ese alojamiento. No cambies DNS basándote en una IP deducida del repositorio. Un dominio aparcado y un 403 en la dirección temporal pueden ser problemas distintos.
 
-Diagnóstico confirmado en `https://lawngreen-mantis-706523.hostingersite.com/` el 7 de octubre de 2026: `/` responde 403, `/index.html` responde 404, mientras `/package.json` y `/public/images/portrait_01.jpg` responden 200. Se ha publicado el código fuente y falta el índice compilado. Tras cambiar la rama, verifica que no hayan quedado carpetas o archivos del despliegue anterior (`src`, `public`, `package.json` o variables de entorno); usa un destino limpio después de guardar una copia si el publicador no retira los archivos antiguos.
+Diagnóstico confirmado en `https://lawngreen-mantis-706523.hostingersite.com/` el 7 de octubre de 2026: `/` responde 403, `/index.html` responde 404, mientras `/package.json` y `/public/images/portrait_01.jpg` (el retrato de entonces) responden 200. Se ha publicado el código fuente y falta el índice compilado. Tras cambiar la rama, verifica que no hayan quedado carpetas o archivos del despliegue anterior (`src`, `public`, `package.json` o variables de entorno); usa un destino limpio después de guardar una copia si el publicador no retira los archivos antiguos.
 
 Las cuatro nuevas pruebas del generador verifican la raíz del despliegue, conservación de la rama y del índice de trabajo, actualizaciones sin force push y rechazo de archivos privados, cambios sin guardar o una rama ajena. Total actual: 25 pruebas unitarias aprobadas.
 Referencias: [Git para sitios PHP/HTML en Hostinger](https://www.hostinger.com/support/1583302-how-to-deploy-a-git-repository-in-hostinger/), [diagnóstico de 403](https://www.hostinger.com/support/1583304-how-to-fix-a-403-forbidden-error/).
@@ -74,7 +74,7 @@ Para editar con recarga automática puedes utilizar `npm run dev`; la comprobaci
 
 ## Contenido y dirección pública
 
-Los datos que no dependen del idioma (enlaces, redes, libro, correo) están en `src/content/site.ts`; los textos, en un diccionario por idioma: `src/content/dictionaries/es.ts` (el castellano es el idioma de referencia) y `en.ts`, y los textos legales en `src/content/legal/`. TypeScript y los tests fallan si a un idioma le falta un texto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales (unos 105 KB y 27 KB) se conservan. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
+Los datos que no dependen del idioma (enlaces, redes, libro, correo) están en `src/content/site.ts`; los textos, en un diccionario por idioma: `src/content/dictionaries/es.ts` (el castellano es el idioma de referencia) y `en.ts`, y los textos legales en `src/content/legal/`. TypeScript y los tests fallan si a un idioma le falta un texto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales se guardan ya reducidos (lado mayor de 1280 px como máximo) para no publicar archivos de varios megas. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
 
 ## Idiomas
 
@@ -101,12 +101,31 @@ Las cabeceras, compresión y caché de producción dependen de que Hostinger apl
 
 Los textos legales continúan como borradores visibles; se han ajustado al flujo de correo local. Completa titular, datos fiscales, domicilio profesional, derechos y conservación, y revisa las condiciones reales antes de abrir el sitio al público. No se publican domicilio, fecha de nacimiento ni teléfono privados de los CV.
 
+## Estructura del código
+
+- `src/content/`: todo el contenido editable. `site.ts` (datos comunes), `dictionaries/` (textos por idioma), `sections.ts` (anclas de la portada) y `theme.ts` (los colores que se usan fuera del CSS).
+- `src/components/sections/`: una sección de la portada por archivo. `src/hooks/`: comportamiento reutilizable (sección activa, cierre de menús).
+- `src/styles/`: un archivo por zona (`header.css`, `hero.css`…), con `tokens.css` como única fuente de colores, radios y espaciados, y `motion.css` para todo el movimiento. `index.css` fija el orden.
+- `src/lib/contact/`: validación del formulario sin dependencias y generación del borrador de correo.
+
+## Imágenes
+
+- **Dónde van:** en `public/images`, en JPG y con el lado mayor de 1280 px como máximo. Al compilar (`npm run build`) o arrancar en desarrollo, `scripts/prepare-images.mjs` genera de cada una copias AVIF y WebP de 160 a 1024 px; el navegador elige la que necesita (`srcset` y `sizes`).
+- **Qué se carga y cuándo:** solo la imagen principal se pide al abrir la página (con prioridad alta, porque es el elemento LCP). Todas las demás usan `loading="lazy"`: no se descargan hasta que el visitante se acerca a ellas. Cada hueco tiene proporción fija y un fondo de color, así que la página no salta mientras cargan.
+- **Imagen principal:** `site.heroImage` en `src/content/site.ts`.
+- **Fotos de «Sobre mí»:** `site.aboutPhotos` (cuadradas). Para añadir una: copia el archivo, añade su entrada con un `id` y escribe su texto alternativo en `about.photos.alt` de cada diccionario. `site.aboutPhotosInterval` fija cada cuántos milisegundos pasan solas (20 000).
+- **Fotos de servicios:** `site.serviceImages`, una por servicio (proporción 3:2); su texto alternativo es `imageAlt` en `services.items`.
+
+La pila de fotos (`src/components/photo-stack.tsx`) no usa ninguna librería: el componente solo lleva la cuenta del orden y todo el movimiento es CSS (`src/styles/photo-stack.css`). Se pasa con los botones, arrastrando con el dedo o el ratón, o sola; se detiene con el botón de pausa, mientras el cursor o el foco están encima y con la pestaña oculta. Con «reducir movimiento» no avanza sola ni se anima.
+
 ## Animaciones y efectos
 
-Los efectos visuales están en `src/app/effects.css`, separados de los estilos base. Sin JavaScript adicional, por lo que no afectan a la CSP:
+El movimiento está en `src/styles/motion.css`, separado de los estilos base y sin JavaScript, por lo que no afecta a la CSP:
 
+- Las secciones entran al desplazarse (animaciones ligadas al scroll con `animation-timeline: view()`); en navegadores sin soporte, el contenido se muestra sin animar.
+- Las tarjetas de servicios se elevan y reciben una luz azul suave por detrás al pasar el cursor o enfocar su enlace.
+- La cabecera marca la sección en la que estás (`aria-current`, con `IntersectionObserver`) y dibuja una línea de progreso de lectura.
 - Portada del libro con volumen (lomo, cantos de página y sombra). Con ratón se gira y eleva al pasar el cursor o al enfocar su enlace con teclado; en pantallas táctiles se coloca suavemente al entrar en pantalla.
-- Cabecera que gana profundidad y un fondo translúcido al desplazarse, entrada breve del texto de portada, menú móvil animado, subrayados y flechas con micro-movimiento.
 - Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema se desactivan todas las animaciones.
 - El retrato de portada (elemento LCP) no se anima al cargar, porque retrasaría la métrica LCP.
 

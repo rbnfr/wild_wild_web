@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { contactSchema } from "@/lib/contact/schema";
+import { validateContact } from "@/lib/contact/schema";
 import { createMailDraft } from "@/lib/contact/mail-draft";
 import { getDictionary } from "@/content/dictionaries";
 
 const es = getDictionary("es").contact.form.mail;
 const en = getDictionary("en").contact.form.mail;
+const parse = (value: unknown) => {
+  const result = validateContact(value);
+  if (!result.success) throw new Error("Invalid test input");
+  return result.data;
+};
 const input = {
   name: "Ana García",
   email: "ana@example.com",
@@ -15,11 +20,7 @@ const input = {
 };
 describe("mail draft", () => {
   it("round-trips accents, special characters and line breaks without query injection", () => {
-    const draft = createMailDraft(
-      contactSchema.parse(input),
-      "mary@example.com",
-      es,
-    );
+    const draft = createMailDraft(parse(input), "mary@example.com", es);
     const url = new URL(draft.href);
     expect(url.protocol).toBe("mailto:");
     expect(url.pathname).toBe("mary@example.com");
@@ -31,11 +32,7 @@ describe("mail draft", () => {
     expect(draft.text).toContain("Nombre: Ana García");
   });
   it("labels the draft in the visitor's language", () => {
-    const draft = createMailDraft(
-      contactSchema.parse(input),
-      "mary@example.com",
-      en,
-    );
+    const draft = createMailDraft(parse(input), "mary@example.com", en);
     expect(new URL(draft.href).searchParams.get("subject")).toBe(
       "Talk or event — Contact with Mary Granero",
     );
@@ -43,7 +40,7 @@ describe("mail draft", () => {
     expect(draft.text).toContain("Name: Ana García");
   });
   it("includes optional contact information and preserves long messages in the copyable fallback", () => {
-    const value = contactSchema.parse({
+    const value = parse({
       ...input,
       company: "Asociación & bienestar",
       phone: "+34 123456789",
