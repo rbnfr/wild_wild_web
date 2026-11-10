@@ -3,38 +3,43 @@ import { useRef, useState, type FormEvent } from "react";
 import { ArrowUpRightIcon } from "@/components/icon";
 import type { Dictionary } from "@/content/dictionaries";
 import {
+  contactLimits,
   contactReasons,
-  contactSchema,
+  validateContact,
   type ContactError,
+  type ContactField,
 } from "@/lib/contact/schema";
 import { createMailDraft } from "@/lib/contact/mail-draft";
+
+type FieldErrors = Partial<Record<ContactField, ContactError>>;
+
 const fields = [
   {
     name: "name",
     type: "text",
     autoComplete: "name",
-    maxLength: 100,
+    maxLength: contactLimits.name.max,
     required: true,
   },
   {
     name: "email",
     type: "email",
     autoComplete: "email",
-    maxLength: 254,
+    maxLength: contactLimits.email.max,
     required: true,
   },
   {
     name: "company",
     type: "text",
     autoComplete: "organization",
-    maxLength: 150,
+    maxLength: contactLimits.company.max,
     required: false,
   },
   {
     name: "phone",
     type: "tel",
     autoComplete: "tel",
-    maxLength: 40,
+    maxLength: contactLimits.phone.max,
     required: false,
   },
 ] as const;
@@ -48,7 +53,7 @@ export function ContactForm({
   email: string;
   privacyHref: string;
 }) {
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [errors, setErrors] = useState<FieldErrors>({});
   const [message, setMessage] = useState("");
   const [draft, setDraft] = useState<ReturnType<typeof createMailDraft> | null>(
     null,
@@ -59,28 +64,16 @@ export function ContactForm({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const parsed = contactSchema.safeParse({
-      name: data.get("name"),
-      email: data.get("email"),
-      company: data.get("company"),
-      phone: data.get("phone"),
-      reason: data.get("reason"),
-      message: data.get("message"),
+    const parsed = validateContact({
+      ...Object.fromEntries(data),
       privacy: data.get("privacy") === "on",
     });
     if (!parsed.success) {
-      const nextErrors: Record<string, string[]> = {};
-      for (const issue of parsed.error.issues) {
-        const key = String(issue.path[0]);
-        const text = t.errors[issue.message as ContactError] ?? issue.message;
-        nextErrors[key] = [...(nextErrors[key] ?? []), text];
-      }
-      setErrors(nextErrors);
+      setErrors(parsed.errors);
       setDraft(null);
       setMessage(t.status.invalid);
-      form
-        .querySelector<HTMLElement>(`[name="${Object.keys(nextErrors)[0]}"]`)
-        ?.focus();
+      const first = Object.keys(parsed.errors)[0];
+      if (first) form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
     setErrors({});
@@ -99,12 +92,14 @@ export function ContactForm({
       setMessage(t.status.copyFailed);
     }
   };
-  const errorFor = (name: string) =>
-    errors[name]?.length ? (
+  const errorFor = (name: ContactField) => {
+    const error = errors[name];
+    return error ? (
       <span className="field-error" id={`${name}-error`}>
-        {errors[name][0]}
+        {t.errors[error]}
       </span>
     ) : null;
+  };
   return (
     <form
       className="contact-form"
@@ -167,8 +162,8 @@ export function ContactForm({
           id="message"
           name="message"
           required
-          minLength={20}
-          maxLength={4000}
+          minLength={contactLimits.message.min}
+          maxLength={contactLimits.message.max}
           rows={5}
           aria-invalid={!!errors.message}
           aria-describedby={`message-help${errors.message ? " message-error" : ""}`}

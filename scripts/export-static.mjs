@@ -47,7 +47,6 @@ for (const [source, name] of [
   ["node_modules/next/license.md", "Next-MIT.txt"],
   ["node_modules/react/LICENSE", "React-MIT.txt"],
   ["node_modules/react-dom/LICENSE", "React-DOM-MIT.txt"],
-  ["node_modules/zod/LICENSE", "Zod-MIT.txt"],
 ])
   await copyFile(source, `out/licenses/${name}`);
 console.log(

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contactSchema } from "../../src/lib/contact/schema";
+import { validateContact } from "../../src/lib/contact/schema";
 const valid = {
   name: "  Ana García  ",
   email: " ANA@EXAMPLE.COM ",
@@ -9,9 +9,8 @@ const valid = {
 };
 describe("contact validation", () => {
   it("normalizes whitespace, email casing, line endings and empty optional fields", () => {
-    expect(
-      contactSchema.parse({ ...valid, company: "  ", phone: "  " }),
-    ).toEqual({
+    const result = validateContact({ ...valid, company: "  ", phone: "  " });
+    expect(result.success && result.data).toEqual({
       name: "Ana García",
       email: "ana@example.com",
       reason: "consulta",
@@ -32,9 +31,22 @@ describe("contact validation", () => {
     { unexpected: "extra" },
     { phone: "a".repeat(41) },
     { message: "a".repeat(20) + "\u0000" },
+    { email: "a@b" },
+    { email: "a..b@example.com" },
+    { name: 42 },
   ])("rejects invalid or unexpected input: %j", (changes) => {
-    expect(contactSchema.safeParse({ ...valid, ...changes }).success).toBe(
-      false,
-    );
+    expect(validateContact({ ...valid, ...changes }).success).toBe(false);
+  });
+  it("reports one error key per invalid field", () => {
+    expect(validateContact({})).toEqual({
+      success: false,
+      errors: {
+        name: "nameShort",
+        email: "emailInvalid",
+        reason: "reasonRequired",
+        message: "messageShort",
+        privacy: "privacyRequired",
+      },
+    });
   });
 });
