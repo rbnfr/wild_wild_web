@@ -37,7 +37,7 @@
 /* The picture box: tinted while the photograph loads. */
 .photo .picture-fill {
   position: relative;
-  display: block;
+  inset: auto;
   height: 100%;
   overflow: hidden;
   border-radius: 3px;

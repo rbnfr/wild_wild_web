@@ -153,3 +153,9 @@ summary {
 .picture-cover {
   display: block;
 }
+/* A photograph that fills its (positioned) box. */
+.picture-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
