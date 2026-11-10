@@ -21,9 +21,10 @@ export function buildCsp(scriptHashes) {
     "default-src 'self'",
     `script-src 'self' ${[...scriptHashes].sort().join(" ")}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
+    "img-src 'self' data:",
     "font-src 'self'",
     "connect-src 'self'",
+    "worker-src 'none'",
     "frame-src 'none'",
     "frame-ancestors 'none'",
     "base-uri 'self'",
@@ -39,7 +40,7 @@ export function securityHeaders(csp) {
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy":
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()",
     "Cross-Origin-Opener-Policy": "same-origin",
   };
 }
@@ -77,6 +78,8 @@ AddDefaultCharset utf-8
 ForceType image/png
 </Files>
 <IfModule mod_alias.c>
+# Hidden files (.git from the Git deployment, .htaccess, .env) are never served.
+RedirectMatch 404 ^/\\.(?!well-known/)
 ${Object.entries(LEGACY_REDIRECTS)
   .map(([from, to]) => `RedirectMatch 301 ^${from.slice(0, -1)}/?$ ${to}`)
   .join("\n")}
