@@ -21,6 +21,8 @@ export async function filesUnder(directory) {
 }
 
 const hashes = new Set();
+const scriptOrigins = new Set();
+const connectOrigins = new Set();
 const files = await filesUnder("out");
 for (const path of files.filter((path) => path.endsWith(".html"))) {
   const html = await readFile(path, "utf8");
@@ -31,14 +33,24 @@ for (const path of files.filter((path) => path.endsWith(".html"))) {
   ) {
     throw new Error(`Server dependency or local URL in exported HTML: ${path}`);
   }
-  for (const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) {
-    if (script[1])
+  for (const script of html.matchAll(
+    /<script\b([^>]*)>([\s\S]*?)<\/script>/gi,
+  )) {
+    const src = script[1].match(/\bsrc="(https:\/\/[^"]+)"/);
+    if (src) scriptOrigins.add(new URL(src[1]).origin);
+    // Umami posts visits to data-host-url (set explicitly in the component).
+    const host = script[1].match(/\bdata-host-url="(https:\/\/[^"]+)"/);
+    if (host) connectOrigins.add(new URL(host[1]).origin);
+    if (script[2])
       hashes.add(
-        `'sha256-${createHash("sha256").update(script[1]).digest("base64")}'`,
+        `'sha256-${createHash("sha256").update(script[2]).digest("base64")}'`,
       );
   }
 }
-await writeFile("out/.htaccess", buildHtaccess(buildCsp(hashes)));
+await writeFile(
+  "out/.htaccess",
+  buildHtaccess(buildCsp(hashes, { scriptOrigins, connectOrigins })),
+);
 await mkdir("out/licenses", { recursive: true });
 for (const name of ["OFL-Figtree.txt"])
   await copyFile(`src/assets/fonts/${name}`, `out/licenses/${name}`);
@@ -50,5 +62,5 @@ for (const [source, name] of [
 ])
   await copyFile(source, `out/licenses/${name}`);
 console.log(
-  `Static export ready: ${files.length} files, ${hashes.size} CSP script hashes.`,
+  `Static export ready: ${files.length} files, ${hashes.size} CSP script hashes, ${scriptOrigins.size} external script and ${connectOrigins.size} connect origins.`,
 );

@@ -16,14 +16,29 @@ export function isImmutable(pathname) {
   );
 }
 
-export function buildCsp(scriptHashes) {
+// HTTPS origins as " https://a https://b": sorted, deduplicated, validated so
+// nothing else can be smuggled into the policy.
+function sources(origins) {
+  const list = [...new Set(origins)].sort();
+  for (const origin of list)
+    if (!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/.test(origin))
+      throw new Error(`Unexpected external origin: ${origin}`);
+  return list.map((origin) => ` ${origin}`).join("");
+}
+
+// scriptOrigins: hosts of external scripts the pages load (the cookieless
+// analytics); connectOrigins: hosts those scripts send data to.
+export function buildCsp(
+  scriptHashes,
+  { scriptOrigins = [], connectOrigins = [] } = {},
+) {
   return [
     "default-src 'self'",
-    `script-src 'self' ${[...scriptHashes].sort().join(" ")}`,
+    `script-src 'self'${sources(scriptOrigins)} ${[...scriptHashes].sort().join(" ")}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "connect-src 'self'",
+    `connect-src 'self'${sources(connectOrigins)}`,
     "worker-src 'none'",
     "frame-src 'none'",
     "frame-ancestors 'none'",

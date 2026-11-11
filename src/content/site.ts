@@ -22,6 +22,16 @@ export const site = {
       "meta-externalagent",
     ],
   },
+  // Cookieless visit statistics with Umami Cloud (https://umami.is).
+  // websiteId is public (it ships in the HTML): copy it from
+  // Umami → Settings → Websites. While it is empty no script is loaded.
+  // The export reads both URLs from the HTML and allows them in the CSP:
+  // `script` in script-src, `endpoint` (where visits are sent) in connect-src.
+  analytics: {
+    websiteId: "ae056347-9c4a-4ca6-8671-4c331c9eef9b",
+    script: "https://cloud.umami.is/script.js",
+    endpoint: "https://gateway.umami.is",
+  },
   heroImage: "/images/mary_principal.jpg",
   // Photographs shown as a stack of prints in "Sobre mí". All are square.
   aboutPhotos: [
