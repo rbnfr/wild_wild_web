@@ -16,21 +16,29 @@ export function isImmutable(pathname) {
   );
 }
 
-// externalOrigins: HTTPS origins of the external scripts the pages load
-// (the cookieless analytics). Each may run its file and send data back to itself.
-export function buildCsp(scriptHashes, externalOrigins = []) {
-  const origins = [...new Set(externalOrigins)].sort();
-  for (const origin of origins)
+// HTTPS origins as " https://a https://b": sorted, deduplicated, validated so
+// nothing else can be smuggled into the policy.
+function sources(origins) {
+  const list = [...new Set(origins)].sort();
+  for (const origin of list)
     if (!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/.test(origin))
-      throw new Error(`Unexpected external script origin: ${origin}`);
-  const extra = origins.map((origin) => ` ${origin}`).join("");
+      throw new Error(`Unexpected external origin: ${origin}`);
+  return list.map((origin) => ` ${origin}`).join("");
+}
+
+// scriptOrigins: hosts of external scripts the pages load (the cookieless
+// analytics); connectOrigins: hosts those scripts send data to.
+export function buildCsp(
+  scriptHashes,
+  { scriptOrigins = [], connectOrigins = [] } = {},
+) {
   return [
     "default-src 'self'",
-    `script-src 'self'${extra} ${[...scriptHashes].sort().join(" ")}`,
+    `script-src 'self'${sources(scriptOrigins)} ${[...scriptHashes].sort().join(" ")}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    `connect-src 'self'${extra}`,
+    `connect-src 'self'${sources(connectOrigins)}`,
     "worker-src 'none'",
     "frame-src 'none'",
     "frame-ancestors 'none'",
