@@ -53,7 +53,8 @@ export const legal: Dictionary["legal"] = {
   },
   privacy: {
     title: "Privacy policy",
-    description: "How the data you send by email is handled.",
+    description:
+      "How the data you send by email and the visit statistics are handled.",
     sections: [
       { title: "Data controller", paragraphs: owner },
       {
@@ -61,6 +62,13 @@ export const legal: Dictionary["legal"] = {
         paragraphs: [
           "The contact form neither sends nor stores any data: it prepares a draft on your device. Only when you send the email from your own app is the data you include received (name, email, phone, organisation and message).",
           "It is used solely to answer your enquiry or proposal and, where applicable, to provide the service you request. It is never used for advertising.",
+        ],
+      },
+      {
+        title: "Visit statistics",
+        paragraphs: [
+          "Umami, a cookieless analytics tool, is used to know how many people visit the site and which pages they read. It records aggregated data: page visited, referring site, country, device type, browser and operating system. It does not keep your IP address, sets no cookies, stores nothing on your device and cannot identify you or follow you across sites.",
+          "If your browser has “Do Not Track” enabled, your visit is not recorded. The legal basis is the legitimate interest in knowing how the site is used in order to improve it (art. 6.1.f GDPR).",
         ],
       },
       {
@@ -78,7 +86,7 @@ export const legal: Dictionary["legal"] = {
       {
         title: "Recipients",
         paragraphs: [
-          "No data is shared with third parties unless required by law. The web hosting (Hostinger) and email (Google) providers act as data processors. Google may process data outside the European Economic Area with the safeguards set out in the GDPR, such as the EU-US Data Privacy Framework.",
+          "No data is shared with third parties unless required by law. The web hosting (Hostinger), email (Google) and visit statistics (Umami) providers act as data processors. Google may process data outside the European Economic Area with the safeguards set out in the GDPR, such as the EU-US Data Privacy Framework.",
         ],
       },
       {
@@ -99,6 +107,12 @@ export const legal: Dictionary["legal"] = {
         paragraphs: [
           "This site does not use its own or third-party cookies for analytics, advertising or personalisation. That is why no cookie banner is shown.",
           "Only technical cookies strictly necessary for the hosting to work might be used, which are exempt from consent under article 22.2 of the LSSI-CE.",
+        ],
+      },
+      {
+        title: "Cookieless visit statistics",
+        paragraphs: [
+          "Visits are counted with Umami, which uses no cookies and stores nothing in your browser. More details in the privacy policy.",
         ],
       },
       {

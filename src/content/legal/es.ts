@@ -47,7 +47,8 @@ export const legal = {
   },
   privacy: {
     title: "Política de privacidad",
-    description: "Cómo se tratan los datos que envías por correo electrónico.",
+    description:
+      "Cómo se tratan los datos que envías por correo electrónico y las estadísticas de visitas.",
     sections: [
       { title: "Responsable del tratamiento", paragraphs: owner },
       {
@@ -55,6 +56,13 @@ export const legal = {
         paragraphs: [
           "El formulario de contacto no envía ni guarda datos: prepara un borrador en tu dispositivo. Solo cuando tú envías el correo desde tu aplicación se reciben los datos que incluyas (nombre, email, teléfono, organización y mensaje).",
           "Se usan únicamente para responder a tu consulta o propuesta y, en su caso, prestar el servicio que solicites. No se usan para enviar publicidad.",
+        ],
+      },
+      {
+        title: "Estadísticas de visitas",
+        paragraphs: [
+          "Para saber cuántas personas visitan el sitio y qué páginas consultan se usa Umami, una herramienta de analítica sin cookies. Registra datos agregados: página visitada, sitio de procedencia, país, tipo de dispositivo, navegador y sistema operativo. No guarda tu dirección IP, no instala cookies ni guarda nada en tu dispositivo y no permite identificarte ni seguirte entre sitios.",
+          "Si tu navegador tiene activada la opción «No rastrear» (Do Not Track), no se registra tu visita. La base jurídica es el interés legítimo en conocer el uso del sitio para mejorarlo (art. 6.1.f del RGPD).",
         ],
       },
       {
@@ -72,7 +80,7 @@ export const legal = {
       {
         title: "Destinatarios",
         paragraphs: [
-          "No se ceden datos a terceros salvo obligación legal. Los proveedores de alojamiento web (Hostinger) y de correo electrónico (Google) actúan como encargados del tratamiento. Google puede tratar datos fuera del Espacio Económico Europeo con las garantías previstas en el RGPD, como el Marco de Privacidad de Datos UE-EE. UU.",
+          "No se ceden datos a terceros salvo obligación legal. Los proveedores de alojamiento web (Hostinger), de correo electrónico (Google) y de estadísticas de visitas (Umami) actúan como encargados del tratamiento. Google puede tratar datos fuera del Espacio Económico Europeo con las garantías previstas en el RGPD, como el Marco de Privacidad de Datos UE-EE. UU.",
         ],
       },
       {
@@ -92,6 +100,12 @@ export const legal = {
         paragraphs: [
           "Este sitio no utiliza cookies propias ni de terceros con fines analíticos, publicitarios o de personalización. Por eso no se muestra un aviso de cookies.",
           "Solo podrían emplearse cookies técnicas estrictamente necesarias para el funcionamiento del alojamiento, que están exentas de consentimiento según el artículo 22.2 de la LSSI-CE.",
+        ],
+      },
+      {
+        title: "Estadísticas de visitas sin cookies",
+        paragraphs: [
+          "Las visitas se cuentan con Umami, que no usa cookies ni almacena nada en tu navegador. Más detalles en la política de privacidad.",
         ],
       },
       {

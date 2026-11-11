@@ -16,14 +16,21 @@ export function isImmutable(pathname) {
   );
 }
 
-export function buildCsp(scriptHashes) {
+// externalOrigins: HTTPS origins of the external scripts the pages load
+// (the cookieless analytics). Each may run its file and send data back to itself.
+export function buildCsp(scriptHashes, externalOrigins = []) {
+  const origins = [...new Set(externalOrigins)].sort();
+  for (const origin of origins)
+    if (!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/.test(origin))
+      throw new Error(`Unexpected external script origin: ${origin}`);
+  const extra = origins.map((origin) => ` ${origin}`).join("");
   return [
     "default-src 'self'",
-    `script-src 'self' ${[...scriptHashes].sort().join(" ")}`,
+    `script-src 'self'${extra} ${[...scriptHashes].sort().join(" ")}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "connect-src 'self'",
+    `connect-src 'self'${extra}`,
     "worker-src 'none'",
     "frame-src 'none'",
     "frame-ancestors 'none'",

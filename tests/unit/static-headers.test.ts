@@ -20,6 +20,22 @@ describe("static headers", () => {
     expect(csp).not.toMatch(/unsafe-(?:eval)|script-src[^;]*unsafe-inline/);
   });
 
+  it("allows only the external script origins it is given", () => {
+    expect(csp).toContain("connect-src 'self';");
+    const withAnalytics = buildCsp(new Set(["'sha256-a'"]), [
+      "https://cloud.umami.is",
+      "https://cloud.umami.is",
+    ]);
+    expect(withAnalytics).toContain(
+      "script-src 'self' https://cloud.umami.is 'sha256-a'",
+    );
+    expect(withAnalytics).toContain(
+      "connect-src 'self' https://cloud.umami.is;",
+    );
+    expect(() => buildCsp([], ["http://cloud.umami.is"])).toThrow();
+    expect(() => buildCsp([], ["https://a.com; script-src *"])).toThrow();
+  });
+
   it("caches only hash-named assets as immutable", () => {
     expect(cacheControl("/_next/static/chunks/abc123.js")).toContain(
       "immutable",

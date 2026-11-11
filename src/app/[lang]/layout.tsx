@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Analytics } from "@/components/analytics";
 import { site } from "@/content/site";
 import { getDictionary } from "@/content/dictionaries";
 import { hasLocale, localeDetails, locales } from "@/i18n/config";
@@ -72,6 +73,7 @@ export default async function RootLayout({
           {children}
         </main>
         <Footer lang={lang} t={t} />
+        <Analytics />
       </body>
     </html>
   );
