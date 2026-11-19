@@ -1,6 +1,10 @@
 .services-section {
   background: var(--tint);
 }
+/* The cards follow the width of their own column, not the window. */
+.services-section > .container {
+  container: services / inline-size;
+}
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -76,7 +80,8 @@
   line-height: 1.7;
   color: var(--muted);
 }
-@media (max-width: 900px) {
+/* 810px is about the column width the old 900px window breakpoint produced. */
+@container services (max-width: 810px) {
   .services-grid {
     grid-template-columns: minmax(0, 1fr);
   }

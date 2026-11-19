@@ -7,7 +7,10 @@
   letter-spacing: 0;
   color: var(--brand);
 }
+/* The book card adapts to the width of its own column, not the window, so
+   it can be placed in a narrower layout without new breakpoints. */
 .outreach-book {
+  container: book-shelf / inline-size;
   margin-bottom: clamp(56px, 7vw, 80px);
 }
 .book {
@@ -153,20 +156,24 @@
   }
 }
 
-@media (max-width: 760px) {
+/* 684px and 540px are about the column widths the old 760px and 600px
+   window breakpoints produced, so the layout changes at the same points. */
+@container book-shelf (max-width: 684px) {
   .book {
     grid-template-columns: 180px minmax(0, 1fr);
   }
-  .outreach-grid {
-    grid-template-columns: 1fr;
-  }
 }
-@media (max-width: 600px) {
+@container book-shelf (max-width: 540px) {
   .book {
     grid-template-columns: 1fr;
   }
   .book-cover {
     width: 220px;
     justify-self: center;
+  }
+}
+@media (max-width: 760px) {
+  .outreach-grid {
+    grid-template-columns: 1fr;
   }
 }
