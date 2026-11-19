@@ -19,7 +19,7 @@ AddType image/webp .webp
 AddType font/woff2 .woff2
 </IfModule>
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cloud.umami.is 'sha256-0Wd+kPZkoJk10o40z3Aand0snWwMJpjispzkbufLBx4=' 'sha256-BILoRKw9Lhqt2H4sm8a9n8z3XstLFIWBUMQ7hifliPA=' 'sha256-CHZiocgp0m8pUHSkDmWniKDiLOj+QWG0bfAY92rRBrs=' 'sha256-ItAkjGjkvvksrCg1NGuuTa2TP4twBYAeBVgsO0f7H8s=' 'sha256-JIyFgBP8muTOU1kqmnWkXQD57XlxehmiL6qOLegmM/k=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-P38cst4Dng+/zKqe7ayQ+9lW1GELnosHrRuM1xaa9PY=' 'sha256-QGDGms1qc9wV0nFA2o88cebdaIi0RX5WscW3yt2iuD4=' 'sha256-QGxEgkuyVk/xM5y3O1joOAn9WuzeMNLyUM/GCLfCX00=' 'sha256-QoW40i914rZ4q9nD/IVrTVMGYWgHhCOydhIEYVKfNjE=' 'sha256-TxKgm2WEU3M7Sy7PLwS1G81rO66Vl399ZBEZhUQf9Yg=' 'sha256-X9pC0a6bGelie6+ZHdwWRYofDznqmpxFCOSG7MAcFYQ=' 'sha256-bO8wZYa+h+uK2EdIBo9SODfibccBu4SCfOdTAk828Qo=' 'sha256-u8llXUaJDUGCvPuRxn6kCjNbqg2GT8ZK+TNSChhf3Hc=' 'sha256-v3PkkpqepXcmDOjaR1SwsthKJDox6D/pZqefoZ4K0rI='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://gateway.umami.is; worker-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cloud.umami.is 'sha256-1tPqKETGcTDCIPcyy13ye5wz+vkgXcQbGy/Qi75TwVQ=' 'sha256-6CTYyDbJ87o09nzsqSeJ/JHY1f17iePwDZX88PBC6QI=' 'sha256-7Su+DAQIHBzOFFY8rR9RkZNi2FfJWVO9M7KNCWVFPHk=' 'sha256-BXuofVKMTUJ5Y89qh0MOFYqYMn9jXVdCyvNPeMmENJc=' 'sha256-Hv8fj/tj9N6bXqIWLUfkvtGVAfFsCKIuYpQCgBewfPc=' 'sha256-ItAkjGjkvvksrCg1NGuuTa2TP4twBYAeBVgsO0f7H8s=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-P38cst4Dng+/zKqe7ayQ+9lW1GELnosHrRuM1xaa9PY=' 'sha256-QoW40i914rZ4q9nD/IVrTVMGYWgHhCOydhIEYVKfNjE=' 'sha256-TVbyth7XQSDXryq/8L9FK2ZQkxk+Ng4UQfKblDHVtg4=' 'sha256-ahMSP5X2YyLjZVXyeJvJpO5MtIMzZ8NdB2w/aS2D5PI=' 'sha256-bO8wZYa+h+uK2EdIBo9SODfibccBu4SCfOdTAk828Qo=' 'sha256-lIYzbqunXn9O0fOBJl5tjHoXt+u+En4Grgtp+ICAab8=' 'sha256-nosVyMeAgD0FuiLapkwNG4WaugRqC+OcTdaJ3L+4xsQ=' 'sha256-zrhva71uJkc4zCSPqHX/RgADPvktEKZF0C7QvP39DCc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://gateway.umami.is; worker-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
@@ -32,9 +32,11 @@ Header set Link "</llms.txt>; rel=describedby"
 <FilesMatch "\.(?:html|txt|xml)$">
 Header set Cache-Control "no-cache"
 </FilesMatch>
-# Hash-named assets (Next.js chunks, fonts, generated image variants).
+# Hash-named assets (Next.js chunks, fonts, generated image variants) only
+# inside their folders; the same extensions elsewhere are revalidated.
 <FilesMatch "\.(?:js|css|woff2|avif|webp)$">
-Header set Cache-Control "public, max-age=31536000, immutable"
+Header set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/(?:_next/static|images/generated)/#"
+Header set Cache-Control "no-cache" "expr=%{REQUEST_URI} !~ m#^/(?:_next/static|images/generated)/#"
 </FilesMatch>
 </IfModule>
 <IfModule mod_expires.c>
