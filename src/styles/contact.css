@@ -69,6 +69,15 @@
   min-height: 145px;
   resize: vertical;
 }
+/* The message grows with its text (width stays fixed by width: 100%), up to
+   about 16 lines; then it scrolls. Browsers without field-sizing keep the
+   height above, unchanged. */
+@supports (field-sizing: content) {
+  .form-field textarea {
+    field-sizing: content;
+    max-height: 16lh;
+  }
+}
 .form-field :is(input, select, textarea):focus {
   border-color: var(--brand);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 16%, transparent);
