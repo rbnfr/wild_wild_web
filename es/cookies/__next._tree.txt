@@ -1,6 +1,6 @@
-:HL["/_next/static/chunks/0lov0bea8cr3-.css","style"]
+:HL["/_next/static/chunks/27vt81pt6495z.css","style"]
 :HL["/_next/static/media/figtree-s.p.08sr_7r2rzxl4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"cookies","s":[]},"h":65600,"c":"$Q3"}]]
 1:[["children",{"s":{"n":"lang","t":"d","k":"es","s":["llms.txt"]},"h":196656,"c":"$Q2"}]]
-0:{"b":"QyiQM48HlgNDXrzk2ZpBC","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"o5tW2IG6ZfPwhUlTlFGXF","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
