@@ -67,6 +67,13 @@
     scroll-behavior: smooth;
   }
 
+  /* ---------- Between pages: a soft cross-fade ---------- */
+  /* Same-origin navigations (home, legal pages, 404, language change).
+     Browsers without cross-document view transitions change page at once. */
+  @view-transition {
+    navigation: auto;
+  }
+
   /* ---------- Pressed feedback (all devices) ---------- */
   .button,
   .draft-copy {

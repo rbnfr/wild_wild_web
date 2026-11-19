@@ -128,6 +128,7 @@ El movimiento está en `src/styles/motion.css`, separado de los estilos base y s
 - Portada del libro con volumen (lomo, cantos de página y sombra). Con ratón se gira y eleva al pasar el cursor o al enfocar su enlace con teclado; en pantallas táctiles se coloca suavemente al entrar en pantalla.
 - Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema no hay ningún desplazamiento, giro ni escala: todo lo que se mueve se declara dentro de `@media (prefers-reduced-motion: no-preference)`. Los cambios de color, fondo y sombra se mantienen para todos.
 - El retrato de portada (elemento LCP) no se anima al cargar, porque retrasaría la métrica LCP.
+- Al cambiar de página (portada, páginas legales, 404 o idioma) hay un fundido suave con `@view-transition`, sin JavaScript; los navegadores sin soporte cambian de página al instante.
 
 ## Comprobaciones
 
