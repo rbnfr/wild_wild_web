@@ -25,6 +25,9 @@ export type PhotoStackLabels = {
   play: string;
   // "{current} de {total}"
   position: string;
+  // Role descriptions read by screen readers ("carrusel", "fotografía").
+  carousel: string;
+  slide: string;
 };
 
 // A horizontal drag longer than this (in pixels) turns the photograph.
@@ -56,6 +59,10 @@ export function PhotoStack({
   const held = useRef(false);
   const dragStart = useRef<number | undefined>(undefined);
   const autoplay = !paused && !reducedMotion && count > 1;
+  const positionLabel = (position: number) =>
+    labels.position
+      .replace("{current}", String(position + 1))
+      .replace("{total}", String(count));
 
   const turn = useCallback(
     (move: "next" | "previous") => {
@@ -93,7 +100,7 @@ export function PhotoStack({
     <div
       className="photo-stack"
       role="group"
-      aria-roledescription="carousel"
+      aria-roledescription={labels.carousel}
       aria-label={labels.label}
       onPointerEnter={hold}
       onPointerLeave={release}
@@ -124,6 +131,11 @@ export function PhotoStack({
               key={position}
               className={`photo ${animation}`}
               style={{ "--depth": depth } as React.CSSProperties}
+              // Each print says where it sits in the sequence ("3 de 7");
+              // only the one on top is exposed.
+              role="group"
+              aria-roledescription={labels.slide}
+              aria-label={positionLabel(position)}
               aria-hidden={depth !== 0}
             >
               {photo}
@@ -141,9 +153,7 @@ export function PhotoStack({
             <ChevronLeftIcon />
           </button>
           <span aria-live={autoplay ? "off" : "polite"}>
-            {labels.position
-              .replace("{current}", String(index + 1))
-              .replace("{total}", String(count))}
+            {positionLabel(index)}
           </span>
           <button
             type="button"

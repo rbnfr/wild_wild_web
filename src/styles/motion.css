@@ -2,33 +2,22 @@
  * Motion layer.
  *  - Every element's natural (un-animated) state is its final state, so the
  *    page is complete when animations are unsupported or disabled.
+ *  - Colour, background and shadow feedback is for everyone. Anything that
+ *    moves (translate, scale, rotate, entrances) is opted into inside
+ *    `prefers-reduced-motion: no-preference`, so reduced motion needs no
+ *    blanket override.
  *  - Entrances are tied to scrolling itself (scroll-driven animations): no
  *    JavaScript, no timers, nothing to animate off-screen.
  *  - Hover effects only exist for devices with a precise pointer.
- *  - prefers-reduced-motion switches all of it off.
  */
 
-/* ---------- Pressed and focus feedback (all devices) ---------- */
+/* ---------- Colour and shadow feedback (every motion preference) ---------- */
 .button,
 .draft-copy {
   transition:
     background-color 0.25s,
     border-color 0.25s,
-    box-shadow 0.35s var(--ease-out),
-    transform 0.35s var(--ease-out);
-}
-.button:active,
-.draft-copy:active {
-  transform: scale(0.98);
-}
-.text-link span[aria-hidden],
-.service-link span[aria-hidden],
-.submit-button span[aria-hidden],
-.social-arrow,
-.hero-foot a svg,
-.social-icons svg {
-  display: inline-block;
-  transition: transform 0.35s var(--ease-out);
+    box-shadow 0.35s var(--ease-out);
 }
 .main-nav > a:not(.button),
 .social-icons a,
@@ -37,69 +26,29 @@
     background-color 0.3s,
     color 0.3s;
 }
-.social-link {
-  transition:
-    border-color 0.3s,
-    padding-left 0.4s var(--ease-out);
-}
+.social-link,
 .service-link {
   transition: border-color 0.3s;
 }
-/* The lift uses `translate`, not `transform`: the entrance animation owns
-   `transform`, and a property under an animation cannot transition. */
 .service {
-  transition:
-    box-shadow 0.6s var(--ease-out),
-    translate 0.6s var(--ease-out);
-}
-.service-image img {
-  transition: transform 1.2s var(--ease-out);
+  transition: box-shadow 0.6s var(--ease-out);
 }
 
-/* ---------- Hover: only for precise pointers ---------- */
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    transform: translateY(-2px);
     box-shadow: 0 12px 24px -16px rgb(12 58 122 / 0.6);
-  }
-  .button:active {
-    transform: translateY(0) scale(0.98);
-  }
-  .text-link:hover span[aria-hidden],
-  .service-link:hover span[aria-hidden],
-  .submit-button:hover span[aria-hidden],
-  .social-link:hover .social-arrow {
-    transform: translate(3px, -3px);
-  }
-  .about-copy .text-link:hover span[aria-hidden],
-  .hero-foot a:hover svg {
-    transform: translateY(4px);
-  }
-  .hero-image img {
-    transition: transform 1.4s var(--ease-out);
-  }
-  .hero-figure:hover .hero-image img {
-    transform: scale(1.03);
   }
   /* A card under the pointer is lit softly from behind, in the brand blue. */
   .service:hover,
   .service:focus-within {
-    translate: 0 -4px;
     box-shadow:
       0 24px 48px -36px rgb(12 39 80 / 0.45),
       0 18px 60px -18px color-mix(in srgb, var(--brand) 55%, transparent),
       0 0 0 1px color-mix(in srgb, var(--brand) 14%, transparent);
   }
-  .service:hover .service-image img,
-  .service:focus-within .service-image img {
-    transform: scale(1.04);
-  }
   .service-link:hover,
   .social-link:hover {
     border-color: var(--brand);
-  }
-  .social-link:hover {
-    padding-left: 10px;
   }
   .social-icons a:hover {
     background-color: var(--tint);
@@ -111,15 +60,104 @@
   .footer-socials a:hover {
     background-color: var(--bg);
   }
-  .social-icons a:hover svg {
-    transform: translateY(-3px);
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* ---------- Between pages: a soft cross-fade ---------- */
+  /* Same-origin navigations (home, legal pages, 404, language change).
+     Browsers without cross-document view transitions change page at once. */
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* ---------- Pressed feedback (all devices) ---------- */
+  .button,
+  .draft-copy {
+    transition:
+      background-color 0.25s,
+      border-color 0.25s,
+      box-shadow 0.35s var(--ease-out),
+      transform 0.35s var(--ease-out);
+  }
+  .button:active,
+  .draft-copy:active {
+    transform: scale(0.98);
+  }
+  .text-link span[aria-hidden],
+  .service-link span[aria-hidden],
+  .submit-button span[aria-hidden],
+  .social-arrow,
+  .hero-foot a svg,
+  .social-icons svg {
+    display: inline-block;
+    transition: transform 0.35s var(--ease-out);
+  }
+  .social-link {
+    transition:
+      border-color 0.3s,
+      padding-left 0.4s var(--ease-out);
+  }
+  /* The lift uses `translate`, not `transform`: the entrance animation owns
+     `transform`, and a property under an animation cannot transition. */
+  .service {
+    transition:
+      box-shadow 0.6s var(--ease-out),
+      translate 0.6s var(--ease-out);
+  }
+  .service-image img {
+    transition: transform 1.2s var(--ease-out);
+  }
+  .lang-chevron {
+    transition: transform 0.2s;
+  }
+
+  /* ---------- Hover movement: only for precise pointers ---------- */
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      transform: translateY(-2px);
+    }
+    .button:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .text-link:hover span[aria-hidden],
+    .service-link:hover span[aria-hidden],
+    .submit-button:hover span[aria-hidden],
+    .social-link:hover .social-arrow {
+      transform: translate(3px, -3px);
+    }
+    .about-copy .text-link:hover span[aria-hidden],
+    .hero-foot a:hover svg {
+      transform: translateY(4px);
+    }
+    .hero-image img {
+      transition: transform 1.4s var(--ease-out);
+    }
+    .hero-figure:hover .hero-image img {
+      transform: scale(1.03);
+    }
+    .service:hover,
+    .service:focus-within {
+      translate: 0 -4px;
+    }
+    .service:hover .service-image img,
+    .service:focus-within .service-image img {
+      transform: scale(1.04);
+    }
+    .social-link:hover {
+      padding-left: 10px;
+    }
+    .social-icons a:hover svg {
+      transform: translateY(-3px);
+    }
+  }
+
   /* ---------- Menus: short reveal answering the tap ---------- */
-  .main-nav.is-open,
-  .lang-switcher[open] .lang-options {
+  .main-nav:popover-open,
+  .lang-options:popover-open {
     animation: menu-in 0.25s var(--ease-out) both;
   }
   @keyframes menu-in {
@@ -158,16 +196,24 @@
     }
   }
 
-  @supports (animation-timeline: view()) {
+  /* `animation-range: entry` filters out browsers with partial support. */
+  @supports (animation-timeline: view()) and (animation-range: entry) {
     /* ---------- Header: depth and a reading-progress line ---------- */
-    .site-header {
+    /* The shadow sits on its own layer and only its opacity is animated,
+       so scrolling never repaints a box-shadow. */
+    .site-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      box-shadow: 0 12px 32px -26px rgb(12 39 80 / 0.5);
+      pointer-events: none;
       animation: header-lift linear both;
       animation-timeline: scroll(root);
       animation-range: 0 140px;
     }
     @keyframes header-lift {
-      to {
-        box-shadow: 0 12px 32px -26px rgb(12 39 80 / 0.5);
+      from {
+        opacity: 0;
       }
     }
     .site-header::after {
@@ -256,17 +302,5 @@
         transform: rotateY(-28deg) translateY(24px);
       }
     }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
   }
 }

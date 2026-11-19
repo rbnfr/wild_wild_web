@@ -1,9 +1,16 @@
 "use client";
-import { useRef, useState, type FormEvent } from "react";
+import {
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FocusEvent,
+  type FormEvent,
+} from "react";
 import { ArrowUpRightIcon } from "@/components/icon";
 import type { Dictionary } from "@/content/dictionaries";
 import {
   contactLimits,
+  contactFields,
   contactReasons,
   validateContact,
   type ContactError,
@@ -12,6 +19,17 @@ import {
 import { createMailDraft } from "@/lib/contact/mail-draft";
 
 type FieldErrors = Partial<Record<ContactField, ContactError>>;
+
+function validateForm(form: HTMLFormElement) {
+  const data = new FormData(form);
+  return validateContact({
+    ...Object.fromEntries(data),
+    privacy: data.get("privacy") === "on",
+  });
+}
+
+const isField = (name: string): name is ContactField =>
+  contactFields.includes(name as ContactField);
 
 const fields = [
   {
@@ -27,6 +45,10 @@ const fields = [
     autoComplete: "email",
     maxLength: contactLimits.email.max,
     required: true,
+    // An address, not prose: no autocorrection or capitals from the keyboard.
+    autoCorrect: "off",
+    autoCapitalize: "none",
+    spellCheck: false,
   },
   {
     name: "company",
@@ -59,37 +81,71 @@ export function ContactForm({
     null,
   );
   const draftText = useRef<HTMLTextAreaElement>(null);
+  // Fields the visitor has changed: only these are checked when left, so
+  // tabbing through an empty form never reports errors.
+  const changed = useRef(new Set<ContactField>());
+  // VoiceOver skips a status message identical to the previous one, so a
+  // repeat gets an invisible no-break space to make it differ.
+  const lastAnnounced = useRef("");
+  const announce = (text: string) => {
+    const next = text === lastAnnounced.current ? `${text}\u00A0` : text;
+    lastAnnounced.current = next;
+    setMessage(next);
+  };
+
+  // Rechecks one field and shows or clears its own error.
+  const recheck = (form: HTMLFormElement, name: ContactField) => {
+    const parsed = validateForm(form);
+    const error = parsed.success ? undefined : parsed.errors[name];
+    setErrors((current) =>
+      current[name] === error ? current : { ...current, [name]: error },
+    );
+  };
+
+  const fieldChanged = (event: ChangeEvent<HTMLFormElement>) => {
+    setDraft(null);
+    setMessage("");
+    const name = (event.target as Element).getAttribute("name") ?? "";
+    if (!isField(name)) return;
+    changed.current.add(name);
+    // An error goes away as soon as the value is fixed, without waiting for
+    // the field to be left; new errors wait until then.
+    if (errors[name] || name === "privacy" || name === "reason")
+      recheck(event.currentTarget, name);
+  };
+
+  const fieldLeft = (event: FocusEvent<HTMLFormElement>) => {
+    const name = (event.target as Element).getAttribute("name") ?? "";
+    if (isField(name) && changed.current.has(name))
+      recheck(event.currentTarget, name);
+  };
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const data = new FormData(form);
-    const parsed = validateContact({
-      ...Object.fromEntries(data),
-      privacy: data.get("privacy") === "on",
-    });
+    const parsed = validateForm(form);
     if (!parsed.success) {
       setErrors(parsed.errors);
       setDraft(null);
-      setMessage(t.status.invalid);
+      announce(t.status.invalid);
       const first = Object.keys(parsed.errors)[0];
       if (first) form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
     setErrors({});
     setDraft(createMailDraft(parsed.data, email, t.mail));
-    setMessage(t.status.ready);
+    announce(t.status.ready);
   };
 
   const copyDraft = async () => {
     if (!draft) return;
     try {
       await navigator.clipboard.writeText(draft.text);
-      setMessage(t.status.copied);
+      announce(t.status.copied);
     } catch {
       draftText.current?.focus();
       draftText.current?.select();
-      setMessage(t.status.copyFailed);
+      announce(t.status.copyFailed);
     }
   };
   const errorFor = (name: ContactField) => {
@@ -105,10 +161,8 @@ export function ContactForm({
       className="contact-form"
       noValidate
       onSubmit={submit}
-      onChange={() => {
-        setDraft(null);
-        setMessage("");
-      }}
+      onChange={fieldChanged}
+      onBlur={fieldLeft}
       aria-label={t.label}
     >
       <p className="form-note">{t.note}</p>
@@ -117,13 +171,20 @@ export function ContactForm({
           <div className="form-field" key={field.name}>
             <label htmlFor={field.name}>
               {t.fields[field.name]}
-              {field.required ? " *" : ` ${t.optional}`}
+              {field.required ? <Required /> : ` ${t.optional}`}
             </label>
             <input
               id={field.name}
               name={field.name}
               type={field.type}
               autoComplete={field.autoComplete}
+              autoCorrect={
+                "autoCorrect" in field ? field.autoCorrect : undefined
+              }
+              autoCapitalize={
+                "autoCapitalize" in field ? field.autoCapitalize : undefined
+              }
+              spellCheck={"spellCheck" in field ? field.spellCheck : undefined}
               maxLength={field.maxLength}
               required={field.required}
               aria-invalid={!!errors[field.name]}
@@ -136,7 +197,10 @@ export function ContactForm({
         ))}
       </div>
       <div className="form-field">
-        <label htmlFor="reason">{t.reason} *</label>
+        <label htmlFor="reason">
+          {t.reason}
+          <Required />
+        </label>
         <select
           id="reason"
           name="reason"
@@ -157,7 +221,14 @@ export function ContactForm({
         {errorFor("reason")}
       </div>
       <div className="form-field">
-        <label htmlFor="message">{t.message} *</label>
+        <label htmlFor="message">
+          {t.message}
+          <Required />
+        </label>
+        {/* Above the field, so the on-screen keyboard never covers it. */}
+        <span className="field-help" id="message-help">
+          {t.messageHelp}
+        </span>
         <textarea
           id="message"
           name="message"
@@ -168,9 +239,6 @@ export function ContactForm({
           aria-invalid={!!errors.message}
           aria-describedby={`message-help${errors.message ? " message-error" : ""}`}
         />
-        <span className="field-help" id="message-help">
-          {t.messageHelp}
-        </span>
         {errorFor("message")}
       </div>
       <div className="privacy-field">
@@ -184,7 +252,8 @@ export function ContactForm({
             aria-describedby={errors.privacy ? "privacy-error" : undefined}
           />
           <label htmlFor="privacy">
-            {t.privacyAccept} <a href={privacyHref}>{t.privacyLink}</a>. *
+            {t.privacyAccept} <a href={privacyHref}>{t.privacyLink}</a>.
+            <Required />
           </label>
         </div>
         {errorFor("privacy")}
@@ -233,4 +302,9 @@ export function ContactForm({
       </p>
     </form>
   );
+}
+
+// The asterisk is visual: `required` already tells assistive technology.
+function Required() {
+  return <span aria-hidden="true"> *</span>;
 }

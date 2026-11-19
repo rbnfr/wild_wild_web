@@ -1,3 +1,4 @@
+import { Flag } from "@/components/flag";
 import { site } from "@/content/site";
 import { localeDetails, locales } from "@/i18n/config";
 import { href } from "@/i18n/routes";
@@ -12,12 +13,7 @@ export default function LanguageSelect() {
         {locales.map((lang) => (
           <li key={lang}>
             <a href={href(lang)} hrefLang={lang} lang={lang}>
-              <img
-                src={localeDetails[lang].flag}
-                alt=""
-                width={36}
-                height={24}
-              />
+              <Flag lang={lang} width={36} height={24} />
               {localeDetails[lang].name}
             </a>
           </li>

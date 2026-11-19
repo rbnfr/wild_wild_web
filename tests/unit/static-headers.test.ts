@@ -50,6 +50,18 @@ describe("static headers", () => {
     expect(cacheControl("/")).toBe("no-cache");
     expect(cacheControl("/index.html")).toBe("no-cache");
     expect(cacheControl("/images/mary_principal.jpg")).toBe("no-cache");
+    expect(cacheControl("/images/photo.webp")).toBe("no-cache");
+    expect(cacheControl("/static.js")).toBe("no-cache");
+  });
+
+  it("limits the .htaccess immutable rule to the hash-named folders", () => {
+    const htaccess = buildHtaccess(csp);
+    expect(htaccess).toContain(
+      'immutable" "expr=%{REQUEST_URI} =~ m#^/(?:_next/static|images/generated)/#"',
+    );
+    expect(htaccess).toContain(
+      '"no-cache" "expr=%{REQUEST_URI} !~ m#^/(?:_next/static|images/generated)/#"',
+    );
   });
 
   it("writes every security header into .htaccess", () => {

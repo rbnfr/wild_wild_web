@@ -62,6 +62,8 @@ export const en: Dictionary = {
       pause: "Stop the automatic slideshow",
       play: "Resume the automatic slideshow",
       position: "{current} of {total}",
+      carousel: "carousel",
+      slide: "photograph",
       alt: {
         "with-dog": "Mary smiles beside a long-haired brown and white dog",
         "shelter-walk":

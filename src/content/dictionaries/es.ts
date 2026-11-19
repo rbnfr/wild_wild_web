@@ -68,6 +68,9 @@ export const es = {
       pause: "Detener el pase automático",
       play: "Reanudar el pase automático",
       position: "{current} de {total}",
+      // Announced by screen readers instead of the generic "group".
+      carousel: "carrusel",
+      slide: "fotografía",
       alt: {
         "with-dog":
           "Mary sonríe junto a un perro de pelo largo castaño y blanco",

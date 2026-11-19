@@ -5,7 +5,11 @@ export function StaticImage(props: ImageProps) {
   const images = manifest as Record<string, Record<string, string>>;
   const variants =
     typeof props.src === "string" ? images[props.src] : undefined;
-  if (!variants) return <Image {...props} />;
+  // Sources are not published (src/assets/photos): only their variants are.
+  if (!variants)
+    throw new Error(
+      `No generated variants for ${String(props.src)}: run scripts/prepare-images.mjs`,
+    );
   const srcSet = Object.entries(variants)
     .map(([width, path]) => `${path.replace(/\.webp$/, ".avif")} ${width}w`)
     .join(", ");

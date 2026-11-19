@@ -8,6 +8,7 @@ import { getDictionary } from "@/content/dictionaries";
 import { hasLocale, localeDetails, locales } from "@/i18n/config";
 import { href } from "@/i18n/routes";
 import { theme } from "@/content/theme";
+import { documentMeta } from "@/lib/document-meta";
 import { siteUrl } from "@/lib/seo";
 import { sans } from "../fonts";
 import "@/styles/index.css";
@@ -52,6 +53,7 @@ export async function generateMetadata({
       title: seo.title,
       description: seo.description,
     },
+    other: documentMeta,
   };
 }
 
