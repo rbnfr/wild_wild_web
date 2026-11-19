@@ -5,7 +5,10 @@
  */
 .photo-stack {
   /* Fits the column, and the window when the column is sticky. */
+  /* svh: the small viewport, so the pile does not resize when the mobile
+     browser bar appears or hides. */
   width: min(100% - 28px, 400px, 44vh);
+  width: min(100% - 28px, 400px, 44svh);
   min-width: min(100% - 28px, 240px);
   margin-top: clamp(28px, 4vw, 44px);
 }
@@ -53,7 +56,7 @@
   align-items: center;
   gap: 6px;
   margin-top: 22px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--muted);

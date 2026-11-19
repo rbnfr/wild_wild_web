@@ -7,7 +7,8 @@ import { sectionHash, sectionIds } from "@/content/sections";
 import { site } from "@/content/site";
 
 export function About({ t }: { t: Dictionary }) {
-  const { photos } = t.about;
+  // The alt texts go to the server-rendered images, not to the client pile.
+  const { alt, ...photoLabels } = t.about.photos;
   return (
     <section
       className="section about-section"
@@ -18,24 +19,19 @@ export function About({ t }: { t: Dictionary }) {
         <div className="about-intro">
           <h2 id="about-title">{t.about.title}</h2>
           <PhotoStack
-            labels={{
-              label: photos.label,
-              previous: photos.previous,
-              next: photos.next,
-              pause: photos.pause,
-              play: photos.play,
-              position: photos.position,
-            }}
+            labels={photoLabels}
             intervalMs={site.aboutPhotosInterval}
           >
-            {site.aboutPhotos.map((photo) => (
+            {site.aboutPhotos.map((photo, index) => (
               <Image
                 key={photo.id}
                 src={photo.src}
-                alt={photos.alt[photo.id]}
+                alt={alt[photo.id]}
                 fill
                 sizes="(max-width: 760px) min(calc(100vw - 60px), 400px), 380px"
                 loading="lazy"
+                // Only the top print is in view: the rest yield to it.
+                fetchPriority={index === 0 ? undefined : "low"}
                 draggable={false}
               />
             ))}

@@ -7,12 +7,14 @@ export const ONE_YEAR = 31_536_000;
 // Files whose URL changes when their content changes: Next.js chunks, fonts
 // and the hash-named image variants. They can be cached "forever".
 export const IMMUTABLE_PATTERN = /\.(?:js|css|woff2|avif|webp)$/;
+// Only these folders hold hash-named files; the same rule feeds the local
+// preview and the .htaccess, so a plain public/foo.webp is never "forever".
+export const IMMUTABLE_DIRECTORIES = ["_next/static", "images/generated"];
+const IMMUTABLE_URI = `^/(?:${IMMUTABLE_DIRECTORIES.join("|")})/`;
 
 export function isImmutable(pathname) {
   return (
-    (pathname.startsWith("/_next/static/") ||
-      pathname.startsWith("/images/generated/")) &&
-    IMMUTABLE_PATTERN.test(pathname)
+    new RegExp(IMMUTABLE_URI).test(pathname) && IMMUTABLE_PATTERN.test(pathname)
   );
 }
 
@@ -113,9 +115,11 @@ Header set Link "${HTML_LINK_HEADER}"
 <FilesMatch "\\.(?:html|txt|xml)$">
 Header set Cache-Control "no-cache"
 </FilesMatch>
-# Hash-named assets (Next.js chunks, fonts, generated image variants).
+# Hash-named assets (Next.js chunks, fonts, generated image variants) only
+# inside their folders; the same extensions elsewhere are revalidated.
 <FilesMatch "\\.(?:js|css|woff2|avif|webp)$">
-Header set Cache-Control "public, max-age=${ONE_YEAR}, immutable"
+Header set Cache-Control "public, max-age=${ONE_YEAR}, immutable" "expr=%{REQUEST_URI} =~ m#${IMMUTABLE_URI}#"
+Header set Cache-Control "no-cache" "expr=%{REQUEST_URI} !~ m#${IMMUTABLE_URI}#"
 </FilesMatch>
 </IfModule>
 <IfModule mod_expires.c>

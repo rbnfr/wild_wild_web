@@ -5,11 +5,11 @@
 }
 .legal-page h1 {
   margin-bottom: 24px;
-  font-size: clamp(40px, 2rem + 2.4vw, 58px);
+  font-size: clamp(2.5rem, 2rem + 2.4vw, 3.625rem);
 }
 .legal-page h2 {
   margin: 38px 0 16px;
-  font-size: clamp(26px, 1.4rem + 0.8vw, 32px);
+  font-size: clamp(1.625rem, 1.4rem + 0.8vw, 2rem);
 }
 .legal-page p {
   max-width: 70ch;

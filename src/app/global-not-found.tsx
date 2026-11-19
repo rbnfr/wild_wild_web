@@ -3,12 +3,14 @@ import { site } from "@/content/site";
 import { getDictionary } from "@/content/dictionaries";
 import { defaultLocale, locales } from "@/i18n/config";
 import { href } from "@/i18n/routes";
+import { documentMeta } from "@/lib/document-meta";
 import { sans } from "./fonts";
 import "@/styles/index.css";
 
 // Unknown URLs have no language of their own, so the 404 speaks both.
 export const metadata: Metadata = {
   title: `${getDictionary(defaultLocale).notFound.eyebrow} | ${site.name}`,
+  other: documentMeta,
 };
 
 export default function GlobalNotFound() {

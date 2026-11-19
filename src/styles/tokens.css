@@ -28,13 +28,14 @@
   /* Layout */
   --gutter: clamp(16px, 5vw, 48px);
   --container: 1220px;
-  --header-height: 84px;
+  /* In rem: the bar grows with the text size, and anchors stay clear of it. */
+  --header-height: 5.25rem;
   --section-space: clamp(64px, 9vw, 112px);
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (max-width: 760px) {
   :root {
-    --header-height: 72px;
+    --header-height: 4.5rem;
   }
 }

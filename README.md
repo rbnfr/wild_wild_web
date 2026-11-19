@@ -74,11 +74,11 @@ Para editar con recarga automática puedes utilizar `npm run dev`; la comprobaci
 
 ## Contenido y dirección pública
 
-Los datos que no dependen del idioma (enlaces, redes, libro, correo) están en `src/content/site.ts`; los textos, en un diccionario por idioma: `src/content/dictionaries/es.ts` (el castellano es el idioma de referencia) y `en.ts`, y los textos legales en `src/content/legal/`. TypeScript y los tests fallan si a un idioma le falta un texto. Las imágenes reales permanecen en `public/images`; la compilación crea copias AVIF y WebP en varios tamaños para que cada dispositivo descargue una imagen adecuada. Los originales se guardan ya reducidos (lado mayor de 1280 px como máximo) para no publicar archivos de varios megas. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
+Los datos que no dependen del idioma (enlaces, redes, libro, correo) están en `src/content/site.ts`; los textos, en un diccionario por idioma: `src/content/dictionaries/es.ts` (el castellano es el idioma de referencia) y `en.ts`, y los textos legales en `src/content/legal/`. TypeScript y los tests fallan si a un idioma le falta un texto. Las fotografías originales están en `src/assets/photos` y no se publican; la compilación crea copias AVIF y WebP sin metadatos en varios tamaños para que cada dispositivo descargue una imagen adecuada. No requiere un optimizador de imágenes en el alojamiento ni servicios externos. Las fuentes también son locales y no hay embeds, analítica ni publicidad.
 
 ## Idiomas
 
-La web se publica en castellano (`/es/`) y en inglés (`/en/`), con las rutas legales traducidas (`/es/aviso-legal/` ↔ `/en/legal-notice/`) definidas en `src/i18n/routes.ts`. La raíz `/` solo elige idioma: un script mínimo usa el idioma elegido antes en el selector (guardado en `localStorage`, clave `lang`) o, si no hay, el primer idioma del navegador que esté disponible; en cualquier otro caso, castellano. Sin JavaScript redirige a `/es/`. Las direcciones antiguas (`/aviso-legal/`, `/privacidad/`, `/cookies/`) redirigen con 301 a su versión `/es/`. Cada página declara sus alternativas `hreflang`, también en el sitemap. Para añadir un idioma: añádelo en `src/i18n/config.ts`, crea su diccionario, su bandera en `public/flags/` y sus slugs en `routes.ts`.
+La web se publica en castellano (`/es/`) y en inglés (`/en/`), con las rutas legales traducidas (`/es/aviso-legal/` ↔ `/en/legal-notice/`) definidas en `src/i18n/routes.ts`. La raíz `/` solo elige idioma: un script mínimo usa el idioma elegido antes en el selector (guardado en `localStorage`, clave `lang`) o, si no hay, el primer idioma del navegador que esté disponible; en cualquier otro caso, castellano. Sin JavaScript redirige a `/es/`. Las direcciones antiguas (`/aviso-legal/`, `/privacidad/`, `/cookies/`) redirigen con 301 a su versión `/es/`. Cada página declara sus alternativas `hreflang`, también en el sitemap. Para añadir un idioma: añádelo en `src/i18n/config.ts`, crea su diccionario, dibuja su bandera en `src/components/flag.tsx` y añade sus slugs en `routes.ts`.
 
 La compilación utiliza `https://marywildbehavior.com` aunque una `.env.local` anterior contenga localhost. Para cambiar el dominio en PowerShell:
 
@@ -104,14 +104,14 @@ Los textos legales continúan como borradores visibles; se han ajustado al flujo
 ## Estructura del código
 
 - `src/content/`: todo el contenido editable. `site.ts` (datos comunes), `dictionaries/` (textos por idioma), `sections.ts` (anclas de la portada) y `theme.ts` (los colores que se usan fuera del CSS).
-- `src/components/sections/`: una sección de la portada por archivo. `src/hooks/`: comportamiento reutilizable (sección activa, cierre de menús).
+- `src/components/sections/`: una sección de la portada por archivo. `src/hooks/`: comportamiento reutilizable (sección activa, movimiento reducido). Los menús de la cabecera son `popover` nativos: el navegador los cierra con Escape o al pulsar fuera y devuelve el foco, sin JavaScript propio.
 - `src/styles/`: un archivo por zona (`header.css`, `hero.css`…), con `tokens.css` como única fuente de colores, radios y espaciados, y `motion.css` para todo el movimiento. `index.css` fija el orden.
 - `src/lib/contact/`: validación del formulario sin dependencias y generación del borrador de correo.
 
 ## Imágenes
 
-- **Dónde van:** en `public/images`, en JPG y con el lado mayor de 1280 px como máximo. Al compilar (`npm run build`) o arrancar en desarrollo, `scripts/prepare-images.mjs` genera de cada una copias AVIF y WebP de 160 a 1024 px; el navegador elige la que necesita (`srcset` y `sizes`).
-- **Qué se carga y cuándo:** solo la imagen principal se pide al abrir la página (con prioridad alta, porque es el elemento LCP). Todas las demás usan `loading="lazy"`: no se descargan hasta que el visitante se acerca a ellas. Cada hueco tiene proporción fija y un fondo de color, así que la página no salta mientras cargan.
+- **Dónde van:** en `src/assets/photos`, en JPG y con el lado mayor de 1280 px como máximo (el script avisa si una es mayor). Esa carpeta no se publica: al compilar (`npm run build`) o arrancar en desarrollo, `scripts/prepare-images.mjs` genera de cada una copias AVIF y WebP de 160 a 1024 px, sin datos EXIF, en `public/images/generated`; el navegador elige la que necesita (`srcset` y `sizes`). En `site.ts` cada foto se nombra como `/images/<archivo>`. El empaquetado falla si aparece una foto original en la exportación.
+- **Qué se carga y cuándo:** solo la imagen principal se pide al abrir la página (con prioridad alta, porque es el elemento LCP). Todas las demás usan `loading="lazy"`: no se descargan hasta que el visitante se acerca a ellas; las fotos que quedan debajo del montón, además, con prioridad baja. Cada hueco tiene proporción fija y un fondo de color, así que la página no salta mientras cargan.
 - **Imagen principal:** `site.heroImage` en `src/content/site.ts`.
 - **Fotos de «Sobre mí»:** `site.aboutPhotos` (cuadradas). Para añadir una: copia el archivo, añade su entrada con un `id` y escribe su texto alternativo en `about.photos.alt` de cada diccionario. `site.aboutPhotosInterval` fija cada cuántos milisegundos pasan solas (20 000).
 - **Fotos de servicios:** `site.serviceImages`, una por servicio (proporción 3:2); su texto alternativo es `imageAlt` en `services.items`.
@@ -124,9 +124,9 @@ El movimiento está en `src/styles/motion.css`, separado de los estilos base y s
 
 - Las secciones entran al desplazarse (animaciones ligadas al scroll con `animation-timeline: view()`); en navegadores sin soporte, el contenido se muestra sin animar.
 - Las tarjetas de servicios se elevan y reciben una luz azul suave por detrás al pasar el cursor o enfocar su enlace.
-- La cabecera marca la sección en la que estás (`aria-current`, con `IntersectionObserver`) y dibuja una línea de progreso de lectura.
+- La cabecera marca la sección en la que estás (`aria-current`, con `IntersectionObserver`) y dibuja una línea de progreso de lectura. Su sombra al desplazarse solo anima la opacidad de una capa, sin repintar.
 - Portada del libro con volumen (lomo, cantos de página y sombra). Con ratón se gira y eleva al pasar el cursor o al enfocar su enlace con teclado; en pantallas táctiles se coloca suavemente al entrar en pantalla.
-- Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema se desactivan todas las animaciones.
+- Los efectos de cursor solo se activan con `(hover: hover) and (pointer: fine)`, así que no quedan «pegados» al tocar en el móvil. Con «reducir movimiento» del sistema no hay ningún desplazamiento, giro ni escala: todo lo que se mueve se declara dentro de `@media (prefers-reduced-motion: no-preference)`. Los cambios de color, fondo y sombra se mantienen para todos.
 - El retrato de portada (elemento LCP) no se anima al cargar, porque retrasaría la métrica LCP.
 
 ## Comprobaciones

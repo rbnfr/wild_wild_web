@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 
 // Reports which section crosses the middle of the viewport, so navigation can
-// show where the reader is. Without IntersectionObserver nothing is marked.
+// show where the reader is.
 export function useActiveSection(ids: readonly string[]): string | undefined {
   const [active, setActive] = useState<string>();
   useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries)

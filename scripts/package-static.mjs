@@ -26,6 +26,9 @@ if (
   )
 )
   throw new Error("Source or private files in deployment.");
+// Only the generated variants are public; source photographs keep EXIF data.
+if (Object.keys(entries).some((path) => /^images\/(?!generated\/)/.test(path)))
+  throw new Error("Source photographs in deployment.");
 const zipped = zipSync(entries, { level: 9 });
 const unpacked = unzipSync(zipped);
 if (

@@ -212,10 +212,9 @@ test("mobile navigation supports keyboard, Escape, focus restoration and section
   await expect(navigation).toBeHidden();
   await toggle.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("button", { name: "Cerrar" })).toHaveAttribute(
-    "aria-expanded",
-    "true",
-  );
+  // A native popover: the browser exposes the expanded state of its button.
+  await expect(page.getByRole("button", { name: "Cerrar" })).toBeVisible();
+  await expect(page.locator("#main-navigation:popover-open")).toHaveCount(1);
   await page.keyboard.press("Tab");
   await expect(
     navigation.getByRole("link", { name: "Sobre mí" }),
@@ -271,6 +270,34 @@ test("contact validation associates inline errors and focuses the first invalid 
   expect(
     (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
+  // Fixing a field clears its error at once, without sending again.
+  await page.getByLabel("Nombre", { exact: false }).fill("Persona de prueba");
+  await expect(page.locator("#name-error")).toHaveCount(0);
+  await expect(page.locator("#name")).toHaveAttribute("aria-invalid", "false");
+  await page.getByRole("checkbox").check();
+  await expect(page.locator("#privacy-error")).toHaveCount(0);
+});
+
+test("contact errors appear only after a changed field is left", async ({
+  page,
+}) => {
+  await openPage(page, "/es/#contacto");
+  const name = page.getByLabel("Nombre", { exact: false });
+  // Tabbing through untouched fields reports nothing.
+  await name.focus();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".field-error")).toHaveCount(0);
+  // A change is checked when the field is left, not while typing.
+  await name.fill("a");
+  await expect(page.locator("#name-error")).toHaveCount(0);
+  await page.keyboard.press("Tab");
+  await expect(page.locator("#name-error")).toHaveText(
+    es.contact.form.errors.nameShort,
+  );
+  await expect(name).toHaveAttribute("aria-invalid", "true");
+  // Required marks are visual only.
+  await expect(name).toHaveAccessibleName("Nombre");
 });
 
 test("contact prepares a complete draft without sending data or claiming delivery", async ({
@@ -362,8 +389,8 @@ test("static pages preserve content and direct email without JavaScript", async 
   await expect(
     page.getByRole("button", { name: "Preparar correo" }),
   ).toBeHidden();
-  // The <details> switcher still opens and links to the other language.
-  await page.locator(".lang-switcher summary").click();
+  // The popover switcher still opens and links to the other language.
+  await page.locator(".lang-trigger").click();
   await page.getByRole("link", { name: "English" }).click();
   await expect(page).toHaveURL("http://localhost:3000/en/");
   await context.close();
@@ -529,9 +556,13 @@ test("service cards carry a lazy photograph and light up under the pointer", asy
 });
 
 test("book cover lifts on pointer hover and keyboard focus", async ({
-  page,
+  browser,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "no-preference",
+  });
+  const page = await context.newPage();
   await openPage(page);
   const cover = page.locator(".book-cover-inner");
   await cover.scrollIntoViewIfNeeded();
@@ -544,6 +575,30 @@ test("book cover lifts on pointer hover and keyboard focus", async ({
   await expect.poll(transform).toBe(rest);
   await page.locator("#divulgacion .book a").focus();
   await expect.poll(transform).not.toBe(rest);
+  await context.close();
+});
+
+test("with reduced motion, hover changes colour and shadow but nothing moves", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openPage(page);
+  const cover = page.locator(".book-cover-inner");
+  await cover.scrollIntoViewIfNeeded();
+  const transform = () =>
+    cover.evaluate((element) => getComputedStyle(element).transform);
+  const rest = await transform();
+  await page.locator(".book-cover").hover();
+  expect(await transform()).toBe(rest);
+  const button = page.locator(".hero-actions .button").first();
+  await button.hover();
+  expect(await button.evaluate((e) => getComputedStyle(e).transform)).toBe(
+    "none",
+  );
+  // Colour transitions stay: only movement is removed.
+  expect(
+    await button.evaluate((e) => getComputedStyle(e).transitionProperty),
+  ).toContain("background-color");
 });
 
 test("touch screens get no hover-only effects and no horizontal overflow", async ({
@@ -615,9 +670,9 @@ test("the language switcher keeps the page, shows flags and remembers the choice
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await openPage(page, "/en/privacy/");
-  const trigger = page.locator(".lang-switcher summary");
+  const trigger = page.locator(".lang-trigger");
   await expect(trigger).toHaveAccessibleName(`${en.common.language}: English`);
-  await expect(trigger.locator('img[src="/flags/en.svg"]')).toBeVisible();
+  await expect(trigger.locator('svg[data-flag="en"]')).toBeVisible();
   await trigger.click();
   const options = page.getByRole("list", { name: en.common.language });
   await expect(options).toBeVisible();
@@ -625,7 +680,7 @@ test("the language switcher keeps the page, shows flags and remembers the choice
     "aria-current",
     "true",
   );
-  await expect(options.locator('img[src="/flags/es.svg"]')).toBeVisible();
+  await expect(options.locator('svg[data-flag="es"]')).toBeVisible();
   expect(
     (await new AxeBuilder({ page }).withTags(wcag).analyze()).violations,
   ).toEqual([]);
@@ -657,7 +712,7 @@ test("the switcher shows only the flag in the mobile header and fits 320px", asy
 }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   await openPage(page, "/en/");
-  const trigger = page.locator(".lang-switcher summary");
+  const trigger = page.locator(".lang-trigger");
   await expect(trigger).toHaveAccessibleName(`${en.common.language}: English`);
   await expect(trigger.locator(".lang-name")).toHaveCSS("width", "1px");
   await trigger.click();
